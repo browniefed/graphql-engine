@@ -3,7 +3,7 @@
     "lib": ["es6", "dom", "es2017"],
     "checkJs": false,
     "allowJs": true,
-    "jsx": "react",
+    "jsx": "preserve",
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "esModuleInterop": true,
@@ -12,7 +12,12 @@
     "types": ["react"],
     "typeRoots": ["./src/types", "node_modules/@types"],
     "resolveJsonModule": true,
-    "target": "es5"
+    "target": "es5",
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "isolatedModules": true
   },
   "exclude": [
     "node_modules",
