@@ -17,7 +17,16 @@
     "paths": {
       "@/*": ["./*"],
       "@/css/*": ["./css/*"],
-      "@/assets/*": ["./assets/*"]
+      "@/assets/*": ["./assets/*"],
+      "@/components/*": ["./components/*"],
+      "@/dataSources/*": ["./dataSources/*"],
+      "@/helpers/*": ["./helpers/*"],
+      "@/hooks/*": ["./hooks/*"],
+      "@/metadata/*": ["./metadata/*"],
+      "@/shared/*": ["./shared/*"],
+      "@/telemetry/*": ["./telemetry/*"],
+      "@/theme/*": ["./theme/*"],
+      "@/utils/*": ["./utils/*"]
     }
   },
 

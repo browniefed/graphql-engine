@@ -28,6 +28,7 @@
     "redux": "^4.1.1",
     "sass": "^1.39.0",
     "tailwindcss": "^2.2.10",
+    "ts-essentials": "^8.1.0",
     "twin.macro": "^2.7.0"
   },
   "devDependencies": {
