@@ -46,7 +46,7 @@ class ApiExplorer extends Component {
             dataHeaders={dataHeaders}
             numberOfTables={tables.length}
             headerFocus={headerFocus}
-            urlParams={location.query}
+            urlParams={location?.query ?? {}}
             serverVersion={serverVersion}
             consoleUrl={consoleUrl}
             loading={loading}

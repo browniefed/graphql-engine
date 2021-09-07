@@ -2,7 +2,15 @@ import type { NextPage } from "next";
 import { connect } from "react-redux";
 import { ConnectInjectedProps } from "@/types";
 import Main from "@/components/Main/Main";
-import APIExporer from "@/components/Services/ApiExplorer/Container";
+
+import dynamic from "next/dynamic";
+
+const APIExplorer = dynamic(
+  () => import("@/components/Services/ApiExplorer/Container"),
+  {
+    ssr: false,
+  }
+);
 
 const Index: NextPage<ConnectInjectedProps> = (props) => {
   if (typeof window === "undefined") {
@@ -10,7 +18,7 @@ const Index: NextPage<ConnectInjectedProps> = (props) => {
   }
   return (
     <Main {...props}>
-      <APIExporer {...props} />
+      <APIExplorer {...props} />
     </Main>
   );
 };

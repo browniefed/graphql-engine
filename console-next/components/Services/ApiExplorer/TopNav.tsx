@@ -33,6 +33,7 @@ const TopNav: React.FC<TopNavProps> = ({ location }) => {
   }
 
   const isActive = (link: string) => {
+    return false;
     if (location.pathname === "" || location.pathname === "/") {
       return link.includes("api-explorer");
     }
