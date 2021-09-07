@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import globals from "../../../../../Globals";
-import styles from "../../Events.scss";
+import styles from "../../Events.module.scss";
 import { ADHOC_EVENTS_HEADING } from "../../constants";
 import TopicDescription from "../../../Common/Landing/TopicDescription";
 import { getAddAdhocEventRoute } from "../../../../Common/utils/routesUtils";

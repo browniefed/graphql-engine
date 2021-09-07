@@ -1,8 +1,8 @@
-import React from 'react';
-import { connect, ConnectedProps } from 'react-redux';
-import { mapDispatchToPropsEmpty } from '../../../../Common/utils/reactUtils';
-import AdhocEventsContainer from '../Container';
-import Info from './Info';
+import React from "react";
+import { connect, ConnectedProps } from "react-redux";
+import { mapDispatchToPropsEmpty } from "../../../../Common/utils/reactUtils";
+import AdhocEventsContainer from "../Container";
+import Info from "./Info";
 
 interface Props extends InjectedProps {}
 

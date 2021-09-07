@@ -1,23 +1,23 @@
-import { LocalScheduledTriggerState } from './state';
+import { LocalScheduledTriggerState } from "./state";
 import {
   isObject,
   isValidURL,
   isValidTemplateLiteral,
-} from '../../../Common/utils/jsUtils';
-import { Triggers, ScheduledTrigger } from '../types';
-import { parseServerHeaders } from '../../../Common/Headers/utils';
-import { BaseTable } from '../../../../dataSources/types';
+} from "../../../Common/utils/jsUtils";
+import { Triggers, ScheduledTrigger } from "../types";
+import { parseServerHeaders } from "../../../Common/Headers/utils";
+import { BaseTable } from "../../../../dataSources/types";
 
 export const validateAddState = (state: LocalScheduledTriggerState) => {
   if (!state.name) {
-    return 'name cannot be empty';
+    return "name cannot be empty";
   }
   if (!isValidURL(state.webhook) && !isValidTemplateLiteral(state.webhook)) {
-    return 'webhook must either be a valid URL or a valid template literal';
+    return "webhook must either be a valid URL or a valid template literal";
   }
 
   if (!state.schedule) {
-    return 'cron schedule is mandatory';
+    return "cron schedule is mandatory";
   }
 
   try {
@@ -26,17 +26,17 @@ export const validateAddState = (state: LocalScheduledTriggerState) => {
       throw new Error();
     }
   } catch (_) {
-    return 'payload must be valid JSON';
+    return "payload must be valid JSON";
   }
 
-  return '';
+  return "";
 };
 
 export const findScheduledTrigger = (
   triggers: Triggers,
   triggerName: string
 ) => {
-  return triggers.find(t => t.name === triggerName);
+  return triggers?.find((t) => t.name === triggerName);
 };
 
 export const parseServerScheduledTrigger = (
@@ -64,28 +64,28 @@ export const parseServerScheduledTrigger = (
 };
 
 export const stEventsTable: BaseTable = {
-  table_name: 'hdb_cron_events',
-  table_schema: 'hdb_catalog',
+  table_name: "hdb_cron_events",
+  table_schema: "hdb_catalog",
   columns: [
-    { column_name: 'id', data_type: 'uuid' },
-    { column_name: 'name', data_type: 'text' },
-    { column_name: 'scheduled_time', data_type: 'timestamptz' },
-    { column_name: 'status', data_type: 'boolean' },
-    { column_name: 'tries', data_type: 'int' },
-    { column_name: 'created_at', data_type: 'timestamptz' },
-    { column_name: 'next_retry_at', data_type: 'timestamptz' },
+    { column_name: "id", data_type: "uuid" },
+    { column_name: "name", data_type: "text" },
+    { column_name: "scheduled_time", data_type: "timestamptz" },
+    { column_name: "status", data_type: "boolean" },
+    { column_name: "tries", data_type: "int" },
+    { column_name: "created_at", data_type: "timestamptz" },
+    { column_name: "next_retry_at", data_type: "timestamptz" },
   ],
 };
 
 export const stInvocationLogsTable: BaseTable = {
-  table_name: 'hdb_cron_event_invocation_logs',
-  table_schema: 'hdb_catalog',
+  table_name: "hdb_cron_event_invocation_logs",
+  table_schema: "hdb_catalog",
   columns: [
-    { column_name: 'id', data_type: 'uuid' },
-    { column_name: 'event_id', data_type: 'uuid' },
-    { column_name: 'status', data_type: 'int' },
-    { column_name: 'request', data_type: 'text' },
-    { column_name: 'response', data_type: 'text' },
-    { column_name: 'created_at', data_type: 'timestamptz' },
+    { column_name: "id", data_type: "uuid" },
+    { column_name: "event_id", data_type: "uuid" },
+    { column_name: "status", data_type: "int" },
+    { column_name: "request", data_type: "text" },
+    { column_name: "response", data_type: "text" },
+    { column_name: "created_at", data_type: "timestamptz" },
   ],
 };

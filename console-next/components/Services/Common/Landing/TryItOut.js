@@ -2,6 +2,13 @@ import React from "react";
 import PopUp from "./PopUp";
 import styles from "../../RemoteSchema/RemoteSchema.module.scss";
 
+import Rectangle from "./images/Rectangle.svg";
+import glitch from "./images/glitch.png";
+import googleCloud from "./images/google_cloud.svg";
+import MicrosoftAzure from "./images/Microsoft_Azure_Logo.svg";
+import AWS from "./images/AWS.png";
+import externalLink from "./images/external-link.svg";
+
 class TryItOut extends React.Component {
   constructor() {
     super();
@@ -13,12 +20,6 @@ class TryItOut extends React.Component {
     this.setState({ isPopUp: !this.state.isPopUp });
   }
   render() {
-    const Rectangle = require("./images/Rectangle.svg");
-    const glitch = require("./images/glitch.png");
-    const googleCloud = require("./images/google_cloud.svg");
-    const MicrosoftAzure = require("./images/Microsoft_Azure_Logo.svg");
-    const AWS = require("./images/AWS.png");
-    const externalLink = require("./images/external-link.svg");
     // const { title, imgUrl, imgAlt,  description} = this.props;
     const commonStyle = this.props.isAvailable
       ? styles.instructionsWrapper
@@ -26,13 +27,21 @@ class TryItOut extends React.Component {
     return (
       <div>
         <div className={styles.subHeaderText}>
-          <img className={"img-responsive"} src={Rectangle} alt={"Rectangle"} />
+          <img
+            className={"img-responsive"}
+            src={Rectangle.src}
+            alt={"Rectangle"}
+          />
           Try it out
         </div>
         <div className={styles.tryOutWrapper}>
           <div className={styles.boxLarge}>
             <div className={styles.logoIcon}>
-              <img className={"img-responsive"} src={glitch} alt={"glitch"} />
+              <img
+                className={"img-responsive"}
+                src={glitch.src}
+                alt={"glitch"}
+              />
             </div>
             <a
               href={this.props.glitchLink}
@@ -43,7 +52,7 @@ class TryItOut extends React.Component {
                 Try it with Glitch{" "}
                 <img
                   className={"img-responsive " + styles.externalLinkImg}
-                  src={externalLink}
+                  src={externalLink.src}
                   alt={"externalLink"}
                 />
               </button>
@@ -79,7 +88,7 @@ class TryItOut extends React.Component {
                 <div className={styles.logoIcon}>
                   <img
                     className={"img-responsive"}
-                    src={googleCloud}
+                    src={googleCloud.src}
                     alt={"Google Cloud"}
                   />
                 </div>
@@ -95,7 +104,7 @@ class TryItOut extends React.Component {
                 <div className={styles.logoIcon}>
                   <img
                     className={"img-responsive"}
-                    src={MicrosoftAzure}
+                    src={MicrosoftAzure.src}
                     alt={"Microsoft Azure"}
                   />
                 </div>
@@ -111,7 +120,7 @@ class TryItOut extends React.Component {
                 <div className={styles.logoIcon}>
                   <img
                     className={"img-responsive " + styles.imgAws}
-                    src={AWS}
+                    src={AWS.src}
                     alt={"AWS"}
                   />
                 </div>

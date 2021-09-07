@@ -36,7 +36,9 @@ const BreadCrumb: React.FC<Props> = ({ breadCrumbs }) => {
       if (!isLastElem) {
         bCElem = [
           <Link key={`bc-title-${b.title}`} href={`${b.url}`}>
-            {b.prefix} {b.title}
+            <a>
+              {b.prefix} {b.title}
+            </a>
           </Link>,
           addArrow(),
         ];

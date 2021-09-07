@@ -1,23 +1,24 @@
-import React from 'react';
-import { connect, ConnectedProps } from 'react-redux';
-import globals from '../../../../Globals';
-import Button from '../../../Common/Button/Button';
-import styles from '../Events.scss';
-import { getAddSTRoute } from '../../../Common/utils/routesUtils';
-import { mapDispatchToPropsEmpty } from '../../../Common/utils/reactUtils';
-import { CRON_TRIGGER } from '../constants';
-import TopicDescription from '../../Common/Landing/TopicDescription';
-import _push from '../../Data/push';
+import React from "react";
+import { connect, ConnectedProps } from "react-redux";
+import globals from "../../../../Globals";
+import Button from "../../../Common/Button/Button";
+import styles from "../Events.module.scss";
+import { getAddSTRoute } from "../../../Common/utils/routesUtils";
+import { mapDispatchToPropsEmpty } from "../../../Common/utils/reactUtils";
+import { CRON_TRIGGER } from "../constants";
+import TopicDescription from "../../Common/Landing/TopicDescription";
+import _push from "../../Data/push";
+import { useRouter } from "next/router";
 
 interface Props extends InjectedProps {}
 
-const Landing: React.FC<Props> = props => {
-  const { dispatch } = props;
+const Landing: React.FC<Props> = (props) => {
+  const router = useRouter();
 
   const topicDescription = (
     <div>
       {CRON_TRIGGER}s can be used to reliably trigger HTTP endpoints to run some
-      custom business logic periodically based on a{' '}
+      custom business logic periodically based on a{" "}
       <a
         href="https://en.wikipedia.org/wiki/Cron"
         target="_blank"
@@ -41,7 +42,7 @@ const Landing: React.FC<Props> = props => {
           <Button
             color="yellow"
             size="sm"
-            onClick={() => dispatch(_push(getAddSTRoute()))}
+            onClick={() => router.push(getAddSTRoute())}
           >
             Create
           </Button>

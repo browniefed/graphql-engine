@@ -1,8 +1,7 @@
 import React from "react";
 import styles from "../../RemoteSchema/RemoteSchema.module.scss";
 import KnowMoreLink from "../../../Common/KnowMoreLink/KnowMoreLink";
-
-const Rectangle = require("./images/Rectangle.svg");
+import Rectangle from "./images/Rectangle.svg";
 
 type TopicDescriptionProps = {
   title: string;
@@ -19,7 +18,7 @@ const TopicDescription = (props: TopicDescriptionProps) => {
   return (
     <div>
       <div className={styles.subHeaderText}>
-        <img className="img-responsive" src={Rectangle} alt="Rectangle" />
+        <img className="img-responsive" src={Rectangle.src} alt="Rectangle" />
         {title}
       </div>
       <div className={styles.remoteSchemaImg}>

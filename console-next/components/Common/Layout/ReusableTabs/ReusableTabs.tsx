@@ -46,13 +46,15 @@ const Tabs: React.FC<Props> = ({
                   testPrefix ? `${testPrefix}-` : ""
                 }${appPrefix.slice(1)}-${t}`}
               >
-                {tabsInfo[t].display || tabsInfo[t].display_text}{" "}
-                {tabName === t ? showCount : null}
-                {tabName === t && showLoader ? (
-                  <span className={styles.loader_ml}>
-                    <i className="fa fa-spinner fa-spin" />
-                  </span>
-                ) : null}
+                <a>
+                  {tabsInfo[t].display || tabsInfo[t].display_text}{" "}
+                  {tabName === t ? showCount : null}
+                  {tabName === t && showLoader ? (
+                    <span className={styles.loader_ml}>
+                      <i className="fa fa-spinner fa-spin" />
+                    </span>
+                  ) : null}
+                </a>
               </Link>
             </li>
           ))}
