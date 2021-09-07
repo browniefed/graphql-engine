@@ -374,8 +374,10 @@ class Main extends React.Component {
             <div className={styles.header_logo_wrapper}>
               <div className={styles.logoParent}>
                 <div className={styles.logo}>
-                  <Link href="/">
-                    <img className="img img-responsive" src={logo} />
+                  <Link href="/" passHref>
+                    <a>
+                      <img className="img img-responsive" src={logo.src} />
+                    </a>
                   </Link>
                 </div>
                 <Link href="/">
