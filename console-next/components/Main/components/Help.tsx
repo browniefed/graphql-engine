@@ -1,11 +1,11 @@
 import React from "react";
 import Link from "next/link";
 
-import styles from "../Main.scss";
+import styles from "../Main.module.scss";
 
 export const Help = ({ isSelected }: { isSelected: boolean }) => {
   return (
-    <Link to="/support/forums/">
+    <Link href="/support/forums/">
       <div className={styles.headerRightNavbarBtn}>
         HELP
         {isSelected ? (

@@ -41,7 +41,7 @@ const Tabs: React.FC<Props> = ({
               key={t}
             >
               <Link
-                to={`${baseUrl}/${t}`}
+                href={`${baseUrl}/${t}`}
                 data-test={`${
                   testPrefix ? `${testPrefix}-` : ""
                 }${appPrefix.slice(1)}-${t}`}

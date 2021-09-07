@@ -34,7 +34,7 @@ const LeftSubSidebar: React.FC<Props> = (props) => {
         <div
           className={`col-xs-4 text-center ${styles.padd_left_remove} ${styles.sidebarCreateTable}`}
         >
-          <Link className={styles.padd_remove_full} to={addLink}>
+          <Link className={styles.padd_remove_full} href={addLink}>
             <Button size="xs" color="white" data-test={addTestString}>
               {addLabel}
             </Button>

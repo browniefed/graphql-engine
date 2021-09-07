@@ -1,15 +1,15 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import React from 'react';
+import React from "react";
 
-import Button from '../../Common/Button/Button';
-import close from '../images/x-circle.svg';
-import monitoring from '../images/monitoring.svg';
-import rate from '../images/rate.svg';
-import regression from '../images/regression.svg';
-import management from '../images/management.svg';
-import allow from '../images/allow-listing.svg';
-import dataCaching from '../images/data-caching.svg';
-import styles from '../Main.scss';
+import Button from "../../Common/Button/Button";
+import close from "../images/x-circle.svg";
+import monitoring from "../images/monitoring.svg";
+import rate from "../images/rate.svg";
+import regression from "../images/regression.svg";
+import management from "../images/management.svg";
+import allow from "../images/allow-listing.svg";
+import dataCaching from "../images/data-caching.svg";
+import styles from "../Main.module.scss";
 
 type ProPopupProps = {
   toggleOpen: () => void;

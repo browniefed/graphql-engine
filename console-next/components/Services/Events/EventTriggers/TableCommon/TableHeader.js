@@ -67,7 +67,7 @@ const TableHeader = ({ triggerName, tabName, count, readOnlyMode }) => {
                 className={tabName === "modify" ? styles.active : ""}
               >
                 <Link
-                  to={getETModifyRoute({ name: triggerName })}
+                  href={getETModifyRoute({ name: triggerName })}
                   data-test="trigger-modify"
                 >
                   Modify
@@ -79,7 +79,7 @@ const TableHeader = ({ triggerName, tabName, count, readOnlyMode }) => {
               className={tabName === "pending" ? styles.active : ""}
             >
               <Link
-                to={`/events/data/${triggerName}/pending`}
+                href={`/events/data/${triggerName}/pending`}
                 data-test="trigger-pending-events"
               >
                 Pending Events {tabName === "pending" ? showCount : null}
@@ -90,7 +90,7 @@ const TableHeader = ({ triggerName, tabName, count, readOnlyMode }) => {
               className={tabName === "processed" ? styles.active : ""}
             >
               <Link
-                to={`/events/data/${triggerName}/processed`}
+                href={`/events/data/${triggerName}/processed`}
                 data-test="trigger-processed-events"
               >
                 Processed Events {tabName === "processed" ? showCount : null}
@@ -101,7 +101,7 @@ const TableHeader = ({ triggerName, tabName, count, readOnlyMode }) => {
               className={tabName === "logs" ? styles.active : ""}
             >
               <Link
-                to={`/events/data/${triggerName}/logs`}
+                href={`/events/data/${triggerName}/logs`}
                 data-test="trigger-invocation-logs"
               >
                 Invocation Logs

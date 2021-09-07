@@ -1,5 +1,6 @@
 import React from "react";
-import { Link, RouteComponentProps } from "react-router";
+import { RouteComponentProps } from "react-router";
+import Link from "next/link";
 import { connect, ConnectedProps } from "react-redux";
 
 import LeftContainer from "../../Common/Layout/LeftContainer/LeftContainer";
@@ -67,7 +68,7 @@ const Container: React.FC<Props> = (props) => {
 
           </Link>
         </li> */}
-        <Link className={styles.linkBorder} to={getDataEventsLandingRoute()}>
+        <Link className={styles.linkBorder} href={getDataEventsLandingRoute()}>
           {DATA_EVENTS_HEADING}
         </Link>
 
@@ -85,7 +86,7 @@ const Container: React.FC<Props> = (props) => {
       >
         <Link
           className={styles.linkBorder}
-          to={getScheduledEventsLandingRoute()}
+          href={getScheduledEventsLandingRoute()}
         >
           {CRON_EVENTS_HEADING}
         </Link>
@@ -106,7 +107,7 @@ const Container: React.FC<Props> = (props) => {
         <Link
           className={styles.linkBorder}
           data-test="one-off-trigger"
-          to={getAdhocEventsRoute("absolute", "")}
+          href={getAdhocEventsRoute("absolute", "")}
         >
           {ADHOC_EVENTS_HEADING}
         </Link>

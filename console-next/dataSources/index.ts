@@ -1,9 +1,9 @@
 /* eslint-disable import/no-mutable-exports */
-import { useState, useEffect } from 'react';
-import { DeepRequired } from 'ts-essentials';
+import { useState, useEffect } from "react";
+import { DeepRequired } from "ts-essentials";
 
-import { Path, get } from '../components/Common/utils/tsUtils';
-import { services } from './services';
+import { Path, get } from "../components/Common/utils/tsUtils";
+import { services } from "./services";
 
 import {
   Table,
@@ -22,31 +22,31 @@ import {
   GenerateBulkDeleteRowRequest,
   ViolationActions,
   IndexFormTips as IndexFormToolTips,
-} from './types';
-import { PGFunction, FunctionState } from './services/postgresql/types';
-import { Operations } from './common';
-import { QualifiedTable } from '../metadata/types';
+} from "./types";
+import { PGFunction, FunctionState } from "./services/postgresql/types";
+import { Operations } from "./common";
+import { QualifiedTable } from "../metadata/types";
 
-import { supportedFeatures as PGSupportedFeatures } from './services/postgresql';
-import { supportedFeatures as MssqlSupportedFeatures } from './services/mssql';
-import { supportedFeatures as BigQuerySupportedFeatures } from './services/bigquery';
-import { supportedFeatures as CitusQuerySupportedFeatures } from './services/citus';
+import { supportedFeatures as PGSupportedFeatures } from "./services/postgresql";
+import { supportedFeatures as MssqlSupportedFeatures } from "./services/mssql";
+import { supportedFeatures as BigQuerySupportedFeatures } from "./services/bigquery";
+import { supportedFeatures as CitusQuerySupportedFeatures } from "./services/citus";
 
 export const drivers = [
-  'postgres',
-  'mysql',
-  'mssql',
-  'bigquery',
-  'citus',
+  "postgres",
+  "mysql",
+  "mssql",
+  "bigquery",
+  "citus",
 ] as const;
 export type Driver = typeof drivers[number];
 
 export const driverToLabel: Record<Driver, string> = {
-  mysql: 'MySQL',
-  postgres: 'PostgreSQL',
-  mssql: 'MS SQL Server',
-  bigquery: 'BigQuery',
-  citus: 'Citus',
+  mysql: "MySQL",
+  postgres: "PostgreSQL",
+  mssql: "MS SQL Server",
+  bigquery: "BigQuery",
+  citus: "Citus",
 };
 
 export const sourceNames = {
@@ -61,7 +61,7 @@ export type ColumnsInfoResult = {
     [columnName: string]: {
       is_generated: boolean;
       is_identity: boolean;
-      identity_generation: 'ALWAYS' | 'BY DEFAULT' | string | null;
+      identity_generation: "ALWAYS" | "BY DEFAULT" | string | null;
     };
   };
 };
@@ -232,7 +232,7 @@ export interface DataSourcesAPI {
       nullable: boolean;
       unique: boolean;
       default: any;
-      sqlGenerator?: FrequentlyUsedColumn['dependentSQLGenerator'];
+      sqlGenerator?: FrequentlyUsedColumn["dependentSQLGenerator"];
     },
     constraintName?: string
   ) => string | string[];
@@ -262,7 +262,7 @@ export interface DataSourcesAPI {
     constraintName: string
   ) => string;
   getSetCommentSql: (
-    on: 'table' | 'column' | string,
+    on: "table" | "column" | string,
     tableName: string,
     schemaName: string,
     columnName: string,
@@ -324,7 +324,7 @@ export interface DataSourcesAPI {
     | ((
         schemaName: string,
         functionName?: string | null | undefined,
-        type?: 'trackable' | 'non-trackable' | undefined
+        type?: "trackable" | "non-trackable" | undefined
       ) => string);
   frequentlyUsedColumns: FrequentlyUsedColumn[];
   primaryKeysInfoSql: (options: {
@@ -381,8 +381,8 @@ export interface DataSourcesAPI {
   generateBulkDeleteRowRequest?: () => GenerateBulkDeleteRowRequest;
 }
 
-export let currentDriver: Driver = 'postgres';
-export let dataSource: DataSourcesAPI = services[currentDriver || 'postgres'];
+export let currentDriver: Driver = "postgres";
+export let dataSource: DataSourcesAPI = services[currentDriver || "postgres"];
 
 export const isFeatureSupported = (
   feature: Path<DeepRequired<SupportedFeaturesType>>
@@ -404,17 +404,17 @@ export const getSupportedDrivers = (feature: Path<SupportedFeaturesType>) =>
     return driverList;
   }, []);
 
-class DataSourceChangedEvent extends Event {
-  static type = 'data-source-changed';
-  constructor(public driver: Driver) {
-    super(DataSourceChangedEvent.type);
-  }
-}
-const eventTarget = new EventTarget();
-
 export const setDriver = (driver: Driver) => {
   currentDriver = driver;
   dataSource = services[driver];
+
+  class DataSourceChangedEvent extends window.Event {
+    static type = "data-source-changed";
+    constructor(public driver: Driver) {
+      super(DataSourceChangedEvent.type);
+    }
+  }
+  const eventTarget = new window.EventTarget();
 
   eventTarget.dispatchEvent(new DataSourceChangedEvent(driver));
 };
@@ -426,6 +426,13 @@ export const useDataSource = (): {
 } => {
   const [driver, setState] = useState(currentDriver);
 
+  class DataSourceChangedEvent extends window.Event {
+    static type = "data-source-changed";
+    constructor(public driver: Driver) {
+      super(DataSourceChangedEvent.type);
+    }
+  }
+  const eventTarget = new window.EventTarget();
   useEffect(() => {
     const handleDriverChange = (event: Event) => {
       if (event instanceof DataSourceChangedEvent) {
@@ -463,4 +470,4 @@ if ((module as any).hot) {
   // });
 }
 
-export * from './common';
+export * from "./common";

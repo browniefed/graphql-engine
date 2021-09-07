@@ -80,7 +80,7 @@ const LeftSidebar = ({
             data-test={`action-sidebar-links-${i + 1}`}
           >
             <Link
-              to={appPrefix + "/manage/" + a.name + "/modify"}
+              href={appPrefix + "/manage/" + a.name + "/modify"}
               data-test={a.name}
             >
               <i

@@ -23,7 +23,7 @@ const Landing = () => (
     </div>
     <div className={`${styles.subHeader} ${styles.padd_top}`}>
       Create endpoints from GraphQL queries using{" "}
-      <Link to="/api/api-explorer">GraphiQL</Link>.
+      <Link href="/api/api-explorer">GraphiQL</Link>.
     </div>
     <hr className="my-md" />
     <TopicDescription

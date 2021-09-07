@@ -23,7 +23,7 @@ class RemoteSchemaPageContainer extends React.Component {
               : ""
           }
         >
-          <Link className={styles.linkBorder} to={appPrefix + "/manage"}>
+          <Link className={styles.linkBorder} href={appPrefix + "/manage"}>
             Manage
           </Link>
           <RemoteSchemaSubSidebar {...this.props} />

@@ -1,46 +1,47 @@
-import React, { ComponentProps } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import React, { ComponentProps } from "react";
+import { connect, ConnectedProps } from "react-redux";
 
-import { Box, Flex, Heading, Text, Badge } from '../UIKit/atoms';
+import { Box, Flex, Heading, Text, Badge } from "../UIKit/atoms";
 import {
   ConsoleNotification,
   NotificationDate,
   NotificationScope,
   ConsoleScope,
-} from './ConsoleNotification';
-import styles from './Main.scss';
-import useOnClickOutside from '../../hooks/useOnClickOutside';
-import { ReduxState } from '../../types';
-import { versionGT, checkStableVersion } from '../../helpers/versionUtils';
-import ToolTip from '../Common/Tooltip/Tooltip';
+} from "./ConsoleNotification";
+import styles from "./Main.module.scss";
+import useOnClickOutside from "../../hooks/useOnClickOutside";
+import { ReduxState } from "../../types";
+import { versionGT, checkStableVersion } from "../../helpers/versionUtils";
+import ToolTip from "../Common/Tooltip/Tooltip";
 import {
   setPreReleaseNotificationOptOutInDB,
   updateConsoleNotificationsState,
-} from '../../telemetry/Actions';
-import Button from '../Common/Button';
+} from "../../telemetry/Actions";
+import Button from "../Common/Button";
 import {
   getReadAllNotificationsState,
   getConsoleScope,
   getUserType,
-} from './utils';
-import { Nullable } from '../Common/utils/tsUtils';
-import { mapDispatchToPropsEmpty } from '../Common/utils/reactUtils';
-import { HASURA_COLLABORATOR_TOKEN } from '../../constants';
-import { StyledText } from '../UIKit/atoms/Typography/Typography';
-import { LS_KEYS } from '../../utils/localStorage';
-import { ConsoleState, NotificationsState } from '../../telemetry/state';
+} from "./utils";
+import { Nullable } from "../Common/utils/tsUtils";
+import { mapDispatchToPropsEmpty } from "../Common/utils/reactUtils";
+import { HASURA_COLLABORATOR_TOKEN } from "../../constants";
+import { StyledText } from "../UIKit/atoms/Typography/Typography";
+import { LS_KEYS } from "../../utils/localStorage";
+import { ConsoleState, NotificationsState } from "../../telemetry/state";
+import envVars from "@/injectWindowEnv";
 
 const getDateString = (date: NotificationDate) => {
   if (!date) {
-    return '';
+    return "";
   }
   try {
-    const dateString = new Date(date).toDateString().split(' ');
+    const dateString = new Date(date).toDateString().split(" ");
     const month = dateString[1].toUpperCase();
     const day = dateString[2];
     return `${month} ${day}`;
   } catch {
-    return '';
+    return "";
   }
 };
 
@@ -113,7 +114,7 @@ const Notification: React.FC<UpdateProps> = ({
   }
 
   const isUpdateNotification =
-    type === 'beta update' || type === 'version update';
+    type === "beta update" || type === "version update";
   const updateContainerClass = isUpdateNotification
     ? styles.updateStyleBox
     : styles.updateBox;
@@ -128,13 +129,13 @@ const Notification: React.FC<UpdateProps> = ({
       {!isUpdateNotification ? (
         <div
           className={`${styles.unreadDot} ${
-            currentReadState ? styles.hideDot : ''
+            currentReadState ? styles.hideDot : ""
           }`}
         />
       ) : (
         <span
           className={`${styles.unreadStar} ${
-            currentReadState ? styles.hideStar : ''
+            currentReadState ? styles.hideStar : ""
           }`}
           role="img"
           aria-label="star emoji"
@@ -234,13 +235,13 @@ const VersionUpdateNotification: React.FC<VersionUpdateNotificationProps> = ({
 }) => {
   const isStableRelease = checkStableVersion(latestVersion);
   const changeLogURL = `https://github.com/hasura/graphql-engine/releases${
-    latestVersion ? `/tag/${latestVersion}` : ''
+    latestVersion ? `/tag/${latestVersion}` : ""
   }`;
 
   const handleClick = () => {
     window.localStorage.setItem(
       LS_KEYS.versionUpdateCheckLastClosed,
-      latestVersion || ''
+      latestVersion || ""
     );
     onClick();
   };
@@ -248,7 +249,7 @@ const VersionUpdateNotification: React.FC<VersionUpdateNotificationProps> = ({
   return (
     <Notification
       subject="New Update Available!"
-      type={isStableRelease ? 'version update' : 'beta update'}
+      type={isStableRelease ? "version update" : "beta update"}
       content={`Hey There! There's a new server version ${latestVersion} available.`}
       start_date={Date.now()}
       consoleScope="OSS"
@@ -318,8 +319,8 @@ const ViewMoreOptions: React.FC<ViewMoreProps> = ({
   readAll,
 }) => {
   const buttonText = !readAll
-    ? 'View more notifications'
-    : 'View older notifications';
+    ? "View more notifications"
+    : "View older notifications";
   return (
     <Button className={styles.viewMoreNotifications} onClick={onClickViewMore}>
       {buttonText} &rarr;
@@ -328,7 +329,7 @@ const ViewMoreOptions: React.FC<ViewMoreProps> = ({
 };
 
 const checkIsRead = (prevRead?: string | string[], id?: number) => {
-  if (prevRead === 'all' || prevRead === 'default' || prevRead === 'error') {
+  if (prevRead === "all" || prevRead === "default" || prevRead === "error") {
     return true;
   }
   if (!prevRead || !id) {
@@ -341,10 +342,10 @@ const checkVersionUpdate = (
   latestStable: string,
   latestPreRelease: string,
   serverVersion: string,
-  console_opts: ConsoleState['console_opts']
+  console_opts: ConsoleState["console_opts"]
 ): [boolean, string] => {
   if (!console_opts || !latestStable || !latestPreRelease || !serverVersion) {
-    return [false, ''];
+    return [false, ""];
   }
 
   const allowPreReleaseNotifications =
@@ -379,9 +380,9 @@ const checkVersionUpdate = (
       }
     }
   } catch {
-    return [false, ''];
+    return [false, ""];
   }
-  return [false, ''];
+  return [false, ""];
 };
 
 type ToReadBadgeProps = {
@@ -393,10 +394,10 @@ const ToReadBadge: React.FC<ToReadBadgeProps> = ({
   numberNotifications,
   show,
 }) => {
-  const showBadge = !show || numberNotifications <= 0 ? styles.hideBadge : '';
+  const showBadge = !show || numberNotifications <= 0 ? styles.hideBadge : "";
   let display = `${numberNotifications}`;
   if (numberNotifications > 20) {
-    display = '20+';
+    display = "20+";
   }
   return (
     <Flex
@@ -411,7 +412,7 @@ const ToReadBadge: React.FC<ToReadBadgeProps> = ({
 
 type NotificationsListItemProps =
   | {
-      kind: 'version-update';
+      kind: "version-update";
       props: {
         latestVersion: string;
         optOutCallback: () => void;
@@ -419,21 +420,21 @@ type NotificationsListItemProps =
       };
     }
   | {
-      kind: 'security';
+      kind: "security";
       props: {
         fixedVersion: string;
       };
     }
   | {
-      kind: 'default';
+      kind: "default";
       props: ComponentProps<typeof Notification>;
     };
 
 const NotificationsListItem = (props: NotificationsListItemProps) => {
   switch (props.kind) {
-    case 'version-update':
+    case "version-update":
       return <VersionUpdateNotification {...props.props} />;
-    case 'security':
+    case "security":
       return <VulnerableVersionNotification {...props.props} />;
     default:
       return <Notification {...props.props} />;
@@ -448,10 +449,10 @@ function useNotificationsPagination(totalNotificationsCount: number) {
     if (shownCount < totalNotificationsCount) {
       const diff = totalNotificationsCount - shownCount;
       if (diff > DEFAULT_SHOWN_COUNT) {
-        setShownCount(num => num + DEFAULT_SHOWN_COUNT);
+        setShownCount((num) => num + DEFAULT_SHOWN_COUNT);
         return;
       }
-      setShownCount(num => num + diff);
+      setShownCount((num) => num + diff);
     }
   };
 
@@ -494,7 +495,7 @@ const HasuraNotifications: React.FC<
   dispatch,
 }) => {
   // eslint-disable-next-line no-underscore-dangle
-  const consoleId = window.__env.consoleId;
+  const consoleId = envVars.consoleId;
   const consoleNotificationsLength = consoleNotifications?.length || 0;
   const consoleScope = getConsoleScope(serverVersion, consoleId);
 
@@ -503,17 +504,16 @@ const HasuraNotifications: React.FC<
 
   const pagination = useNotificationsPagination(consoleNotifications.length);
   const [latestVersion, setLatestVersion] = React.useState(serverVersion);
-  const [displayNewVersionUpdate, setDisplayNewVersionUpdate] = React.useState(
-    false
-  );
+  const [displayNewVersionUpdate, setDisplayNewVersionUpdate] =
+    React.useState(false);
 
   const [opened, updateOpenState] = React.useState(false);
   const [numberNotifications, updateNumberNotifications] = React.useState(0);
 
-  let userType = 'admin';
+  let userType = "admin";
 
   const headerHasCollabToken = Object.keys(dataHeaders).find(
-    header => header.toLowerCase() === HASURA_COLLABORATOR_TOKEN
+    (header) => header.toLowerCase() === HASURA_COLLABORATOR_TOKEN
   );
 
   if (headerHasCollabToken) {
@@ -559,11 +559,11 @@ const HasuraNotifications: React.FC<
 
   const fixedVersion = React.useMemo(() => {
     const vulnerableVersionsMapping: Record<string, string> = {
-      'v1.2.0-beta.5': 'v1.2.1',
-      'v1.2.0': 'v1.2.1',
+      "v1.2.0-beta.5": "v1.2.1",
+      "v1.2.0": "v1.2.1",
     };
 
-    return vulnerableVersionsMapping[serverVersion] || '';
+    return vulnerableVersionsMapping[serverVersion] || "";
   }, [serverVersion]);
 
   React.useEffect(() => {
@@ -571,9 +571,9 @@ const HasuraNotifications: React.FC<
     let readNumber = consoleNotificationsLength;
 
     if (
-      previouslyReadState === 'all' ||
-      previouslyReadState === 'default' ||
-      previouslyReadState === 'error'
+      previouslyReadState === "all" ||
+      previouslyReadState === "default" ||
+      previouslyReadState === "error"
     ) {
       readNumber = 0;
     }
@@ -592,16 +592,16 @@ const HasuraNotifications: React.FC<
   ]);
 
   const onClickUpdate = (id?: number) => {
-    updateNumberNotifications(prev => prev - 1);
+    updateNumberNotifications((prev) => prev - 1);
 
     if (!id) {
       return;
     }
 
     if (
-      previouslyReadState === 'all' ||
-      previouslyReadState === 'default' ||
-      previouslyReadState === 'error' ||
+      previouslyReadState === "all" ||
+      previouslyReadState === "default" ||
+      previouslyReadState === "error" ||
       !previouslyReadState
     ) {
       return;
@@ -628,7 +628,7 @@ const HasuraNotifications: React.FC<
     dispatch(updateConsoleNotificationsState(readAllState));
     pagination.reset();
     window.localStorage.setItem(
-      'notifications:data',
+      "notifications:data",
       JSON.stringify(consoleNotifications)
     );
     // to clear the beta-version update if you mark all as read
@@ -680,11 +680,11 @@ const HasuraNotifications: React.FC<
   const dataShown = React.useMemo<Array<NotificationsListItemProps>>(() => {
     return [
       fixedVersion && {
-        kind: 'security',
+        kind: "security",
         props: { fixedVersion },
       },
       displayNewVersionUpdate && {
-        kind: 'version-update',
+        kind: "version-update",
         props: {
           latestVersion,
           optOutCallback,
@@ -694,7 +694,7 @@ const HasuraNotifications: React.FC<
       ...consoleNotifications
         .slice(0, pagination.shownCount)
         .map((payload: any) => ({
-          kind: 'default',
+          kind: "default",
           props: {
             id: payload.id,
             onClick: onClickUpdate,
@@ -723,7 +723,7 @@ const HasuraNotifications: React.FC<
     <>
       <div
         className={`${styles.shareSection} ${styles.headerRightNavbarBtn} ${
-          isDropDownOpen ? styles.opened : ''
+          isDropDownOpen ? styles.opened : ""
         } dropdown-toggle`}
         aria-expanded="false"
         onClick={onClickNotificationButton}
@@ -747,8 +747,8 @@ const HasuraNotifications: React.FC<
         >
           <Flex alignItems="center" justifyContent="center">
             <Heading as="h4" color="#000" fontSize="12px" marginLeft="8px">
-              Notifications{' '}
-              {numberNotifications > 0 ? `(${numberNotifications})` : ''}
+              Notifications{" "}
+              {numberNotifications > 0 ? `(${numberNotifications})` : ""}
             </Heading>
           </Flex>
           <Button
@@ -774,7 +774,7 @@ const HasuraNotifications: React.FC<
           {shouldDisplayViewMore && (
             <ViewMoreOptions
               onClickViewMore={pagination.showMore}
-              readAll={previouslyReadState === 'all'}
+              readAll={previouslyReadState === "all"}
             />
           )}
         </Box>

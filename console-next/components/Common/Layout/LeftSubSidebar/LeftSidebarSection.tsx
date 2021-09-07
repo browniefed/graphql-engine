@@ -75,7 +75,7 @@ const LeftSidebarSection = ({
             key={a.name}
             data-test={`action-sidebar-links-${a.name}`}
           >
-            <Link to={getServiceEntityLink(a.name)} data-test={a.name}>
+            <Link href={getServiceEntityLink(a.name)} data-test={a.name}>
               <i
                 className={`${styles.tableIcon} fa ${
                   sidebarIcon || "fa-wrench"

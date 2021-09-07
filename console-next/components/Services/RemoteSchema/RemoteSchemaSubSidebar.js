@@ -74,7 +74,7 @@ const RemoteSchemaSubSidebar = ({
               data-test={`remote-schema-sidebar-links-${i + 1}`}
             >
               <Link
-                to={`${appPrefix}/manage/${d.name}/details`}
+                href={`${appPrefix}/manage/${d.name}/details`}
                 data-test={d.name}
               >
                 <i

@@ -1,13 +1,13 @@
 /* eslint-disable no-underscore-dangle */
 import React from "react";
-import { Link, RouteComponentProps } from "react-router";
+import { RouteComponentProps } from "react-router";
 import LeftContainer from "../../Common/Layout/LeftContainer/LeftContainer";
 import CheckIcon from "../../Common/Icons/Check";
 import CrossIcon from "../../Common/Icons/Cross";
 import globals from "../../../Globals";
 import { CLI_CONSOLE_MODE } from "../../../constants";
 import { getAdminSecret } from "../ApiExplorer/ApiRequest/utils";
-
+import Link from "next/link";
 import styles from "../../Common/TableCommon/Table.module.scss";
 import {
   checkFeatureSupport,
@@ -127,7 +127,7 @@ const Sidebar: React.FC<SidebarProps> = ({ location, metadata }) => {
       >
         <Link
           className={styles.linkBorder}
-          to={section.link}
+          href={section.link}
           data-test={section.dataTestVal}
         >
           {section.title}

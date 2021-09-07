@@ -9,7 +9,7 @@ import { setOnboardingCompletedInDB } from "../../../telemetry/Actions";
 import { Dispatch, ReduxState } from "../../../types";
 import { getLSItem, LS_KEYS, setLSItem } from "../../../utils/localStorage";
 import hasuraDarkIcon from "./hasura_icon_dark.svg";
-import styles from "./Onboarding.scss";
+import styles from "./Onboarding.module.scss";
 
 type PopupLinkProps = {
   title: string;
@@ -49,16 +49,16 @@ const PopupLink = ({
     );
   }
   let url = link?.oss;
-  if (globals.serverVersion.includes("pro")) {
+  if (globals.serverVersion?.includes("pro")) {
     url = link?.pro;
-  } else if (globals.serverVersion.includes("cloud")) {
+  } else if (globals.serverVersion?.includes("cloud")) {
     url = link?.cloud;
   }
   return (
     <li className={styles.popup_item}>
       {internalLink ? (
         <Link
-          to={internalLink}
+          href={internalLink}
           className={`${styles.link_container} ${styles.link}`}
         >
           <div className={styles.helper_circle}>

@@ -272,7 +272,10 @@ const DataSubSidebar = (props) => {
           <div
             className={`col-xs-4 text-center ${styles.padd_left_remove} ${styles.sidebarCreateTable}`}
           >
-            <Link className={styles.padd_remove_full} to={manageDatabasesRoute}>
+            <Link
+              className={styles.padd_remove_full}
+              href={manageDatabasesRoute}
+            >
               <Button
                 size="xs"
                 color="white"

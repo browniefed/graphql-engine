@@ -2,7 +2,6 @@ import React from "react";
 
 import OverlayTrigger from "react-bootstrap/lib/OverlayTrigger";
 import Tooltip from "react-bootstrap/lib/Tooltip";
-import { connect } from "react-redux";
 import Link from "next/link";
 
 import { HASURA_COLLABORATOR_TOKEN } from "../../constants";
@@ -29,11 +28,11 @@ import {
   loadLatestServerVersion,
   loadServerVersion,
 } from "./Actions";
-import { Help, ProPopup } from "./components/";
+import { Help, ProPopup } from "./components/index";
 import { UpdateVersion } from "./components/UpdateVersion";
 import logo from "./images/white-logo.svg";
 import LoveSection from "./LoveSection";
-import styles from "./Main.scss";
+import styles from "./Main.module.scss";
 import NotificationSection from "./NotificationSection";
 import * as tooltips from "./Tooltips";
 import {
@@ -256,7 +255,7 @@ class Main extends React.Component {
 
     const appPrefix = "";
 
-    const currentLocation = location.pathname;
+    const currentLocation = globalThis?.location?.pathname ?? "";
     const currentActiveBlock = getPathRoot(currentLocation);
 
     const getMainContent = () => {
@@ -373,11 +372,11 @@ class Main extends React.Component {
             <div className={styles.header_logo_wrapper}>
               <div className={styles.logoParent}>
                 <div className={styles.logo}>
-                  <Link to="/">
+                  <Link href="/">
                     <img className="img img-responsive" src={logo} />
                   </Link>
                 </div>
-                <Link to="/">
+                <Link href="/">
                   <div className={styles.project_version}>{serverVersion}</div>
                 </Link>
               </div>
@@ -441,7 +440,7 @@ class Main extends React.Component {
                 </span>
                 {isPopUpOpen && <ProPopup toggleOpen={this.toggleProPopup} />}
               </div>
-              <Link to="/settings">
+              <Link href="/settings">
                 <div className={styles.headerRightNavbarBtn}>
                   {getMetadataStatusIcon()}
                   {getSettingsSelectedMarker()}
@@ -480,20 +479,4 @@ class Main extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    ...state.main,
-    header: state.header,
-    pathname: ownProps.location.pathname,
-    currentSchema: state.tables.currentSchema,
-    currentSource: state.tables.currentDataSource,
-    metadata: state.metadata,
-    console_opts: state.telemetry.console_opts,
-    requestHeaders: state.tables.dataHeaders,
-    schemaList: state.tables.schemaList,
-    inconsistentInheritedRole:
-      state.tables.modify.permissionsState.inconsistentInhertiedRole,
-  };
-};
-
-export default connect(mapStateToProps)(Main);
+export default Main;

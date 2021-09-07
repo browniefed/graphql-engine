@@ -46,4 +46,4 @@ if (typeof window !== "undefined") {
   window.__env = envVars;
 }
 
-console.log(envVars);
+export default envVars;

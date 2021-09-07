@@ -37,7 +37,7 @@ const DataPageContainer = ({
           currentLocation.includes("data/migrations") ? styles.active : ""
         }
       >
-        <Link className={styles.linkBorder} to={"/data/migrations"}>
+        <Link className={styles.linkBorder} href={"/data/migrations"}>
           Migrations
         </Link>
       </li>
@@ -56,7 +56,7 @@ const DataPageContainer = ({
             : ""
         }
       >
-        <Link className={styles.linkBorder} to={`/data/manage`}>
+        <Link className={styles.linkBorder} href={`/data/manage`}>
           Data Manager
         </Link>
 
@@ -69,7 +69,7 @@ const DataPageContainer = ({
         >
           <Link
             className={styles.linkBorder}
-            to={`/data/sql`}
+            href={`/data/sql`}
             data-test="sql-link"
           >
             SQL

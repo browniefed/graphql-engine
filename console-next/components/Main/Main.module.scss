@@ -1,11 +1,3 @@
-@import '~bootstrap-sass/assets/stylesheets/bootstrap/variables';
-@import '../Common/Common.scss';
-
-@font-face {
-  font-family: arcadeClassic;
-  src: url(https://storage.googleapis.com/hasura-graphql-engine/console/assets/ARCADECLASSIC.ttf);
-}
-
 .container {
   position: relative;
 }
@@ -364,20 +356,20 @@
 
   .subheading_text {
     font-size: 45px;
-    font-family: 'Gudea';
+    font-family: "Gudea";
     font-weight: 400;
   }
 
   .description {
     font-size: 16px;
-    font-family: 'Gudea';
+    font-family: "Gudea";
     font-weight: 400;
     padding-bottom: 10px;
   }
 
   .welcomeText {
     font-size: 25px;
-    font-family: 'Gudea';
+    font-family: "Gudea";
     font-weight: 400;
     color: #fec53d;
     padding-top: 20px;
@@ -391,7 +383,7 @@
 
   .smallDescription {
     font-size: 12px;
-    font-family: 'Gudea';
+    font-family: "Gudea";
     font-weight: 400;
     padding-bottom: 20px;
 
@@ -423,7 +415,7 @@
 .sidebar {
   color: #dedede;
   background-color: #43495a;
-  font-family: 'Gudea';
+  font-family: "Gudea";
   font-weight: 700;
   text-transform: uppercase;
   display: flex;
@@ -584,8 +576,8 @@
 }
 
 .header {
-  background: $navbar-inverse-bg;
-  color: $navbar-inverse-color;
+  // background: $navbar-inverse-bg;
+  // color: $navbar-inverse-color;
   height: 50px;
   text-align: right;
   padding: 0;
@@ -598,7 +590,7 @@
 
   .headerItem {
     display: inline-block;
-    color: $navbar-inverse-color;
+    // color: $navbar-inverse-color;
     line-height: 15px;
     font-size: 15px;
     padding: 17.5px 15px;
@@ -607,27 +599,27 @@
 
   .headerItem:hover {
     display: inline-block;
-    color: $navbar-inverse-link-hover-color;
+    // color: $navbar-inverse-link-hover-color;
     transition: color 0.5s;
   }
 
   .headerItem:hover * {
-    color: $navbar-inverse-link-hover-color;
+    // color: $navbar-inverse-link-hover-color;
     transition: color 0.5s;
   }
 
   .headerItem * {
-    color: $navbar-inverse-color;
+    // color: $navbar-inverse-color;
   }
 }
 
 .main {
   padding: 0;
   // width: 100vw;
-  min-width: $minContainerWidth;
+  // min-width: $minContainerWidth;
   background-color: #f8fafb;
   clear: both;
-  font-family: 'Gudea';
+  font-family: "Gudea";
   // color: #767E93;
   color: #4d4d4d;
   padding-top: 54px;
@@ -756,7 +748,7 @@
   position: fixed;
   right: 0px;
   z-index: 12;
-  font-family: 'Gudea';
+  font-family: "Gudea";
 
   p {
     font-size: 16px;

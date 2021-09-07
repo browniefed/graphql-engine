@@ -1,27 +1,27 @@
-import { Nullable } from '../components/Common/utils/tsUtils';
-import { Column } from '../utils/postgresColumnTypes';
+import { Nullable } from "../components/Common/utils/tsUtils";
+import { Column } from "../utils/postgresColumnTypes";
 import {
   FunctionDefinition,
   QualifiedTable,
   RemoteRelationshipDef,
   TableConfig,
-} from '../metadata/types';
-import { ReduxState } from '../types';
+} from "../metadata/types";
+import { ReduxState } from "../types";
 import {
   getSelectQuery,
   getRunSqlQuery,
   WhereClause,
-} from '../../src/components/Common/utils/v1QueryUtils';
-import { Driver } from '.';
+} from "@/components/Common/utils/v1QueryUtils";
+import { Driver } from ".";
 
 export interface Relationship
-  extends Pick<BaseTable, 'table_name' | 'table_schema'> {
+  extends Pick<BaseTable, "table_name" | "table_schema"> {
   rel_name: string;
   rel_def: {
     manual_configuration?: any;
     foreign_key_constraint_on?: any;
   };
-  rel_type: 'object' | 'array';
+  rel_type: "object" | "array";
 }
 
 export type Permission = {
@@ -43,7 +43,7 @@ export interface TableColumn extends BaseTableColumn {
   is_generated?: boolean;
   is_nullable?: string;
   is_identity?: boolean;
-  identity_generation?: 'ALWAYS' | 'BY DEFAULT' | null;
+  identity_generation?: "ALWAYS" | "BY DEFAULT" | null;
   comment?: string | null;
   data_type: string; // 'integer';
   data_type_name: string; // data_type = data_type_name for mysql
@@ -58,7 +58,7 @@ export interface TableColumn extends BaseTableColumn {
    * STORED GENERATED or VIRTUAL GENERATED for generated columns.
    * DEFAULT_GENERATED for columns that have an expression default value.
    */
-  extra?: 'auto_increment' | string | null; // mysql
+  extra?: "auto_increment" | string | null; // mysql
 }
 
 export type ForeignKeyConstraint = {
@@ -91,7 +91,7 @@ export type ComputedField = {
   comment: string | null;
 };
 
-export type IndexType = 'btree' | 'hash' | 'gin' | 'gist' | 'spgist' | 'brin';
+export type IndexType = "btree" | "hash" | "gin" | "gist" | "spgist" | "brin";
 
 export type Index = {
   table_name: string;
@@ -124,14 +124,14 @@ export interface Table extends BaseTable {
   table_name: string;
   table_schema: string;
   table_type:
-    | 'TABLE'
-    | 'VIEW'
-    | 'MATERIALIZED VIEW'
-    | 'FOREIGN TABLE'
-    | 'PARTITIONED TABLE'
-    | 'BASE TABLE'
-    | 'TABLE' // specific to SQL Server
-    | 'EXTERNAL'; // specific to Big Query
+    | "TABLE"
+    | "VIEW"
+    | "MATERIALIZED VIEW"
+    | "FOREIGN TABLE"
+    | "PARTITIONED TABLE"
+    | "BASE TABLE"
+    | "TABLE" // specific to SQL Server
+    | "EXTERNAL"; // specific to Big Query
   primary_key: {
     table_name: string;
     table_schema: string;
@@ -165,11 +165,11 @@ export interface Table extends BaseTable {
   computed_fields: ComputedField[];
   is_enum: boolean;
   view_info: {
-    is_trigger_insertable_into: 'YES' | 'NO';
-    is_insertable_into: 'YES' | 'NO';
-    is_updatable: 'YES' | 'NO';
-    is_trigger_updatable: 'YES' | 'NO';
-    is_trigger_deletable: 'YES' | 'NO';
+    is_trigger_insertable_into: "YES" | "NO";
+    is_insertable_into: "YES" | "NO";
+    is_updatable: "YES" | "NO";
+    is_trigger_updatable: "YES" | "NO";
+    is_trigger_deletable: "YES" | "NO";
     table_schema: string;
     table_name: string;
     view_definition: string;
@@ -200,7 +200,7 @@ export type Partition = {
   partition_key: string;
 };
 
-export type ColumnAction = 'add' | 'modify';
+export type ColumnAction = "add" | "modify";
 
 export interface FrequentlyUsedColumn {
   name: string;
@@ -219,16 +219,16 @@ export interface FrequentlyUsedColumn {
 }
 
 type ColumnCategories =
-  | 'boolean'
-  | 'character'
-  | 'dateTime'
-  | 'geometry'
-  | 'geography'
-  | 'json'
-  | 'jsonb'
-  | 'numeric'
-  | 'uuid'
-  | 'user_defined';
+  | "boolean"
+  | "character"
+  | "dateTime"
+  | "geometry"
+  | "geography"
+  | "json"
+  | "jsonb"
+  | "numeric"
+  | "uuid"
+  | "user_defined";
 export type PermissionColumnCategories = Record<ColumnCategories, string[]>;
 
 export type SupportedFeaturesType = {
@@ -354,7 +354,7 @@ export type SupportedFeaturesType = {
   };
 };
 
-type Tables = ReduxState['tables'];
+type Tables = ReduxState["tables"];
 
 export type generateTableRowRequestType = {
   endpoint: string;
@@ -396,7 +396,7 @@ export type generateInsertRequestType = {
     returning: string[];
   }) =>
     | {
-        type: 'insert';
+        type: "insert";
         args: {
           source: string;
           table: QualifiedTable;
@@ -425,7 +425,7 @@ export type generateInsertRequestType = {
 
 export type GenerateRowsCountRequestType = {
   endpoint: string;
-  getRowsCountRequestBody: generateTableRowRequestType['getTableRowRequestBody'];
+  getRowsCountRequestBody: generateTableRowRequestType["getTableRowRequestBody"];
   processCount: (config: {
     data: any;
     originalTable: string;
@@ -536,8 +536,8 @@ export type GenerateBulkDeleteRowRequest = {
   processBulkDeleteRowData: (data: Record<string, any>) => number;
 };
 export type ViolationActions =
-  | 'restrict'
-  | 'no action'
-  | 'cascade'
-  | 'set null'
-  | 'set default';
+  | "restrict"
+  | "no action"
+  | "cascade"
+  | "set null"
+  | "set default";

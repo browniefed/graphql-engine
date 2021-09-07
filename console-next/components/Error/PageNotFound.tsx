@@ -27,7 +27,7 @@ const PageNotFound = (props: PageNotFoundProps) => {
             <br />
             <div>
               This page does not exist. Head back{" "}
-              <Link to="/" onClick={resetCallback}>
+              <Link href="/" onClick={resetCallback}>
                 Home
               </Link>
               .

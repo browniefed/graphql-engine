@@ -192,7 +192,7 @@ const Permissions: React.FC<PermissionsProps> = ({
         Permissions will be inherited from the SELECT permissions of the
         referenced table (
         <Link
-          to={permissionTableURL}
+          href={permissionTableURL}
           data-test="custom-function-permission-link"
           onClick={onClickPerm}
         >

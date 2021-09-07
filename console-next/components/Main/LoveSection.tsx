@@ -1,7 +1,7 @@
-import React from 'react';
-import styles from './Main.scss';
-import PixelHeart from './images/components/PixelHeart';
-import globals from '../../Globals';
+import React from "react";
+import styles from "./Main.module.scss";
+import PixelHeart from "./images/components/PixelHeart";
+import globals from "../../Globals";
 
 type LoveSectionProps = {
   toggleLoveSection: () => void;

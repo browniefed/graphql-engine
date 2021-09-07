@@ -12,7 +12,7 @@ const LeftBar = () => (
   <LeftContainer>
     <ul>
       <li role="presentation" className={styles.active}>
-        <Link className={styles.linkBorder} to="/support/forums/">
+        <Link className={styles.linkBorder} href="/support/forums/">
           Support Forums
         </Link>
       </li>

@@ -148,7 +148,7 @@ const CreateSchemaSection = React.forwardRef(
 
 const SchemaPermissionsButton = ({ schema, source }) => (
   <Link
-    to={getSchemaPermissionsRoute(schema, source)}
+    href={getSchemaPermissionsRoute(schema, source)}
     style={{ marginLeft: "20px" }}
   >
     <Button color="white" size="xs">

@@ -52,7 +52,7 @@ const ListComponent: React.FC<Props> = ({
       </div>
       <div className={`${styles.subHeader} ${styles.padd_top}`}>
         Create endpoints from GraphQL queries using{" "}
-        <Link to="/api/api-explorer">GraphiQL</Link>.
+        <Link href="/api/api-explorer">GraphiQL</Link>.
         <div className="w-8/12 mt-sm">
           REST endpoints allow for the creation of a REST interface to your
           saved GraphQL queries and mutations. Endpoints are generated from
@@ -93,7 +93,7 @@ const ListComponent: React.FC<Props> = ({
                   <td className="px-md py-sm max-w-xs align-top">
                     <div className="flex items-center">
                       <Link
-                        to={{
+                        href={{
                           pathname: `/api/rest/details/${endpoint.name}`,
                           state: {
                             ...endpoint,

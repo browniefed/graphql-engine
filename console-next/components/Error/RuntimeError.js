@@ -23,7 +23,7 @@ class RuntimeError extends Component {
               <br />
               <div>
                 Something went wrong. Head back{" "}
-                <Link to="/" onClick={resetCallback}>
+                <Link href="/" onClick={resetCallback}>
                   Home
                 </Link>
                 .

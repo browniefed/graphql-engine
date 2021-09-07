@@ -76,7 +76,7 @@ const LeafItemsView: React.FC<LeafItemsViewProps> = ({
         >
           {item.type === "function" ? (
             <Link
-              to={getFunctionModifyRoute(
+              href={getFunctionModifyRoute(
                 currentSchema,
                 currentSource,
                 item.name
@@ -94,7 +94,7 @@ const LeafItemsView: React.FC<LeafItemsViewProps> = ({
           ) : (
             <>
               <Link
-                to={getTableBrowseRoute(
+                href={getTableBrowseRoute(
                   currentSchema,
                   currentSource,
                   item.name,

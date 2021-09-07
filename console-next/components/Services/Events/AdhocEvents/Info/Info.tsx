@@ -24,7 +24,7 @@ const Info: React.FC = () => {
           create_scheduled_event API
         </a>{" "}
         or through the console from the{" "}
-        <Link to={getAddAdhocEventRoute("absolute")}>Schedule an event</Link>{" "}
+        <Link href={getAddAdhocEventRoute("absolute")}>Schedule an event</Link>{" "}
         tab.
       </p>
     </div>

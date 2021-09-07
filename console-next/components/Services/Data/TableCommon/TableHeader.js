@@ -78,7 +78,7 @@ const TableHeader = ({
   const getTab = (tab, link, title, dataTestId) => {
     return (
       <li role="presentation" className={tabName === tab ? styles.active : ""}>
-        <Link to={link} data-test={dataTestId || "table-" + tab}>
+        <Link href={link} data-test={dataTestId || "table-" + tab}>
           {title}
         </Link>
       </li>

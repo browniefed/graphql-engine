@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 
-import { checkStableVersion } from '../../../helpers/versionUtils';
-import { setPreReleaseNotificationOptOutInDB } from '../../../telemetry/Actions';
-import { Dispatch } from '../../../types';
-import ToolTip from '../../Common/Tooltip/Tooltip';
-import styles from '../Main.scss';
+import { checkStableVersion } from "../../../helpers/versionUtils";
+import { setPreReleaseNotificationOptOutInDB } from "../../../telemetry/Actions";
+import { Dispatch } from "../../../types";
+import ToolTip from "../../Common/Tooltip/Tooltip";
+import styles from "../Main.module.scss";
 
 type PreReleaseNoteProps = {
   onPreRelNotifOptOut: (e: React.MouseEvent) => void;
@@ -57,13 +57,13 @@ export const UpdateVersion: React.FC<UpdateVersionProps> = ({
 
   return (
     <div>
-      <div className={styles.phantom} />{' '}
+      <div className={styles.phantom} />{" "}
       {/* phantom div to prevent overlapping of banner with content. */}
       <div className={styles.updateBannerWrapper}>
         <div className={styles.updateBanner}>
           <span> Hey there! A new server version </span>
           <span className={styles.versionUpdateText}>
-            {' '}
+            {" "}
             {updateNotificationVersion}
           </span>
           <span> is available </span>

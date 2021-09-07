@@ -43,7 +43,7 @@ const CollapsibleItems: React.FC<CollapsibleItemsProps> = ({
               key={name}
               data-test={`action-sidebar-links-${name}`}
             >
-              <Link to={getServiceEntityLink(name)} data-test={name}>
+              <Link href={getServiceEntityLink(name)} data-test={name}>
                 <i className={`fa ${icon || "fa-wrench"}`} aria-hidden="true" />
                 {name}
               </Link>
