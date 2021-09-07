@@ -1,6 +1,6 @@
-import React from 'react';
-import { Link } from 'react-router';
-import styles from './ReusableTabs.scss';
+import React from "react";
+import Link from "next/link";
+import styles from "./ReusableTabs.module.scss";
 
 export type Tabs = Record<
   string,
@@ -26,7 +26,7 @@ const Tabs: React.FC<Props> = ({
   showLoader,
   testPrefix,
 }) => {
-  let showCount = '';
+  let showCount = "";
   if (!(count === null || count === undefined)) {
     showCount = `(${count})`;
   }
@@ -37,16 +37,16 @@ const Tabs: React.FC<Props> = ({
           {Object.keys(tabsInfo).map((t: string) => (
             <li
               role="presentation"
-              className={tabName === t ? styles.active : ''}
+              className={tabName === t ? styles.active : ""}
               key={t}
             >
               <Link
                 to={`${baseUrl}/${t}`}
                 data-test={`${
-                  testPrefix ? `${testPrefix}-` : ''
+                  testPrefix ? `${testPrefix}-` : ""
                 }${appPrefix.slice(1)}-${t}`}
               >
-                {tabsInfo[t].display || tabsInfo[t].display_text}{' '}
+                {tabsInfo[t].display || tabsInfo[t].display_text}{" "}
                 {tabName === t ? showCount : null}
                 {tabName === t && showLoader ? (
                   <span className={styles.loader_ml}>

@@ -4,15 +4,15 @@ import React, {
   useEffect,
   useState,
   MouseEvent,
-} from 'react';
-import { FieldType } from './types';
-import { PermissionEditorContext } from './context';
-import { CollapsedField } from './CollapsedField';
-import { ArgSelect } from './ArgSelect';
-import { isEmpty } from '../../../Common/utils/jsUtils';
-import styles from '../../../Common/Permissions/PermissionStyles.scss';
-import { generateTypeString, getChildArguments } from './utils';
-import Pen from './Pen';
+} from "react";
+import { FieldType } from "./types";
+import { PermissionEditorContext } from "./context";
+import { CollapsedField } from "./CollapsedField";
+import { ArgSelect } from "./ArgSelect";
+import { isEmpty } from "../../../Common/utils/jsUtils";
+import styles from "../../../Common/Permissions/PermissionStyles.module.scss";
+import { generateTypeString, getChildArguments } from "./utils";
+import Pen from "./Pen";
 
 export interface FieldProps {
   i: FieldType;
@@ -23,14 +23,13 @@ export interface FieldProps {
 
 export const Field: React.FC<FieldProps> = ({
   i,
-  setItem = e => console.log(e),
+  setItem = (e) => console.log(e),
   onExpand = console.log,
   expanded,
 }) => {
   const [inputPresetMode, setInputPresetMode] = useState<boolean>(false);
-  const [autoExpandInputPresets, setAutoExpandInputPresets] = useState<boolean>(
-    false
-  );
+  const [autoExpandInputPresets, setAutoExpandInputPresets] =
+    useState<boolean>(false);
   const context: any = useContext(PermissionEditorContext);
   let initState;
   if (i.parentName) {
@@ -43,7 +42,7 @@ export const Field: React.FC<FieldProps> = ({
   const [fieldVal, setfieldVal] = useState<Record<string, any>>(initState);
   const setArg = useCallback(
     (vStr: Record<string, unknown>) => {
-      setfieldVal(oldVal => {
+      setfieldVal((oldVal) => {
         const newState = {
           ...oldVal,
           ...vStr,
@@ -125,7 +124,7 @@ export const Field: React.FC<FieldProps> = ({
         !isFirstLevelInputObjPreset) ||
       !i.isInputObjectType ? (
         <>
-          {i.args && Object.keys(i.args).length !== 0 && ' ('}
+          {i.args && Object.keys(i.args).length !== 0 && " ("}
           {i.args && (
             <ul data-test={i.name}>
               {i.args &&
@@ -142,7 +141,7 @@ export const Field: React.FC<FieldProps> = ({
                 ))}
             </ul>
           )}
-          {i.args && Object.keys(i.args).length !== 0 && ' )'}
+          {i.args && Object.keys(i.args).length !== 0 && " )"}
         </>
       ) : null}
       {i.return && (
@@ -150,8 +149,8 @@ export const Field: React.FC<FieldProps> = ({
           :
           <a
             onClick={handleClick}
-            id={generateTypeString(i.return || '')}
-            href={`./permissions#${generateTypeString(i.return || '')}`}
+            id={generateTypeString(i.return || "")}
+            href={`./permissions#${generateTypeString(i.return || "")}`}
           >
             {i.return}
           </a>

@@ -1,24 +1,24 @@
-import React from 'react';
-import styles from '../../Actions.scss';
+import React from "react";
+import styles from "../../Actions.scss";
 import {
   updateSchemaInfo,
   getDatabaseSchemasInfo,
-} from '../../../Data/DataActions';
-import { isEmpty, getLastArrayElement } from '../../../../Common/utils/jsUtils';
-import ExpandableEditor from '../../../../Common/Layout/ExpandableEditor/Editor';
+} from "../../../Data/DataActions";
+import { isEmpty, getLastArrayElement } from "../../../../Common/utils/jsUtils";
+import ExpandableEditor from "../../../../Common/Layout/ExpandableEditor/Editor";
 import {
   parseCustomTypeRelationship,
   getRelValidationError,
   getRelDef,
-} from '../utils';
+} from "../utils";
 import {
   defaultRelConfig,
   defaultRelFieldMapping,
-} from '../../Common/stateDefaults';
-import { addActionRel, removeActionRel } from '../../ServerIO';
-import { showErrorNotification } from '../../../Common/Notification';
-import tableStyles from '../../../../Common/TableCommon/TableStyles.scss';
-import { getSupportedDrivers } from '../../../../../dataSources';
+} from "../../Common/stateDefaults";
+import { addActionRel, removeActionRel } from "../../ServerIO";
+import { showErrorNotification } from "../../../Common/Notification";
+import tableStyles from "../../../../Common/TableCommon/TableStyles.module.scss";
+import { getSupportedDrivers } from "../../../../../dataSources";
 
 const RelationshipEditor = ({
   objectType,
@@ -31,15 +31,15 @@ const RelationshipEditor = ({
     existingRelConfig || defaultRelConfig
   );
 
-  const supportedDrivers = getSupportedDrivers('actions.relationships');
+  const supportedDrivers = getSupportedDrivers("actions.relationships");
   const [currentDatabaseInfo, setCurrentDatabaseInfo] = React.useState({});
 
   // if it is an existing relationship, fetch the pg schemas metadata
   React.useEffect(() => {
     if (existingRelConfig && relConfig.refDb === existingRelConfig.refDb) {
       dispatch(
-        getDatabaseSchemasInfo('postgres', existingRelConfig.refDb)
-      ).then(data => {
+        getDatabaseSchemasInfo("postgres", existingRelConfig.refDb)
+      ).then((data) => {
         setCurrentDatabaseInfo(data);
       });
     }
@@ -55,50 +55,50 @@ const RelationshipEditor = ({
   const { name, type, refDb, refSchema, refTable, fieldMapping } = relConfig;
 
   // relname on change
-  const setRelName = e => {
+  const setRelName = (e) => {
     const relName = e.target.value;
-    setRelConfig(rc => ({
+    setRelConfig((rc) => ({
       ...rc,
       name: relName,
     }));
   };
 
   // reltype on change
-  const setRelType = e => {
+  const setRelType = (e) => {
     const relType = e.target.value;
-    setRelConfig(rc => ({
+    setRelConfig((rc) => ({
       ...rc,
       type: relType,
     }));
   };
 
-  const setDatabase = e => {
+  const setDatabase = (e) => {
     const value = e.target.value;
-    setRelConfig(rc => ({
+    setRelConfig((rc) => ({
       ...rc,
       refDb: value,
     }));
-    return dispatch(getDatabaseSchemasInfo('postgres', value)).then(data => {
+    return dispatch(getDatabaseSchemasInfo("postgres", value)).then((data) => {
       setCurrentDatabaseInfo(data);
     });
   };
 
   // ref schema on change
-  const setRelRefSchema = e => {
+  const setRelRefSchema = (e) => {
     const selectedSchema = e.target.value;
-    setRelConfig(rc => ({
+    setRelConfig((rc) => ({
       ...rc,
       refSchema: selectedSchema,
-      refTable: '',
+      refTable: "",
       fieldMapping: [defaultRelFieldMapping],
     }));
     dispatch(updateSchemaInfo({ schemas: [selectedSchema] }));
   };
 
   // ref table on change
-  const setRelRefTable = e => {
+  const setRelRefTable = (e) => {
     const refTable_ = e.target.value;
-    setRelConfig(rc => ({
+    setRelConfig((rc) => ({
       ...rc,
       refTable: refTable_,
       fieldMapping: [defaultRelFieldMapping],
@@ -106,7 +106,7 @@ const RelationshipEditor = ({
   };
 
   // field mappings on change
-  const setFieldMappings = f_ => {
+  const setFieldMappings = (f_) => {
     const f = JSON.parse(JSON.stringify(f_));
     const lastFieldMapping = getLastArrayElement(f);
     if (!isEmpty(f) && lastFieldMapping) {
@@ -114,7 +114,7 @@ const RelationshipEditor = ({
         f.push(defaultRelFieldMapping);
       }
     }
-    setRelConfig(rc => ({
+    setRelConfig((rc) => ({
       ...rc,
       fieldMapping: f,
     }));
@@ -129,7 +129,7 @@ const RelationshipEditor = ({
     */
     const isDisabled = !!existingRelConfig;
     const relNameInputTitle = isDisabled
-      ? 'A relationship cannot be renamed. Please drop and re-create if you really must.'
+      ? "A relationship cannot be renamed. Please drop and re-create if you really must."
       : undefined;
     return (
       <div className={`${styles.add_mar_bottom}`}>
@@ -159,12 +159,12 @@ const RelationshipEditor = ({
         <select
           value={type}
           className={`${styles.select} form-control ${styles.add_pad_left}`}
-          data-test={'manual-relationship-type'}
+          data-test={"manual-relationship-type"}
           onChange={setRelType}
         >
-          {type === '' && (
-            <option value={''} disabled>
-              {'-- relationship type --'}
+          {type === "" && (
+            <option value={""} disabled>
+              {"-- relationship type --"}
             </option>
           )}
           <option key="object" value="object">
@@ -186,19 +186,19 @@ const RelationshipEditor = ({
         </div>
         <select
           className={`${styles.select} form-control ${styles.add_pad_left}`}
-          data-test={'manual-relationship-db-choice'}
+          data-test={"manual-relationship-db-choice"}
           onChange={setDatabase}
           disabled={!name || existingRelConfig}
           value={refDb}
         >
-          {refDb === '' && (
-            <option value={''} disabled>
-              {'-- data source --'}
+          {refDb === "" && (
+            <option value={""} disabled>
+              {"-- data source --"}
             </option>
           )}
           {dataSources
-            .filter(s => supportedDrivers.includes(s.driver || s.kind))
-            .map(s => (
+            .filter((s) => supportedDrivers.includes(s.driver || s.kind))
+            .map((s) => (
               <option key={s.name} value={s.name}>
                 {s.name} ({s.driver})
               </option>
@@ -218,13 +218,13 @@ const RelationshipEditor = ({
         <select
           value={refSchema}
           className={`${styles.select} form-control ${styles.add_pad_left}`}
-          data-test={'manual-relationship-ref-schema'}
+          data-test={"manual-relationship-ref-schema"}
           onChange={setRelRefSchema}
           disabled={!name || !refDb}
         >
-          {refSchema === '' && (
-            <option value={''} disabled>
-              {'-- reference schema --'}
+          {refSchema === "" && (
+            <option value={""} disabled>
+              {"-- reference schema --"}
             </option>
           )}
           {orderedSchemaList.map((rs, j) => (
@@ -246,13 +246,13 @@ const RelationshipEditor = ({
         <select
           value={refTable}
           className={`${styles.select} form-control ${styles.add_pad_left}`}
-          data-test={'manual-relationship-ref-table'}
+          data-test={"manual-relationship-ref-table"}
           onChange={setRelRefTable}
           disabled={!refSchema}
         >
-          {refTable === '' && (
-            <option value={''} disabled>
-              {'-- reference table --'}
+          {refTable === "" && (
+            <option value={""} disabled>
+              {"-- reference table --"}
             </option>
           )}
           {currentDatabaseInfo[refSchema] &&
@@ -281,7 +281,7 @@ const RelationshipEditor = ({
           </div>
         </div>
         {fieldMapping.map((fieldMap, i) => {
-          const setColumn = e => {
+          const setColumn = (e) => {
             const selectedCol = e.target.value;
             const newFM = JSON.parse(JSON.stringify(fieldMapping));
             newFM[i] = {
@@ -291,7 +291,7 @@ const RelationshipEditor = ({
             setFieldMappings(newFM);
           };
 
-          const setField = e => {
+          const setField = (e) => {
             const selectedField = e.target.value;
             const newFM = JSON.parse(JSON.stringify(fieldMapping));
             newFM[i] = {
@@ -323,10 +323,10 @@ const RelationshipEditor = ({
             );
           }
 
-          const fields = objectType.fields.map(f => f.name);
+          const fields = objectType.fields.map((f) => f.name);
 
           const selectTitle = !refTable
-            ? 'Please select the reference table'
+            ? "Please select the reference table"
             : undefined;
 
           return (
@@ -343,12 +343,12 @@ const RelationshipEditor = ({
                   disabled={!refSchema || !refTable}
                   title={selectTitle}
                 >
-                  {field === '' && (
+                  {field === "" && (
                     <option value="" disabled>
-                      {'-- field --'}
+                      {"-- field --"}
                     </option>
                   )}
-                  {fields.map(f => {
+                  {fields.map((f) => {
                     return (
                       <option key={f} value={f}>
                         {f}
@@ -357,7 +357,7 @@ const RelationshipEditor = ({
                   })}
                 </select>
               </div>
-              <div className={'col-sm-4'}>
+              <div className={"col-sm-4"}>
                 <select
                   className={`form-control ${styles.select} ${styles.wd100Percent}`}
                   value={refColumn}
@@ -366,14 +366,14 @@ const RelationshipEditor = ({
                   title={selectTitle}
                   data-test={`manual-relationship-rcol-${i}`}
                 >
-                  {refColumn === '' && (
+                  {refColumn === "" && (
                     <option value="" disabled>
-                      {'-- ref_column --'}
+                      {"-- ref_column --"}
                     </option>
                   )}
                   {currentDatabaseInfo[refSchema] &&
                     currentDatabaseInfo[refSchema][refTable] &&
-                    currentDatabaseInfo[refSchema][refTable].map(rcOpt => {
+                    currentDatabaseInfo[refSchema][refTable].map((rcOpt) => {
                       return (
                         <option key={rcOpt} value={rcOpt}>
                           {rcOpt}
@@ -402,15 +402,9 @@ const RelationshipEditor = ({
   );
 };
 
-const RelEditor = props => {
-  const {
-    dispatch,
-    relConfig,
-    objectType,
-    isNew,
-    readOnlyMode,
-    dataSources,
-  } = props;
+const RelEditor = (props) => {
+  const { dispatch, relConfig, objectType, isNew, readOnlyMode, dataSources } =
+    props;
 
   const [relConfigState, setRelConfigState] = React.useState(null);
 
@@ -450,11 +444,11 @@ const RelEditor = props => {
   };
 
   // function to save the relationship
-  const saveFunc = toggle => {
+  const saveFunc = (toggle) => {
     const validationError = getRelValidationError(relConfigState);
     if (validationError) {
       return dispatch(
-        showErrorNotification('Cannot create relationship', validationError)
+        showErrorNotification("Cannot create relationship", validationError)
       );
     }
 
@@ -470,7 +464,7 @@ const RelEditor = props => {
   // function to remove the relationship
   let removeFunc;
   if (!isNew) {
-    removeFunc = toggle => {
+    removeFunc = (toggle) => {
       dispatch(
         removeActionRel(
           relConfig.name,
@@ -482,8 +476,8 @@ const RelEditor = props => {
     };
   }
 
-  const expandButtonText = isNew ? 'Add a relationship' : 'Edit';
-  const collapseButtonText = isNew ? 'Cancel' : 'Close';
+  const expandButtonText = isNew ? "Add a relationship" : "Edit";
+  const collapseButtonText = isNew ? "Cancel" : "Close";
 
   return (
     <ExpandableEditor
@@ -491,7 +485,7 @@ const RelEditor = props => {
       editorExpanded={expandedContent}
       expandButtonText={expandButtonText}
       collapsedLabel={collapsedLabel}
-      property={'relationship'}
+      property={"relationship"}
       service="actions"
       saveFunc={saveFunc}
       removeFunc={removeFunc}

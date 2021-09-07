@@ -1,7 +1,7 @@
-import React from 'react';
-import { Link } from 'react-router';
+import React from "react";
+import Link from "next/link";
 
-import styles from '../Main.scss';
+import styles from "../Main.scss";
 
 export const Help = ({ isSelected }: { isSelected: boolean }) => {
   return (
@@ -11,7 +11,7 @@ export const Help = ({ isSelected }: { isSelected: boolean }) => {
         {isSelected ? (
           <span
             className={styles.selected}
-            style={{ width: '90%', marginLeft: '5%' }}
+            style={{ width: "90%", marginLeft: "5%" }}
           />
         ) : null}
       </div>

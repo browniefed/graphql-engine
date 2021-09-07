@@ -1,15 +1,15 @@
-import React, { useMemo } from 'react';
-import { Link } from 'react-router';
+import React, { useMemo } from "react";
+import Link from "next/link";
 
-import YouTube from 'react-youtube';
+import YouTube from "react-youtube";
 
-import globals from '../../../Globals';
-import { hasSources, isMetadataEmpty } from '../../../metadata/utils';
-import { setOnboardingCompletedInDB } from '../../../telemetry/Actions';
-import { Dispatch, ReduxState } from '../../../types';
-import { getLSItem, LS_KEYS, setLSItem } from '../../../utils/localStorage';
-import hasuraDarkIcon from './hasura_icon_dark.svg';
-import styles from './Onboarding.scss';
+import globals from "../../../Globals";
+import { hasSources, isMetadataEmpty } from "../../../metadata/utils";
+import { setOnboardingCompletedInDB } from "../../../telemetry/Actions";
+import { Dispatch, ReduxState } from "../../../types";
+import { getLSItem, LS_KEYS, setLSItem } from "../../../utils/localStorage";
+import hasuraDarkIcon from "./hasura_icon_dark.svg";
+import styles from "./Onboarding.scss";
 
 type PopupLinkProps = {
   title: string;
@@ -42,16 +42,16 @@ const PopupLink = ({
           </div>
           <YouTube
             videoId={videoId}
-            opts={{ width: '100%', height: '240px' }}
+            opts={{ width: "100%", height: "240px" }}
           />
         </>
       </li>
     );
   }
   let url = link?.oss;
-  if (globals.serverVersion.includes('pro')) {
+  if (globals.serverVersion.includes("pro")) {
     url = link?.pro;
-  } else if (globals.serverVersion.includes('cloud')) {
+  } else if (globals.serverVersion.includes("cloud")) {
     url = link?.cloud;
   }
   return (
@@ -86,41 +86,37 @@ const PopupLink = ({
 };
 
 const connectDatabaseHelper = {
-  title: ' Connect Your First Database',
-  internalLink: '/data/manage',
-  icon: 'fa-database',
+  title: " Connect Your First Database",
+  internalLink: "/data/manage",
+  icon: "fa-database",
 };
 
 const onboardingList = [
   {
-    title: 'Read the Getting Started Docs',
+    title: "Read the Getting Started Docs",
     link: {
-      pro:
-        'https://hasura.io/docs/latest/graphql/core/getting-started/first-graphql-query.html?pg=pro&plcmt=onboarding-checklist#create-a-table',
-      oss:
-        'https://hasura.io/docs/latest/graphql/core/getting-started/first-graphql-query.html?pg=oss-console&plcmt=onboarding#create-a-table',
+      pro: "https://hasura.io/docs/latest/graphql/core/getting-started/first-graphql-query.html?pg=pro&plcmt=onboarding-checklist#create-a-table",
+      oss: "https://hasura.io/docs/latest/graphql/core/getting-started/first-graphql-query.html?pg=oss-console&plcmt=onboarding#create-a-table",
       cloud:
-        'https://hasura.io/docs/latest/graphql/core/getting-started/first-graphql-query.html?pg=cloud&plcmt=onboarding-checklist#create-a-table',
+        "https://hasura.io/docs/latest/graphql/core/getting-started/first-graphql-query.html?pg=cloud&plcmt=onboarding-checklist#create-a-table",
     },
   },
-  { title: 'Watch Our Getting Started Video', videoId: 'ZGKQ0U18USU' },
+  { title: "Watch Our Getting Started Video", videoId: "ZGKQ0U18USU" },
   {
-    title: 'Bookmark Our Course',
+    title: "Bookmark Our Course",
     link: {
-      pro:
-        'https://hasura.io/learn/graphql/hasura-advanced/introduction/?pg=pro&plcmt=onboarding-checklist',
-      oss:
-        'https://hasura.io/learn/graphql/hasura/introduction/?pg=oss-console&plcmt=onboarding-checklist',
+      pro: "https://hasura.io/learn/graphql/hasura-advanced/introduction/?pg=pro&plcmt=onboarding-checklist",
+      oss: "https://hasura.io/learn/graphql/hasura/introduction/?pg=oss-console&plcmt=onboarding-checklist",
       cloud:
-        'https://hasura.io/learn/graphql/hasura/introduction/?pg=cloud&plcmt=onboarding-checklist',
+        "https://hasura.io/learn/graphql/hasura/introduction/?pg=cloud&plcmt=onboarding-checklist",
     },
   },
 ];
 
 interface OnboardingProps {
   dispatch: Dispatch;
-  console_opts: ReduxState['telemetry']['console_opts'];
-  metadata: ReduxState['metadata']['metadataObject'];
+  console_opts: ReduxState["telemetry"]["console_opts"];
+  metadata: ReduxState["metadata"]["metadataObject"];
 }
 
 const Onboarding: React.FC<OnboardingProps> = ({
@@ -142,12 +138,12 @@ const Onboarding: React.FC<OnboardingProps> = ({
   }, [metadata, console_opts]);
 
   React.useEffect(() => {
-    const show = getLSItem(LS_KEYS.showConsoleOnboarding) || 'true';
-    setVisible(show === 'true');
+    const show = getLSItem(LS_KEYS.showConsoleOnboarding) || "true";
+    setVisible(show === "true");
   }, []);
 
   const togglePopup = () => {
-    setVisible(pre => {
+    setVisible((pre) => {
       setLSItem(LS_KEYS.showConsoleOnboarding, (!pre).toString());
       return !pre;
     });
@@ -166,8 +162,8 @@ const Onboarding: React.FC<OnboardingProps> = ({
       {!visible && (
         <div className={styles.hi_icon} onClick={togglePopup}>
           <span aria-label="Wave" role="img">
-            {' '}
-            👋{' '}
+            {" "}
+            👋{" "}
           </span>
         </div>
       )}

@@ -1,47 +1,47 @@
-import globals from '../../../Globals';
-import { makeMigrationCall } from '../Data/DataActions';
+import globals from "../../../Globals";
+import { makeMigrationCall } from "../Data/DataActions";
 import {
   injectTypeRelationship,
   removeTypeRelationship,
   validateRelTypename,
-} from './Relationships/utils';
-import { getConfirmation } from '../../Common/utils/jsUtils';
+} from "./Relationships/utils";
+import { getConfirmation } from "../../Common/utils/jsUtils";
 import {
   generateActionDefinition,
   getStateValidationError,
   getOverlappingTypeConfirmation,
-} from './Common/utils';
-import { showErrorNotification } from '../Common/Notification';
-import { appPrefix } from './constants';
-import { push } from 'react-router-redux';
+} from "./Common/utils";
+import { showErrorNotification } from "../Common/Notification";
+import { appPrefix } from "./constants";
+// import { push } from 'react-router-redux';
 import {
   reformCustomTypes,
   mergeCustomTypes,
   hydrateTypeRelationships,
-} from '../../../shared/utils/hasuraCustomTypeUtils';
+} from "../../../shared/utils/hasuraCustomTypeUtils";
 import {
   getActionDefinitionFromSdl,
   getTypesFromSdl,
-} from '../../../shared/utils/sdlUtils';
+} from "../../../shared/utils/sdlUtils";
 import {
   setFetching as createActionRequestInProgress,
   unsetFetching as createActionRequestComplete,
-} from './Add/reducer';
+} from "./Add/reducer";
 import {
   setFetching as modifyActionRequestInProgress,
   unsetFetching as modifyActionRequestComplete,
-} from './Modify/reducer';
+} from "./Modify/reducer";
 
 import {
   makePermRequest,
   setRequestSuccess as setPermRequestSuccess,
   setRequestFailure as setPermRequestFailure,
-} from './Permissions/reducer';
-import { exportMetadata } from '../../../metadata/actions';
+} from "./Permissions/reducer";
+import { exportMetadata } from "../../../metadata/actions";
 import {
   customTypesSelector,
   actionsSelector,
-} from '../../../metadata/selector';
+} from "../../../metadata/selector";
 import {
   generateSetCustomTypesQuery,
   generateCreateActionQuery,
@@ -49,16 +49,16 @@ import {
   getCreateActionPermissionQuery,
   getUpdateActionQuery,
   getDropActionPermissionQuery,
-} from '../../../metadata/queryUtils';
-import { getActionPermissionMigration } from './Permissions/utils';
-import Migration from '../../../utils/migration/Migration';
+} from "../../../metadata/queryUtils";
+import { getActionPermissionMigration } from "./Permissions/utils";
+import Migration from "../../../utils/migration/Migration";
 import {
   findAction,
   getActionPermissions,
   removePersistedDerivedAction,
   persistDerivedAction,
   updatePersistedDerivation,
-} from './utils';
+} from "./utils";
 
 export const createAction = () => (dispatch, getState) => {
   const { add: rawState } = getState().actions;
@@ -76,7 +76,7 @@ export const createAction = () => (dispatch, getState) => {
   } = getActionDefinitionFromSdl(rawState.actionDefinition.sdl);
   if (actionDefError) {
     return dispatch(
-      showErrorNotification('Invalid Action Definition', actionDefError)
+      showErrorNotification("Invalid Action Definition", actionDefError)
     );
   }
 
@@ -86,7 +86,7 @@ export const createAction = () => (dispatch, getState) => {
 
   if (typeDefError) {
     return dispatch(
-      showErrorNotification('Invalid Types Definition', typeDefError)
+      showErrorNotification("Invalid Types Definition", typeDefError)
     );
   }
 
@@ -153,9 +153,9 @@ export const createAction = () => (dispatch, getState) => {
   // Migration queries end
 
   const migrationName = `create_action_${state.name}`;
-  const requestMsg = 'Creating action...';
-  const successMsg = 'Created action successfully';
-  const errorMsg = 'Creating action failed';
+  const requestMsg = "Creating action...";
+  const successMsg = "Created action successfully";
+  const errorMsg = "Creating action failed";
   const customOnSuccess = () => {
     if (rawState.derive.operation) {
       persistDerivedAction(state.name, rawState.derive.operation);
@@ -185,7 +185,7 @@ export const createAction = () => (dispatch, getState) => {
   );
 };
 
-export const saveAction = currentAction => (dispatch, getState) => {
+export const saveAction = (currentAction) => (dispatch, getState) => {
   const { modify: rawState } = getState().actions;
   const existingTypesList = customTypesSelector(getState());
   const {
@@ -198,7 +198,7 @@ export const saveAction = currentAction => (dispatch, getState) => {
 
   if (actionDefError) {
     return dispatch(
-      showErrorNotification('Invalid Action Definition', actionDefError)
+      showErrorNotification("Invalid Action Definition", actionDefError)
     );
   }
 
@@ -209,7 +209,7 @@ export const saveAction = currentAction => (dispatch, getState) => {
   );
   if (typeDefError) {
     return dispatch(
-      showErrorNotification('Invalid Types Definition', typeDefError)
+      showErrorNotification("Invalid Types Definition", typeDefError)
     );
   }
 
@@ -286,7 +286,7 @@ export const saveAction = currentAction => (dispatch, getState) => {
     migration.add(updateCurrentActionQuery, rollbackActionQuery);
   } else {
     const isOk = getConfirmation(
-      'You seem to have changed the action name. This will cause the permissions to be dropped.'
+      "You seem to have changed the action name. This will cause the permissions to be dropped."
     );
     if (!isOk) return;
     migration.add(dropCurrentActionQuery, oldActionQueryUp);
@@ -295,9 +295,9 @@ export const saveAction = currentAction => (dispatch, getState) => {
   }
 
   const migrationName = `modify_action_${currentAction.name}_to_${state.name}`;
-  const requestMsg = 'Saving action...';
-  const successMsg = 'Action saved successfully';
-  const errorMsg = 'Saving action failed';
+  const requestMsg = "Saving action...";
+  const successMsg = "Action saved successfully";
+  const errorMsg = "Saving action failed";
   const customOnSuccess = () => {
     dispatch(modifyActionRequestComplete());
     if (isActionNameChange) {
@@ -330,7 +330,7 @@ export const saveAction = currentAction => (dispatch, getState) => {
   );
 };
 
-export const deleteAction = currentAction => (dispatch, getState) => {
+export const deleteAction = (currentAction) => (dispatch, getState) => {
   const confirmMessage = `This will permanently delete the action "${currentAction.name}" from this table`;
   const isOk = getConfirmation(confirmMessage, true, currentAction.name);
   if (!isOk) {
@@ -350,9 +350,9 @@ export const deleteAction = currentAction => (dispatch, getState) => {
   );
 
   const migrationName = `delete_action_${currentAction.name}`;
-  const requestMsg = 'Deleting action...';
-  const successMsg = 'Action deleted successfully';
-  const errorMsg = 'Deleting action failed';
+  const requestMsg = "Deleting action...";
+  const successMsg = "Action deleted successfully";
+  const errorMsg = "Deleting action failed";
   const customOnSuccess = () => {
     dispatch(modifyActionRequestComplete());
     dispatch(push(`${globals.urlPrefix}${appPrefix}/manage`));
@@ -378,243 +378,237 @@ export const deleteAction = currentAction => (dispatch, getState) => {
   );
 };
 
-export const addActionRel = (relConfig, successCb, existingRelConfig) => (
-  dispatch,
-  getState
-) => {
-  const existingTypes = customTypesSelector(getState());
-  let typesWithRels = [...existingTypes];
+export const addActionRel =
+  (relConfig, successCb, existingRelConfig) => (dispatch, getState) => {
+    const existingTypes = customTypesSelector(getState());
+    let typesWithRels = [...existingTypes];
 
-  let validationError;
+    let validationError;
 
-  if (existingRelConfig) {
-    // modifying existing relationship
-    // if the relationship is being renamed
-    if (existingRelConfig.name !== relConfig.name) {
-      // validate the new name
+    if (existingRelConfig) {
+      // modifying existing relationship
+      // if the relationship is being renamed
+      if (existingRelConfig.name !== relConfig.name) {
+        // validate the new name
+        validationError = validateRelTypename(
+          existingTypes,
+          relConfig.typename,
+          relConfig.name
+        );
+        // remove old relationship from types
+        typesWithRels = removeTypeRelationship(
+          existingTypes,
+          relConfig.typename,
+          existingRelConfig.name
+        );
+      }
+    } else {
+      // creating a new relationship
+
+      // validate the relationship name
       validationError = validateRelTypename(
         existingTypes,
         relConfig.typename,
         relConfig.name
       );
-      // remove old relationship from types
-      typesWithRels = removeTypeRelationship(
-        existingTypes,
-        relConfig.typename,
-        existingRelConfig.name
-      );
     }
-  } else {
-    // creating a new relationship
 
-    // validate the relationship name
-    validationError = validateRelTypename(
-      existingTypes,
+    const errorMsg = "Saving relationship failed";
+    if (validationError) {
+      return dispatch(showErrorNotification(errorMsg, validationError));
+    }
+
+    // add modified relationship to types
+    typesWithRels = injectTypeRelationship(
+      typesWithRels,
       relConfig.typename,
-      relConfig.name
+      relConfig
     );
-  }
 
-  const errorMsg = 'Saving relationship failed';
-  if (validationError) {
-    return dispatch(showErrorNotification(errorMsg, validationError));
-  }
+    const customTypesQueryUp = generateSetCustomTypesQuery({
+      ...reformCustomTypes(typesWithRels),
+      source: relConfig.refDb,
+    });
 
-  // add modified relationship to types
-  typesWithRels = injectTypeRelationship(
-    typesWithRels,
-    relConfig.typename,
-    relConfig
-  );
+    const customTypesQueryDown = generateSetCustomTypesQuery({
+      ...reformCustomTypes(existingTypes),
+      source: relConfig.refDb,
+    });
 
-  const customTypesQueryUp = generateSetCustomTypesQuery({
-    ...reformCustomTypes(typesWithRels),
-    source: relConfig.refDb,
-  });
+    const migration = new Migration();
+    migration.add(customTypesQueryUp, customTypesQueryDown);
 
-  const customTypesQueryDown = generateSetCustomTypesQuery({
-    ...reformCustomTypes(existingTypes),
-    source: relConfig.refDb,
-  });
+    const migrationName = `save_rel_${relConfig.name}_on_${relConfig.typename}`;
+    const requestMsg = "Saving relationship...";
+    const successMsg = "Relationship saved successfully";
 
-  const migration = new Migration();
-  migration.add(customTypesQueryUp, customTypesQueryDown);
-
-  const migrationName = `save_rel_${relConfig.name}_on_${relConfig.typename}`;
-  const requestMsg = 'Saving relationship...';
-  const successMsg = 'Relationship saved successfully';
-
-  makeMigrationCall(
-    dispatch,
-    getState,
-    migration.upMigration,
-    migration.downMigration,
-    migrationName,
-    () => dispatch(exportMetadata(successCb)),
-    () => {},
-    requestMsg,
-    successMsg,
-    errorMsg
-  );
-};
-
-export const removeActionRel = (relName, source, typename, successCb) => (
-  dispatch,
-  getState
-) => {
-  const confirmation = getConfirmation(
-    `This will remove the relationship "${relName}" from type "${typename}". This will affect all the actions that use the type "${typename}"`
-  );
-  if (!confirmation) {
-    return;
-  }
-
-  const existingTypes = customTypesSelector(getState());
-
-  const typesWithoutRel = removeTypeRelationship(
-    existingTypes,
-    typename,
-    relName
-  );
-
-  const customTypesQueryUp = generateSetCustomTypesQuery({
-    ...reformCustomTypes(typesWithoutRel),
-    source,
-  });
-
-  const customTypesQueryDown = generateSetCustomTypesQuery({
-    ...reformCustomTypes(existingTypes),
-    source,
-  });
-  const migration = new Migration();
-  migration.add(customTypesQueryUp, customTypesQueryDown);
-
-  const migrationName = `remove_action_relationship_${relName}_from_${typename}`;
-  const requestMsg = `Removing relationship ${relName}...`;
-  const successMsg = 'Relationship removed successfully';
-  const errorMsg = `Failed to remove the relationship: "${relName}"`;
-
-  makeMigrationCall(
-    dispatch,
-    getState,
-    migration.upMigration,
-    migration.downMigration,
-    migrationName,
-    () => dispatch(exportMetadata(successCb)),
-    () => {},
-    requestMsg,
-    successMsg,
-    errorMsg
-  );
-};
-
-export const saveActionPermission = (successCb, errorCb) => (
-  dispatch,
-  getState
-) => {
-  const {
-    common: { currentAction },
-    permissions: { permissionEdit },
-  } = getState().actions;
-  const allActions = actionsSelector(getState());
-
-  const allPermissions = getActionPermissions(
-    findAction(allActions, currentAction)
-  );
-
-  const migration = getActionPermissionMigration(
-    permissionEdit,
-    allPermissions,
-    currentAction
-  );
-
-  const { role, newRole } = permissionEdit;
-  const roleName = (newRole || role).trim();
-
-  const migrationName = `save_action_permission_${currentAction}_${roleName}`;
-  const requestMsg = 'Saving permission...';
-  const successMsg = 'Permission saved successfully';
-  const errorMsg = `Failed to save permissions for role "${roleName}"`;
-
-  const customOnSuccess = () => {
-    dispatch(exportMetadata());
-    dispatch(setPermRequestSuccess());
-    if (successCb) {
-      successCb();
-    }
-  };
-  const customOnError = () => {
-    dispatch(setPermRequestFailure());
-    if (errorCb) {
-      errorCb();
-    }
+    makeMigrationCall(
+      dispatch,
+      getState,
+      migration.upMigration,
+      migration.downMigration,
+      migrationName,
+      () => dispatch(exportMetadata(successCb)),
+      () => {},
+      requestMsg,
+      successMsg,
+      errorMsg
+    );
   };
 
-  dispatch(makePermRequest());
-  makeMigrationCall(
-    dispatch,
-    getState,
-    migration.upMigration,
-    migration.downMigration,
-    migrationName,
-    customOnSuccess,
-    customOnError,
-    requestMsg,
-    successMsg,
-    errorMsg
-  );
-};
-
-export const removeActionPermission = (successCb, errorCb) => (
-  dispatch,
-  getState
-) => {
-  const isOk = getConfirmation('This will remove the permission for this role');
-  if (!isOk) return;
-
-  const {
-    common: { currentAction },
-    permissions: { permissionEdit },
-  } = getState().actions;
-
-  const { role, filter } = permissionEdit;
-
-  const migration = new Migration();
-  migration.add(
-    getDropActionPermissionQuery(role, currentAction),
-    getCreateActionPermissionQuery({ role, filter }, currentAction)
-  );
-
-  const migrationName = 'removing_action_perm';
-  const requestMsg = 'Removing permission...';
-  const successMsg = 'Permission removed successfully';
-  const errorMsg = 'Removing permission failed';
-
-  const customOnSuccess = () => {
-    dispatch(exportMetadata());
-    dispatch(setPermRequestSuccess());
-    if (successCb) {
-      successCb();
+export const removeActionRel =
+  (relName, source, typename, successCb) => (dispatch, getState) => {
+    const confirmation = getConfirmation(
+      `This will remove the relationship "${relName}" from type "${typename}". This will affect all the actions that use the type "${typename}"`
+    );
+    if (!confirmation) {
+      return;
     }
-  };
-  const customOnError = () => {
-    dispatch(setPermRequestFailure());
-    if (errorCb) {
-      errorCb();
-    }
+
+    const existingTypes = customTypesSelector(getState());
+
+    const typesWithoutRel = removeTypeRelationship(
+      existingTypes,
+      typename,
+      relName
+    );
+
+    const customTypesQueryUp = generateSetCustomTypesQuery({
+      ...reformCustomTypes(typesWithoutRel),
+      source,
+    });
+
+    const customTypesQueryDown = generateSetCustomTypesQuery({
+      ...reformCustomTypes(existingTypes),
+      source,
+    });
+    const migration = new Migration();
+    migration.add(customTypesQueryUp, customTypesQueryDown);
+
+    const migrationName = `remove_action_relationship_${relName}_from_${typename}`;
+    const requestMsg = `Removing relationship ${relName}...`;
+    const successMsg = "Relationship removed successfully";
+    const errorMsg = `Failed to remove the relationship: "${relName}"`;
+
+    makeMigrationCall(
+      dispatch,
+      getState,
+      migration.upMigration,
+      migration.downMigration,
+      migrationName,
+      () => dispatch(exportMetadata(successCb)),
+      () => {},
+      requestMsg,
+      successMsg,
+      errorMsg
+    );
   };
 
-  dispatch(makePermRequest());
-  makeMigrationCall(
-    dispatch,
-    getState,
-    migration.upMigration,
-    migration.downMigration,
-    migrationName,
-    customOnSuccess,
-    customOnError,
-    requestMsg,
-    successMsg,
-    errorMsg
-  );
-};
+export const saveActionPermission =
+  (successCb, errorCb) => (dispatch, getState) => {
+    const {
+      common: { currentAction },
+      permissions: { permissionEdit },
+    } = getState().actions;
+    const allActions = actionsSelector(getState());
+
+    const allPermissions = getActionPermissions(
+      findAction(allActions, currentAction)
+    );
+
+    const migration = getActionPermissionMigration(
+      permissionEdit,
+      allPermissions,
+      currentAction
+    );
+
+    const { role, newRole } = permissionEdit;
+    const roleName = (newRole || role).trim();
+
+    const migrationName = `save_action_permission_${currentAction}_${roleName}`;
+    const requestMsg = "Saving permission...";
+    const successMsg = "Permission saved successfully";
+    const errorMsg = `Failed to save permissions for role "${roleName}"`;
+
+    const customOnSuccess = () => {
+      dispatch(exportMetadata());
+      dispatch(setPermRequestSuccess());
+      if (successCb) {
+        successCb();
+      }
+    };
+    const customOnError = () => {
+      dispatch(setPermRequestFailure());
+      if (errorCb) {
+        errorCb();
+      }
+    };
+
+    dispatch(makePermRequest());
+    makeMigrationCall(
+      dispatch,
+      getState,
+      migration.upMigration,
+      migration.downMigration,
+      migrationName,
+      customOnSuccess,
+      customOnError,
+      requestMsg,
+      successMsg,
+      errorMsg
+    );
+  };
+
+export const removeActionPermission =
+  (successCb, errorCb) => (dispatch, getState) => {
+    const isOk = getConfirmation(
+      "This will remove the permission for this role"
+    );
+    if (!isOk) return;
+
+    const {
+      common: { currentAction },
+      permissions: { permissionEdit },
+    } = getState().actions;
+
+    const { role, filter } = permissionEdit;
+
+    const migration = new Migration();
+    migration.add(
+      getDropActionPermissionQuery(role, currentAction),
+      getCreateActionPermissionQuery({ role, filter }, currentAction)
+    );
+
+    const migrationName = "removing_action_perm";
+    const requestMsg = "Removing permission...";
+    const successMsg = "Permission removed successfully";
+    const errorMsg = "Removing permission failed";
+
+    const customOnSuccess = () => {
+      dispatch(exportMetadata());
+      dispatch(setPermRequestSuccess());
+      if (successCb) {
+        successCb();
+      }
+    };
+    const customOnError = () => {
+      dispatch(setPermRequestFailure());
+      if (errorCb) {
+        errorCb();
+      }
+    };
+
+    dispatch(makePermRequest());
+    makeMigrationCall(
+      dispatch,
+      getState,
+      migration.upMigration,
+      migration.downMigration,
+      migrationName,
+      customOnSuccess,
+      customOnError,
+      requestMsg,
+      successMsg,
+      errorMsg
+    );
+  };

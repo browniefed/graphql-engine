@@ -1,14 +1,12 @@
-import { ThunkDispatch } from 'redux-thunk';
-import { push } from 'react-router-redux';
-import { AnyAction } from 'redux';
-
-import globals from '../../../Globals';
-import { baseUrl } from '../../../Endpoints';
-import { ReduxState } from '../../../types';
+import { ThunkDispatch } from "redux-thunk";
+import { AnyAction } from "redux";
+import globals from "../../../Globals";
+import { baseUrl } from "../../../Endpoints";
+import { ReduxState } from "../../../types";
 
 export const getSchemaBaseRoute = (
   schemaName: string,
-  sourceName = 'default'
+  sourceName = "default"
 ) =>
   `/data/${encodeURIComponent(sourceName)}/schema/${encodeURIComponent(
     schemaName
@@ -35,7 +33,7 @@ export const getSchemaPermissionsRoute = (
   return `${getSchemaBaseRoute(schemaName, dataSource)}/permissions`;
 };
 
-export const manageDatabasesRoute = '/data/manage';
+export const manageDatabasesRoute = "/data/manage";
 
 const getTableBaseRoute = (
   schemaName: string,
@@ -44,7 +42,7 @@ const getTableBaseRoute = (
   isTable: boolean
 ) =>
   `${getSchemaBaseRoute(schemaName, sourceName)}/${
-    isTable ? 'tables' : 'views'
+    isTable ? "tables" : "views"
   }/${encodeURIComponent(tableName)}`;
 
 export const getTableBrowseRoute = (
@@ -143,7 +141,7 @@ export const getFunctionModifyRoute = (
 // Action route utils
 
 export const getActionsBaseRoute = () => {
-  return '/actions/manage';
+  return "/actions/manage";
 };
 
 export const getActionsCreateRoute = () => {
@@ -152,19 +150,19 @@ export const getActionsCreateRoute = () => {
 
 // Events route utils
 
-export const eventsPrefix = 'events';
-export const scheduledEventsPrefix = 'cron';
-export const adhocEventsPrefix = 'one-off-scheduled-events';
-export const dataEventsPrefix = 'data';
+export const eventsPrefix = "events";
+export const scheduledEventsPrefix = "cron";
+export const adhocEventsPrefix = "one-off-scheduled-events";
+export const dataEventsPrefix = "data";
 
 export const getSTRoute = (type: string | undefined, relativeRoute: string) => {
-  if (type === 'relative') {
+  if (type === "relative") {
     return `${relativeRoute}`;
   }
   return `/${eventsPrefix}/${scheduledEventsPrefix}/${relativeRoute}`;
 };
 export const getETRoute = (type: string | undefined, relativeRoute: string) => {
-  if (type === 'relative') {
+  if (type === "relative") {
     return `${relativeRoute}`;
   }
   return `/${eventsPrefix}/${dataEventsPrefix}/${relativeRoute}`;
@@ -173,7 +171,7 @@ export const getAdhocEventsRoute = (
   type: string | undefined,
   relativeRoute?: string
 ) => {
-  if (type === 'relative') {
+  if (type === "relative") {
     return `${relativeRoute}`;
   }
   return `/${eventsPrefix}/${adhocEventsPrefix}/${relativeRoute}`;
@@ -189,10 +187,10 @@ export const isAdhocScheduledEventRoute = (route: string) => {
   return route.includes(`/${eventsPrefix}/${adhocEventsPrefix}`);
 };
 export const getAddSTRoute = (type?: string) => {
-  return getSTRoute(type, 'add');
+  return getSTRoute(type, "add");
 };
 export const getScheduledEventsLandingRoute = (type?: string) => {
-  return getSTRoute(type, 'manage');
+  return getSTRoute(type, "manage");
 };
 export const getSTModifyRoute = (stName: string, type?: string) => {
   return getSTRoute(type, `${stName}/modify`);
@@ -207,10 +205,10 @@ export const getSTInvocationLogsRoute = (stName: string, type?: string) => {
   return getSTRoute(type, `${stName}/logs`);
 };
 export const getAddETRoute = (type?: string) => {
-  return getETRoute(type, 'add');
+  return getETRoute(type, "add");
 };
 export const getDataEventsLandingRoute = (type?: string) => {
-  return getETRoute(type, 'manage');
+  return getETRoute(type, "manage");
 };
 export const getETModifyRoute = ({
   type,
@@ -219,37 +217,37 @@ export const getETModifyRoute = ({
   type?: string;
   name?: string;
 }) => {
-  return getETRoute(type, `${name ? `${name}/` : ''}modify`);
+  return getETRoute(type, `${name ? `${name}/` : ""}modify`);
 };
 export const getETPendingEventsRoute = (type?: string) => {
-  return getETRoute(type, 'pending');
+  return getETRoute(type, "pending");
 };
 export const getETProcessedEventsRoute = (type?: string) => {
-  return getETRoute(type, 'processed');
+  return getETRoute(type, "processed");
 };
 export const getETInvocationLogsRoute = (type?: string) => {
-  return getETRoute(type, 'logs');
+  return getETRoute(type, "logs");
 };
 export const getAddAdhocEventRoute = (type?: string) => {
-  return getAdhocEventsRoute(type, 'add');
+  return getAdhocEventsRoute(type, "add");
 };
 export const getAdhocEventsLogsRoute = (type?: string) => {
-  return getAdhocEventsRoute(type, 'logs');
+  return getAdhocEventsRoute(type, "logs");
 };
 export const getAdhocPendingEventsRoute = (type?: string) => {
-  return getAdhocEventsRoute(type, 'pending');
+  return getAdhocEventsRoute(type, "pending");
 };
 export const getAdhocProcessedEventsRoute = (type?: string) => {
-  return getAdhocEventsRoute(type, 'processed');
+  return getAdhocEventsRoute(type, "processed");
 };
 export const getAdhocEventsInfoRoute = (type?: string) => {
-  return getAdhocEventsRoute(type, 'info');
+  return getAdhocEventsRoute(type, "info");
 };
 
 export const redirectToMetadataStatus = () => {
-  return (dispatch: ThunkDispatch<ReduxState, unknown, AnyAction>) => {
-    return dispatch(
-      push(`${globals.urlPrefix}/settings/metadata-status?is_redirected=true`)
-    );
-  };
+  // return (dispatch: ThunkDispatch<ReduxState, unknown, AnyAction>) => {
+  //   return dispatch(
+  //     // push(`${globals.urlPrefix}/settings/metadata-status?is_redirected=true`)
+  //   );
+  // };
 };

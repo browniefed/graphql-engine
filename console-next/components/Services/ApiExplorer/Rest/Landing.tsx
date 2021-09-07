@@ -1,10 +1,10 @@
-import React from 'react';
-import { Link } from 'react-router';
+import React from "react";
+import Link from "next/link";
 
-import TopicDescription from '../../Common/Landing/TopicDescription';
-import LandingImage from './LandingImage';
+import TopicDescription from "../../Common/Landing/TopicDescription";
+import LandingImage from "./LandingImage";
 
-import styles from './RESTStyles.scss';
+import styles from "./RESTStyles.scss";
 
 const landingDescription = `REST endpoints allow for the creation of a REST interface to your saved GraphQL queries and mutations.
 Endpoints are accessible from /api/rest/* and inherit the authorization and permission structure from your associated GraphQL nodes. 
@@ -22,7 +22,7 @@ const Landing = () => (
       </h2>
     </div>
     <div className={`${styles.subHeader} ${styles.padd_top}`}>
-      Create endpoints from GraphQL queries using{' '}
+      Create endpoints from GraphQL queries using{" "}
       <Link to="/api/api-explorer">GraphiQL</Link>.
     </div>
     <hr className="my-md" />

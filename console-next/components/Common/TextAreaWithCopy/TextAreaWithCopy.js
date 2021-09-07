@@ -1,7 +1,7 @@
-import React from 'react';
-import sqlFormatter from 'sql-formatter';
-import hljs from 'highlight.js';
-import PropTypes from 'prop-types';
+import React from "react";
+import sqlFormatter from "sql-formatter";
+import hljs from "highlight.js";
+import style from "./TextAreaWithCopy.module.scss";
 
 class TextAreaWithCopy extends React.Component {
   copyToClip(id, e) {
@@ -9,10 +9,10 @@ class TextAreaWithCopy extends React.Component {
 
     const { copyText, textLanguage, containerId } = this.props;
 
-    let text = '';
+    let text = "";
     if (copyText.length > 0) {
       switch (textLanguage) {
-        case 'sql':
+        case "sql":
           text = sqlFormatter.format(copyText, { language: textLanguage });
           break;
         default:
@@ -20,7 +20,7 @@ class TextAreaWithCopy extends React.Component {
       }
     }
 
-    const textArea = document.createElement('textarea');
+    const textArea = document.createElement("textarea");
     textArea.value = text;
 
     const appendLoc = containerId
@@ -33,16 +33,16 @@ class TextAreaWithCopy extends React.Component {
     textArea.select();
 
     try {
-      const successful = document.execCommand('copy');
+      const successful = document.execCommand("copy");
       const tooltip = document.getElementById(id);
       if (!successful) {
-        tooltip.innerHTML = 'Error copying';
-        throw new Error('Copy was unsuccessful');
+        tooltip.innerHTML = "Error copying";
+        throw new Error("Copy was unsuccessful");
       } else {
-        tooltip.innerHTML = 'Copied';
+        tooltip.innerHTML = "Copied";
       }
     } catch (err) {
-      alert('Oops, unable to copy - ' + err);
+      alert("Oops, unable to copy - " + err);
     }
 
     appendLoc.removeChild(textArea);
@@ -50,19 +50,12 @@ class TextAreaWithCopy extends React.Component {
 
   resetCopy(id) {
     const tooltip = document.getElementById(id);
-    tooltip.innerHTML = 'Copy';
+    tooltip.innerHTML = "Copy";
   }
 
   render() {
-    const style = require('./TextAreaWithCopy.scss');
-
-    const {
-      copyText,
-      toolTipClass,
-      id,
-      containerId,
-      textLanguage,
-    } = this.props;
+    const { copyText, toolTipClass, id, containerId, textLanguage } =
+      this.props;
 
     const renderSimpleValue = () => {
       return (
@@ -79,7 +72,7 @@ class TextAreaWithCopy extends React.Component {
             className={style.formattedCode}
             dangerouslySetInnerHTML={{
               __html: hljs.highlight(
-                'sql',
+                "sql",
                 sqlFormatter.format(copyText, { language: textLanguage })
               ).value,
             }}
@@ -95,7 +88,7 @@ class TextAreaWithCopy extends React.Component {
             className={style.formattedCode}
             dangerouslySetInnerHTML={{
               __html: hljs.highlight(
-                'json',
+                "json",
                 JSON.stringify(JSON.parse(copyText), null, 4)
               ).value,
             }}
@@ -104,14 +97,14 @@ class TextAreaWithCopy extends React.Component {
       );
     };
 
-    const getTypeRenderer = type => {
+    const getTypeRenderer = (type) => {
       let typeRenderer;
 
       switch (type) {
-        case 'sql':
+        case "sql":
           typeRenderer = renderSQLValue;
           break;
-        case 'json':
+        case "json":
           typeRenderer = renderJSONValue;
           break;
         default:
@@ -132,7 +125,7 @@ class TextAreaWithCopy extends React.Component {
               Copy
             </span>
             <i
-              className={'fa fa-copy'}
+              className={"fa fa-copy"}
               onClick={this.copyToClip.bind(this, id)}
               onMouseLeave={this.resetCopy.bind(this, id)}
             />
@@ -143,12 +136,5 @@ class TextAreaWithCopy extends React.Component {
     );
   }
 }
-
-TextAreaWithCopy.propTypes = {
-  copyText: PropTypes.string.isRequired,
-  textLanguage: PropTypes.string,
-  id: PropTypes.string.isRequired,
-  containerId: PropTypes.string,
-};
 
 export default TextAreaWithCopy;

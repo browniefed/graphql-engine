@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { GraphQLSchema } from 'graphql';
-import { generateSDL, getArgTreeFromPermissionSDL } from './utils';
-import Button from '../../../Common/Button/Button';
-import styles from '../../../Common/Permissions/PermissionStyles.scss';
+import React, { useEffect, useState } from "react";
+import { GraphQLSchema } from "graphql";
+import { generateSDL, getArgTreeFromPermissionSDL } from "./utils";
+import Button from "../../../Common/Button/Button";
+import styles from "../../../Common/Permissions/PermissionStyles.module.scss";
 import {
   RemoteSchemaFields,
   FieldType,
   ArgTreeType,
   PermissionEdit,
-} from './types';
-import { PermissionEditorContext } from './context';
-import Tree from './Tree';
-import { isEmpty } from '../../../Common/utils/jsUtils';
+} from "./types";
+import { PermissionEditorContext } from "./context";
+import Tree from "./Tree";
+import { isEmpty } from "../../../Common/utils/jsUtils";
 
 type PermissionEditorProps = {
   permissionEdit: PermissionEdit;
@@ -32,7 +32,7 @@ type PermissionEditorProps = {
   ) => void;
 };
 
-const PermissionEditor: React.FC<PermissionEditorProps> = props => {
+const PermissionEditor: React.FC<PermissionEditorProps> = (props) => {
   const {
     permissionEdit,
     isEditing,
@@ -50,7 +50,7 @@ const PermissionEditor: React.FC<PermissionEditorProps> = props => {
     remoteSchemaFields
   );
   const [argTree, setArgTree] = useState<ArgTreeType>({}); // all @presets as an object tree
-  const [resultString, setResultString] = useState(''); // Generated SDL
+  const [resultString, setResultString] = useState(""); // Generated SDL
 
   const { isNewRole, isNewPerm } = permissionEdit;
 
@@ -110,9 +110,9 @@ const PermissionEditor: React.FC<PermissionEditorProps> = props => {
 
     if (el) {
       el.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-        inline: 'nearest',
+        behavior: "smooth",
+        block: "center",
+        inline: "nearest",
       });
       setTimeout(() => {
         // focusing element with css outline
@@ -131,7 +131,7 @@ const PermissionEditor: React.FC<PermissionEditorProps> = props => {
           value={{ argTree, setArgTree, scrollToElement }}
         >
           <Tree
-            key={permissionEdit.isNewRole ? 'NEW' : permissionEdit.role}
+            key={permissionEdit.isNewRole ? "NEW" : permissionEdit.role}
             list={state as FieldType[]}
             setState={setState}
             permissionEdit={permissionEdit}

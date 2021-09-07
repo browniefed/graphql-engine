@@ -1,30 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router';
-import { manageDatabasesRoute } from '../../Common/utils/routesUtils';
-import TreeView from './TreeView';
-import { getDatabaseTableTypeInfoForAllSources } from './DataActions';
-import { isInconsistentSource, getSourceDriver } from './utils';
-import { canReUseTableTypes } from './DataSources/utils';
-import { useDataSource } from '../../../dataSources';
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import Link from "next/link";
+import { manageDatabasesRoute } from "../../Common/utils/routesUtils";
+import TreeView from "./TreeView";
+import { getDatabaseTableTypeInfoForAllSources } from "./DataActions";
+import { isInconsistentSource, getSourceDriver } from "./utils";
+import { canReUseTableTypes } from "./DataSources/utils";
+import { useDataSource } from "../../../dataSources";
 import {
   getDataSources,
   getSourcesFromMetadata,
   getTablesFromAllSources,
-} from '../../../metadata/selector';
+} from "../../../metadata/selector";
 import {
   updateCurrentSchema,
   UPDATE_CURRENT_DATA_SOURCE,
   fetchDataInit,
-} from './DataActions';
-import _push from './push';
-import Button from '../../Common/Button/Button';
-import styles from '../../Common/Layout/LeftSubSidebar/LeftSubSidebar.scss';
-import Spinner from '../../Common/Spinner/Spinner';
+} from "./DataActions";
+import _push from "./push";
+import Button from "../../Common/Button/Button";
+import styles from "../../Common/Layout/LeftSubSidebar/LeftSubSidebar.module.scss";
+import Spinner from "../../Common/Spinner/Spinner";
 
-const DATA_SIDEBAR_SET_LOADING = 'dataSidebar/DATA_SIDEBAR_SET_LOADING';
+const DATA_SIDEBAR_SET_LOADING = "dataSidebar/DATA_SIDEBAR_SET_LOADING";
 
-export const setSidebarLoading = isLoading => ({
+export const setSidebarLoading = (isLoading) => ({
   type: DATA_SIDEBAR_SET_LOADING,
   data: isLoading,
 });
@@ -56,7 +56,7 @@ const groupByKey = (list, key) =>
     {}
   );
 
-const DataSubSidebar = props => {
+const DataSubSidebar = (props) => {
   const {
     migrationMode,
     dispatch,
@@ -81,7 +81,7 @@ const DataSubSidebar = props => {
   const [isFetching, setIsFetching] = useState(false);
   const [preLoadState, setPreLoadState] = useState(true);
 
-  const onDatabaseChange = newSourceName => {
+  const onDatabaseChange = (newSourceName) => {
     if (newSourceName === currentDataSource) {
       dispatch(_push(`/data/${newSourceName}/`));
       return;
@@ -99,7 +99,7 @@ const DataSubSidebar = props => {
     });
   };
 
-  const onSchemaChange = value => {
+  const onSchemaChange = (value) => {
     if (value === currentSchema) {
       dispatch(_push(`/data/${currentDataSource}/schema/${value}`));
       return;
@@ -117,58 +117,58 @@ const DataSubSidebar = props => {
 
   const getItems = (schemaInfo = null) => {
     let sourceItems = [];
-    sources.forEach(source => {
+    sources.forEach((source) => {
       if (isInconsistentSource(source.name, inconsistentObjects)) return;
 
-      const sourceItem = { name: source.name, type: 'database' };
+      const sourceItem = { name: source.name, type: "database" };
       const sourceTables = !source.tables
         ? []
-        : source.tables.map(data => {
+        : source.tables.map((data) => {
             const is_enum = data.is_enum ? true : false;
             return {
               name: data.table.name,
               schema: data.table.schema,
-              type: 'table',
+              type: "table",
               is_enum: is_enum,
             };
           });
       const sourceFunctions = !source.functions
         ? []
-        : source.functions.map(data => ({
+        : source.functions.map((data) => ({
             name: data.function.name,
             schema: data.function.schema,
-            type: 'function',
+            type: "function",
           }));
 
       const schemaGroups = groupByKey(
         [...sourceTables, ...sourceFunctions],
-        'schema'
+        "schema"
       );
 
       // Find out the difference between schemas from metadata and SchemaList from state
       const schemasFromMetadata = Array.from(
         new Set([
-          ...sourceTables.map(i => i.schema),
-          ...sourceFunctions.map(i => i.schema),
+          ...sourceTables.map((i) => i.schema),
+          ...sourceFunctions.map((i) => i.schema),
         ])
       );
       const missingSchemas = schemaList.filter(
-        x => !schemasFromMetadata.includes(x)
+        (x) => !schemasFromMetadata.includes(x)
       );
 
       let schemaItems = [];
-      Object.keys(schemaGroups).forEach(schema => {
-        const schemaItem = { name: schema, type: 'schema' };
+      Object.keys(schemaGroups).forEach((schema) => {
+        const schemaItem = { name: schema, type: "schema" };
         const tableItems = [];
-        schemaGroups[schema].forEach(table => {
+        schemaGroups[schema].forEach((table) => {
           const is_view =
             schemaInfo?.[source.name]?.[schema]?.[table.name]?.table_type ===
-              'view' ||
+              "view" ||
             schemaInfo?.[source.name]?.[schema]?.[table.name]?.table_type ===
-              'materialized_view';
+              "materialized_view";
           let type = table.type;
-          if (is_view) type = 'view';
-          if (table.is_enum) type = 'enum';
+          if (is_view) type = "view";
+          if (table.is_enum) type = "enum";
           tableItems.push({
             name: table.name,
             type: type,
@@ -182,9 +182,9 @@ const DataSubSidebar = props => {
 
       if (source.name === currentDataSource) {
         sourceItem.children = [
-          ...missingSchemas.map(schemaName => ({
+          ...missingSchemas.map((schemaName) => ({
             name: schemaName,
-            type: 'schema',
+            type: "schema",
             children: [],
           })),
           ...sourceItem.children,
@@ -208,10 +208,10 @@ const DataSubSidebar = props => {
     }
 
     const schemaRequests = [];
-    sources.forEach(source => {
+    sources.forEach((source) => {
       const currentSourceTables = sources
-        .filter(i => i.name === source.name)[0]
-        .tables.map(t => t.table);
+        .filter((i) => i.name === source.name)[0]
+        .tables.map((t) => t.table);
       schemaRequests.push({
         sourceType: source.kind,
         sourceName: source.name,
@@ -227,7 +227,7 @@ const DataSubSidebar = props => {
     }
 
     dispatch(getDatabaseTableTypeInfoForAllSources(schemaRequests)).then(
-      schemaInfo => {
+      (schemaInfo) => {
         setIsFetching(false);
         setPreLoadState(false);
         const newItems = getItems(schemaInfo);
@@ -237,8 +237,8 @@ const DataSubSidebar = props => {
   }, [sources.length, tables, functions, enums, schemaList, currentTable]);
 
   const loadStyle = {
-    pointerEvents: 'none',
-    cursor: 'progress',
+    pointerEvents: "none",
+    cursor: "progress",
   };
 
   const databasesCount = treeViewItems?.length || 0;
@@ -292,7 +292,7 @@ const DataSubSidebar = props => {
             sidebarLoadingState ||
             isFetching
               ? loadStyle
-              : { pointerEvents: 'auto' }
+              : { pointerEvents: "auto" }
           }
         >
           <TreeView
@@ -311,18 +311,18 @@ const DataSubSidebar = props => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     migrationMode: state.main.migrationMode,
     sources: getSourcesFromMetadata(state),
     inconsistentObjects: state.metadata.inconsistentObjects,
     tables: getTablesFromAllSources(state).flat().length,
     enums: getSourcesFromMetadata(state)
-      .map(s => s.tables)
+      .map((s) => s.tables)
       .flat()
-      .filter(item => item.hasOwnProperty('is_enum')).length,
+      .filter((item) => item.hasOwnProperty("is_enum")).length,
     functions: getSourcesFromMetadata(state)
-      .map(s => s.functions || [])
+      .map((s) => s.functions || [])
       .flat().length,
     currentDataSource: state.tables.currentDataSource,
     currentSchema: state.tables.currentSchema,

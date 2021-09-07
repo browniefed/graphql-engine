@@ -1,6 +1,6 @@
-import React from 'react';
-import { FieldType } from './types';
-import styles from '../../../Common/Permissions/PermissionStyles.scss';
+import React from "react";
+import { FieldType } from "./types";
+import styles from "../../../Common/Permissions/PermissionStyles.module.scss";
 
 interface CollapsedFieldProps {
   field: FieldType;
@@ -35,8 +35,8 @@ export const CollapsedField: React.FC<CollapsedFieldProps> = ({
         :
         <a
           onClick={onClick}
-          id={`${i.return.replace(/[^\w\s]/gi, '')}`}
-          href={`${i.return.replace(/[^\w\s]/gi, '')}`}
+          id={`${i.return.replace(/[^\w\s]/gi, "")}`}
+          href={`${i.return.replace(/[^\w\s]/gi, "")}`}
         >
           {i.return}
         </a>

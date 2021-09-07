@@ -1,7 +1,7 @@
-import React from 'react';
-import { getConfirmation } from '../../../Common/utils/jsUtils';
-import Button from '../../../Common/Button/Button';
-import styles from '../../../Common/Permissions/PermissionStyles.scss';
+import React from "react";
+import { getConfirmation } from "../../../Common/utils/jsUtils";
+import Button from "../../../Common/Button/Button";
+import styles from "../../../Common/Permissions/PermissionStyles.module.scss";
 
 export type BulkSelectProps = {
   bulkSelect: string[];
@@ -16,7 +16,7 @@ const BulkSelect: React.FC<BulkSelectProps> = ({
     return bulkSelect.map((role: string) => {
       return (
         <span key={role} className={styles.add_pad_right}>
-          <b>{role}</b>{' '}
+          <b>{role}</b>{" "}
         </span>
       );
     });
@@ -24,7 +24,7 @@ const BulkSelect: React.FC<BulkSelectProps> = ({
 
   const handleBulkRemoveClick = () => {
     const confirmMessage =
-      'This will remove all currently set permissions for the selected role(s)';
+      "This will remove all currently set permissions for the selected role(s)";
     const isOk = getConfirmation(confirmMessage);
     if (isOk) {
       permRemoveMultipleRoles();

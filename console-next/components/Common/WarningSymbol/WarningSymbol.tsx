@@ -1,19 +1,19 @@
-import React from 'react';
-import Tooltip from 'react-bootstrap/lib/Tooltip';
-import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
+import React from "react";
+import Tooltip from "react-bootstrap/lib/Tooltip";
+import OverlayTrigger from "react-bootstrap/lib/OverlayTrigger";
 
-import styles from './WarningSymbol.scss';
+import styles from "./WarningSymbol.module.scss";
 
 export interface WarningSymbolProps {
   tooltipText: string;
-  tooltipPlacement?: 'left' | 'right' | 'top' | 'bottom';
+  tooltipPlacement?: "left" | "right" | "top" | "bottom";
   customStyle?: string;
 }
 
 const WarningSymbol: React.FC<WarningSymbolProps> = ({
   tooltipText,
-  tooltipPlacement = 'right',
-  customStyle = '',
+  tooltipPlacement = "right",
+  customStyle = "",
 }) => {
   const tooltip = <Tooltip id={tooltipText}>{tooltipText}</Tooltip>;
 
@@ -33,7 +33,7 @@ export interface WarningIconProps {
 }
 
 export const WarningIcon: React.FC<WarningIconProps> = ({
-  customStyle = '',
+  customStyle = "",
 }) => {
   return (
     <i

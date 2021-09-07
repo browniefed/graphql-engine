@@ -1,7 +1,6 @@
 import React from 'react';
 import sqlFormatter from 'sql-formatter';
 import hljs from 'highlight.js';
-import PropTypes from 'prop-types';
 
 class TextAreaWithCopy extends React.Component {
   copyToClip(id, e) {
@@ -144,11 +143,11 @@ class TextAreaWithCopy extends React.Component {
   }
 }
 
-TextAreaWithCopy.propTypes = {
-  copyText: PropTypes.string.isRequired,
-  textLanguage: PropTypes.string,
-  id: PropTypes.string.isRequired,
-  containerId: PropTypes.string,
-};
+// TextAreaWithCopy.propTypes = {
+//   copyText: PropTypes.string.isRequired,
+//   textLanguage: PropTypes.string,
+//   id: PropTypes.string.isRequired,
+//   containerId: PropTypes.string,
+// };
 
 export default TextAreaWithCopy;

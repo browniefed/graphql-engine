@@ -1,13 +1,13 @@
-import React from 'react';
+import React from "react";
 
-import Button from '../../../../../Common/Button';
-import { ButtonProps } from '../../../../../Common/Button/Button';
+import Button from "../../../../../Common/Button";
+import { ButtonProps } from "../../../../../Common/Button/Button";
 
-import styles from '../../../../../Common/Permissions/PermissionStyles.scss';
+import styles from "../../../../../Common/Permissions/PermissionStyles.module.scss";
 
 type PermissionsActionButtonProps = {
   onClick: () => void;
-  color: ButtonProps['color'];
+  color: ButtonProps["color"];
   text: string;
 };
 const PermissionsActionButton: React.FC<PermissionsActionButtonProps> = ({
@@ -26,7 +26,7 @@ type PermissionEditorProps = {
   closeFn: () => void;
   saveFn: () => void;
   removeFn: () => void;
-  permissionAccessInMetadata: 'full' | 'no' | 'partial';
+  permissionAccessInMetadata: "full" | "no" | "partial";
   table: string;
 };
 const PermissionEditor: React.FC<PermissionEditorProps> = ({
@@ -41,7 +41,7 @@ const PermissionEditor: React.FC<PermissionEditorProps> = ({
   isEditing ? (
     <div className={styles.activeEdit}>
       <div className={styles.add_mar_bottom}>
-        {permissionAccessInMetadata === 'partial' ? (
+        {permissionAccessInMetadata === "partial" ? (
           <>
             Partial permissions: please enable <b>select</b> permissions for
             table <b>{table}</b> for role <b>{role}</b> if you want the function
@@ -49,20 +49,20 @@ const PermissionEditor: React.FC<PermissionEditorProps> = ({
           </>
         ) : (
           <>
-            This function is{' '}
-            {permissionAccessInMetadata === 'no' ? 'not' : null} allowed for
+            This function is{" "}
+            {permissionAccessInMetadata === "no" ? "not" : null} allowed for
             role: <b>{role}</b>
           </>
         )}
         <br />
         <br />
         <p>
-          Click {permissionAccessInMetadata === 'no' ? '"Save"' : '"Remove"'} if
-          you wish to{' '}
-          {permissionAccessInMetadata === 'no' ? 'allow' : 'disallow'} it.
+          Click {permissionAccessInMetadata === "no" ? '"Save"' : '"Remove"'} if
+          you wish to{" "}
+          {permissionAccessInMetadata === "no" ? "allow" : "disallow"} it.
         </p>
       </div>
-      {permissionAccessInMetadata === 'no' ? (
+      {permissionAccessInMetadata === "no" ? (
         <PermissionsActionButton onClick={saveFn} color="yellow" text="Save" />
       ) : (
         <PermissionsActionButton onClick={removeFn} color="red" text="Remove" />

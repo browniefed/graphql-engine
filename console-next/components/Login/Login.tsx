@@ -1,16 +1,16 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
-import { Connect } from 'react-redux';
-import { push } from 'react-router-redux';
-import Helmet from 'react-helmet';
-import Button from '../Common/Button/Button';
-import globals from '../../Globals';
-import { verifyLogin } from './Actions';
-import { CLI_CONSOLE_MODE } from '../../constants';
-import { getAdminSecret } from '../Services/ApiExplorer/ApiRequest/utils';
-import { ConnectInjectedProps } from '../../types';
+import React, { useState, ChangeEvent, FormEvent } from "react";
+import { Connect } from "react-redux";
+// import { push } from 'react-router-redux';
+import Helmet from "react-helmet";
+import Button from "../Common/Button/Button";
+import globals from "../../Globals";
+import { verifyLogin } from "./Actions";
+import { CLI_CONSOLE_MODE } from "../../constants";
+import { getAdminSecret } from "../Services/ApiExplorer/ApiRequest/utils";
+import { ConnectInjectedProps } from "../../types";
 
-import styles from './Login.scss';
-import hasuraLogo from './black-logo.svg';
+import styles from "./Login.scss";
+import hasuraLogo from "./black-logo.svg";
 
 const Login: React.FC<ConnectInjectedProps> = ({ dispatch }) => {
   // request state
@@ -21,12 +21,12 @@ const Login: React.FC<ConnectInjectedProps> = ({ dispatch }) => {
   const [shouldPersist, setShouldPersist] = useState(true);
 
   // input handler
-  const [adminSecretInput, setAdminSecretInput] = useState('');
+  const [adminSecretInput, setAdminSecretInput] = useState("");
 
   const getLoginForm = () => {
     const getLoginButtonText = () => {
       // login button text
-      let loginText: React.ReactNode = 'Enter';
+      let loginText: React.ReactNode = "Enter";
       if (loading) {
         loginText = (
           <span>
@@ -35,7 +35,7 @@ const Login: React.FC<ConnectInjectedProps> = ({ dispatch }) => {
           </span>
         );
       } else if (error) {
-        loginText = 'Error. Try again?';
+        loginText = "Error. Try again?";
       }
 
       return loginText;
@@ -57,7 +57,7 @@ const Login: React.FC<ConnectInjectedProps> = ({ dispatch }) => {
       };
 
       const errorCallback = (err: Error) => {
-        setAdminSecretInput('');
+        setAdminSecretInput("");
         setLoading(false);
         setError(err);
       };

@@ -1,12 +1,12 @@
-import React from 'react';
-import Helmet from 'react-helmet';
-import { push } from 'react-router-redux';
+import React from "react";
+import Helmet from "react-helmet";
+// import { push } from 'react-router-redux';
 
-import { appPrefix, pageTitle } from '../constants';
-import globals from '../../../../Globals';
-import Button from '../../../Common/Button/Button';
-import TopicDescription from '../../Common/Landing/TopicDescription';
-import styles from '../Actions.scss';
+import { appPrefix, pageTitle } from "../constants";
+import globals from "../../../../Globals";
+import Button from "../../../Common/Button/Button";
+import TopicDescription from "../../Common/Landing/TopicDescription";
+import styles from "../Actions.scss";
 
 // import TryItOut from '../../Common/Landing/TryItOut';
 
@@ -31,7 +31,7 @@ class Landing extends React.Component {
     };
 
     const getAddBtn = () => {
-      const handleClick = e => {
+      const handleClick = (e) => {
         e.preventDefault();
         dispatch(push(`${globals.urlPrefix}${appPrefix}/manage/add`));
       };

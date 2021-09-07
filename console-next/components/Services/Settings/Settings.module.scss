@@ -1,5 +1,3 @@
-@import "../../Common/Common.scss";
-
 .metadata_wrapper {
   margin-bottom: 20px;
 
@@ -37,32 +35,26 @@
 
 .export_metadata_wrapper {
 }
-.metadataStatusTable
-{
+.metadataStatusTable {
   margin-top: 20px;
-  thead, tbody
-  {
-    tr
-    {
-      th
-      {
+  thead,
+  tbody {
+    tr {
+      th {
         padding: 8px;
         border-left: 1px solid #ccc;
         border-top: 1px solid #ccc;
         border-bottom: 1px solid #ccc;
       }
-      th:last-child
-      {
+      th:last-child {
         border-right: 1px solid #ccc;
       }
-      td
-      {
+      td {
         padding: 8px;
         border-left: 1px solid #ccc;
         border-bottom: 1px solid #ccc;
       }
-      td:last-child
-      {
+      td:last-child {
         border-right: 1px solid #ccc;
       }
     }
@@ -89,9 +81,9 @@
   padding: 10px;
 }
 
-[type="checkbox"] {
-    vertical-align:top;
-}
+// [type="checkbox"] {
+//   vertical-align: top;
+// }
 
 .header {
   background: none;
@@ -107,7 +99,7 @@
   display: flex;
 }
 
-.roleNameContainer{
+.roleNameContainer {
   padding-left: 15px;
 }
 

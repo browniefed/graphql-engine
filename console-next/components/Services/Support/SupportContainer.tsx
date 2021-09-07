@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router";
+import Link from "next/link";
 import { RightContainer } from "../../Common/Layout/RightContainer";
 import LeftContainer from "../../Common/Layout/LeftContainer/LeftContainer";
 import PageContainer from "../../Common/Layout/PageContainer/PageContainer";

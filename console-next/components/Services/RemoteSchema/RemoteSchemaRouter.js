@@ -1,7 +1,6 @@
-import React from 'react';
+import React from "react";
 
-import { Route, IndexRedirect } from 'react-router';
-import { RightContainer } from '../../Common/Layout/RightContainer';
+import { RightContainer } from "../../Common/Layout/RightContainer";
 import {
   remoteSchemaPageConnector,
   landingConnector,
@@ -9,19 +8,19 @@ import {
   editConnector,
   viewConnector,
   permissionsConnector,
-} from '.';
-import { FILTER_REMOTE_SCHEMAS } from './Actions';
+} from ".";
+import { FILTER_REMOTE_SCHEMAS } from "./Actions";
 
-import { appPrefix } from './constants';
+import { appPrefix } from "./constants";
 
-const filterItem = dispatch => {
+const filterItem = (dispatch) => {
   return (dataList, searchVal) => {
     // form new schema
-    const matchedTables = dataList.filter(data => {
+    const matchedTables = dataList.filter((data) => {
       return (
         data.name
           .toLowerCase()
-          .indexOf(searchVal ? searchVal.toLowerCase() : '') !== -1
+          .indexOf(searchVal ? searchVal.toLowerCase() : "") !== -1
       );
     });
     dispatch({
@@ -34,7 +33,7 @@ const filterItem = dispatch => {
   };
 };
 
-const leftNavMapStateToProps = state => {
+const leftNavMapStateToProps = (state) => {
   return {
     ...state,
     dataList: state.metadata.metadataObject?.remote_schemas ?? [],
@@ -47,42 +46,14 @@ const leftNavMapStateToProps = state => {
   };
 };
 
-const leftNavMapDispatchToProps = dispatch => {
+const leftNavMapDispatchToProps = (dispatch) => {
   return {
     filterItem: filterItem(dispatch),
   };
 };
 
-const getRemoteSchemaRouter = connect => {
-  return (
-    <Route
-      path="remote-schemas"
-      component={remoteSchemaPageConnector(
-        connect,
-        leftNavMapStateToProps,
-        leftNavMapDispatchToProps
-      )}
-    >
-      <IndexRedirect to="manage" />
-      <Route path="manage" component={RightContainer}>
-        <IndexRedirect to="schemas" />
-        <Route path="schemas" component={landingConnector(connect)} />
-        <Route path="add" component={addConnector(connect)} />
-        <Route
-          path=":remoteSchemaName/details"
-          component={viewConnector(connect)}
-        />
-        <Route
-          path=":remoteSchemaName/modify"
-          component={editConnector(connect)}
-        />
-        <Route
-          path=":remoteSchemaName/permissions"
-          component={permissionsConnector}
-        />
-      </Route>
-    </Route>
-  );
+const getRemoteSchemaRouter = (connect) => {
+  return null;
 };
 
 export default getRemoteSchemaRouter;

@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import Button from '../../../Common/Button/Button';
-import metaDataStyles from '../Settings.scss';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import Button from "../../../Common/Button/Button";
+import metaDataStyles from "../Settings.module.scss";
 
 import {
   showSuccessNotification,
   showErrorNotification,
-} from '../../Common/Notification';
-import { reloadRemoteSchema } from '../../../../metadata/actions';
+} from "../../Common/Notification";
+import { reloadRemoteSchema } from "../../../../metadata/actions";
 
 class ReloadRemoteSchema extends Component {
   constructor() {
@@ -24,13 +24,13 @@ class ReloadRemoteSchema extends Component {
         reloadRemoteSchema(
           remoteSchemaName,
           () => {
-            dispatch(showSuccessNotification('Remote schema reloaded'));
+            dispatch(showSuccessNotification("Remote schema reloaded"));
             this.setState({ isReloading: false });
           },
-          error => {
+          (error) => {
             dispatch(
               showErrorNotification(
-                'Error reloading remote schema',
+                "Error reloading remote schema",
                 null,
                 error
               )
@@ -40,7 +40,7 @@ class ReloadRemoteSchema extends Component {
         )
       );
     };
-    const buttonText = isReloading ? 'Reloading' : 'Reload';
+    const buttonText = isReloading ? "Reloading" : "Reload";
     return (
       <div className={metaDataStyles.display_inline}>
         <Button

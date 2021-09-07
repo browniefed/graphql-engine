@@ -1,26 +1,26 @@
-import React from 'react';
-import AceEditor from 'react-ace';
+import React from "react";
+import AceEditor from "react-ace";
 import {
   removeAll as removeNotifications,
   show as displayNotification,
   NotificationLevel,
-} from 'react-notification-system-redux';
-import Button from '../../Common/Button/Button';
-import { Thunk } from '../../../types';
-import { Json } from '../../Common/utils/tsUtils';
+} from "react-notification-system-redux";
+import Button from "../../Common/Button/Button";
+import { Thunk } from "../../../types";
+import { Json } from "../../Common/utils/tsUtils";
 
-import './Notification/NotificationOverrides.css';
-import { isObject, isString } from '../../Common/utils/jsUtils';
+import "./Notification/NotificationOverrides.module.css";
+import { isObject, isString } from "../../Common/utils/jsUtils";
 
-import styles from './Notification/Notification.scss';
+import styles from "@/css/Common.module.scss";
 
 export interface Notification {
   title?: string | JSX.Element;
   message?: string | JSX.Element;
-  level?: 'error' | 'warning' | 'info' | 'success';
-  position?: 'tr' | 'tl' | 'tc' | 'br' | 'bl' | 'bc';
+  level?: "error" | "warning" | "info" | "success";
+  position?: "tr" | "tl" | "tc" | "br" | "bl" | "bc";
   autoDismiss?: number;
-  dismissible?: 'both' | 'button' | 'click' | 'hide' | 'none' | boolean;
+  dismissible?: "both" | "button" | "click" | "hide" | "none" | boolean;
   children?: React.ReactNode;
   uid?: number | string;
   action?: {
@@ -34,19 +34,19 @@ export const showNotification = (
   level: NotificationLevel,
   noDismissNotifications?: boolean
 ): Thunk => {
-  return dispatch => {
-    if (level === 'success' && !noDismissNotifications) {
+  return (dispatch) => {
+    if (level === "success" && !noDismissNotifications) {
       dispatch(removeNotifications());
     }
 
     dispatch(
       displayNotification(
         {
-          position: options.position || 'tr',
-          autoDismiss: ['error', 'warning'].includes(level) ? 0 : 5,
-          dismissible: ['error', 'warning'].includes(level)
-            ? ('button' as any) // bug in @types/react-notification-system-redux types
-            : ('click' as any),
+          position: options.position || "tr",
+          autoDismiss: ["error", "warning"].includes(level) ? 0 : 5,
+          dismissible: ["error", "warning"].includes(level)
+            ? ("button" as any) // bug in @types/react-notification-system-redux types
+            : ("click" as any),
           ...options,
         },
         level
@@ -88,17 +88,17 @@ export const getErrorMessage = (
       notificationMessage = error;
     } else if (
       error.message &&
-      (error.message.error === 'postgres query error' ||
-        error.message.error === 'query execution failed')
+      (error.message.error === "postgres query error" ||
+        error.message.error === "query execution failed")
     ) {
       if (error.message.internal) {
         notificationMessage = `${error.message.code}: ${error.message.internal.error.message}`;
       } else {
         notificationMessage = `${error.code}: ${error.message.error}`;
       }
-    } else if ('info' in error) {
+    } else if ("info" in error) {
       notificationMessage = error.info;
-    } else if ('message' in error) {
+    } else if ("message" in error) {
       if (error.code) {
         if (error.message.error) {
           notificationMessage = error.message.error.message;
@@ -107,17 +107,17 @@ export const getErrorMessage = (
         }
       } else if (error.message && isString(error.message)) {
         notificationMessage = error.message;
-      } else if (error.message && 'code' in error.message) {
+      } else if (error.message && "code" in error.message) {
         notificationMessage = `${error.message.code} : ${message}`;
       } else {
         notificationMessage = error.code;
       }
-    } else if ('internal' in error && 'error' in error.internal) {
+    } else if ("internal" in error && "error" in error.internal) {
       notificationMessage = `${error.internal.error.message}.
       ${error.internal.error.description}`;
-    } else if ('custom' in error) {
+    } else if ("custom" in error) {
       notificationMessage = error.custom;
-    } else if ('code' in error && 'error' in error && 'path' in error) {
+    } else if ("code" in error && "error" in error && "path" in error) {
       // Data API error
       notificationMessage = error.error;
     }
@@ -133,13 +133,13 @@ const showErrorNotification = (
   error?: Record<string, any>
 ): Thunk => {
   const getRefreshBtn = () => {
-    if (error && 'action' in error) {
+    if (error && "action" in error) {
       return (
         <Button
           className={styles.add_mar_top_small}
           color="yellow"
           size="sm"
-          onClick={e => {
+          onClick={(e) => {
             e.preventDefault();
             window.location.reload();
           }}
@@ -155,11 +155,11 @@ const showErrorNotification = (
     let errorJson;
 
     if (error && isObject(error)) {
-      if ('action' in error) {
+      if ("action" in error) {
         errorJson = error.action;
-      } else if ('internal' in error) {
+      } else if ("internal" in error) {
         errorJson = error.internal;
-      } else if ('message' in error && !isString(error.message)) {
+      } else if ("message" in error && !isString(error.message)) {
         errorJson = error.message;
       }
     }
@@ -167,10 +167,10 @@ const showErrorNotification = (
     return errorJson;
   };
 
-  const errorMessage = getErrorMessage(message || '', error);
+  const errorMessage = getErrorMessage(message || "", error);
   const errorJson = getErrorJson();
 
-  return dispatch => {
+  return (dispatch) => {
     const getNotificationAction = () => {
       let action;
 
@@ -180,17 +180,17 @@ const showErrorNotification = (
         ];
 
         action = {
-          label: 'Details',
+          label: "Details",
           callback: () => {
             dispatch(
               showNotification(
                 {
-                  position: 'br',
+                  position: "br",
                   title,
                   message: errorMessage,
                   children: errorDetails,
                 },
-                'error'
+                "error"
               )
             );
           },
@@ -207,7 +207,7 @@ const showErrorNotification = (
           message: errorMessage,
           action: getNotificationAction(),
         },
-        'error'
+        "error"
       )
     );
   };
@@ -218,15 +218,15 @@ const showSuccessNotification = (
   message?: string,
   noDismiss?: boolean
 ): Thunk => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(
       showNotification(
         {
-          level: 'success',
+          level: "success",
           title,
           message,
         },
-        'success',
+        "success",
         noDismiss
       )
     );
@@ -234,14 +234,14 @@ const showSuccessNotification = (
 };
 
 const showInfoNotification = (title: string): Thunk => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(
       showNotification(
         {
           title,
           autoDismiss: 0,
         },
-        'info'
+        "info"
       )
     );
   };
@@ -261,16 +261,16 @@ const showWarningNotification = (
     children.push(child);
   }
 
-  return dispatch => {
+  return (dispatch) => {
     dispatch(
       showNotification(
         {
-          level: 'warning',
+          level: "warning",
           title,
           message,
           children,
         },
-        'warning'
+        "warning"
       )
     );
   };

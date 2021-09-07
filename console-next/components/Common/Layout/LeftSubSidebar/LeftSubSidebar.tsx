@@ -1,10 +1,10 @@
-import React from 'react';
-import { Link } from 'react-router';
+import React from "react";
+import Link from "next/link";
 
-import Button from '../../Button/Button';
-import styles from './LeftSubSidebar.scss';
+import Button from "../../Button/Button";
+import styles from "./LeftSubSidebar.module.scss";
 
-interface Props extends React.ComponentProps<'div'> {
+interface Props extends React.ComponentProps<"div"> {
   showAddBtn: boolean;
   searchInput: React.ReactNode;
   heading: string;
@@ -14,7 +14,7 @@ interface Props extends React.ComponentProps<'div'> {
   childListTestString: string;
 }
 
-const LeftSubSidebar: React.FC<Props> = props => {
+const LeftSubSidebar: React.FC<Props> = (props) => {
   const {
     showAddBtn,
     searchInput,

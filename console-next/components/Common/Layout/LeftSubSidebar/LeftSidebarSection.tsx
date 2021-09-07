@@ -1,12 +1,12 @@
-import React from 'react';
-import { Link } from 'react-router';
-import styles from './LeftSubSidebar.scss';
+import React from "react";
+import Link from "next/link";
+import styles from "./LeftSubSidebar.scss";
 
 interface LeftSidebarItem {
   name: string;
 }
 
-interface LeftSidebarSectionProps extends React.ComponentProps<'div'> {
+interface LeftSidebarSectionProps extends React.ComponentProps<"div"> {
   items: LeftSidebarItem[];
   currentItem?: LeftSidebarItem;
   getServiceEntityLink: (s: string) => string;
@@ -23,7 +23,7 @@ const LeftSidebarSection = ({
 }: LeftSidebarSectionProps) => {
   // TODO needs refactor to accomodate other services
 
-  const [searchText, setSearchText] = React.useState('');
+  const [searchText, setSearchText] = React.useState("");
 
   const getSearchInput = () => {
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -42,7 +42,7 @@ const LeftSidebarSection = ({
   let itemList: LeftSidebarItem[] = [];
   if (searchText) {
     const secondaryResults: LeftSidebarItem[] = [];
-    items.forEach(a => {
+    items.forEach((a) => {
       if (a.name.startsWith(searchText)) {
         itemList.push(a);
       } else if (a.name.includes(searchText)) {
@@ -63,8 +63,8 @@ const LeftSidebarSection = ({
         </li>
       );
     } else {
-      childList = itemList.map(a => {
-        let activeTableClass = '';
+      childList = itemList.map((a) => {
+        let activeTableClass = "";
         if (currentItem && currentItem.name === a.name) {
           activeTableClass = styles.activeLink;
         }
@@ -78,7 +78,7 @@ const LeftSidebarSection = ({
             <Link to={getServiceEntityLink(a.name)} data-test={a.name}>
               <i
                 className={`${styles.tableIcon} fa ${
-                  sidebarIcon || 'fa-wrench'
+                  sidebarIcon || "fa-wrench"
                 }`}
                 aria-hidden="true"
               />

@@ -1,15 +1,15 @@
-import React from 'react';
-import { getActionPermissions, findActionPermission } from '../utils';
-import Helmet from 'react-helmet';
-import PermTableHeader from '../../../Common/Permissions/TableHeader';
-import PermTableBody from '../../../Common/Permissions/TableBody';
-import { permissionsSymbols } from '../../../Common/Permissions/PermissionSymbols';
-import { permOpenEdit, permCloseEdit, permSetRoleName } from './reducer';
-import styles from '../../../Common/Permissions/PermissionStyles.scss';
-import PermissionEditor from './PermissionEditor';
-import { setDefaults } from './reducer';
+import React from "react";
+import { getActionPermissions, findActionPermission } from "../utils";
+import Helmet from "react-helmet";
+import PermTableHeader from "../../../Common/Permissions/TableHeader";
+import PermTableBody from "../../../Common/Permissions/TableBody";
+import { permissionsSymbols } from "../../../Common/Permissions/PermissionSymbols";
+import { permOpenEdit, permCloseEdit, permSetRoleName } from "./reducer";
+import styles from "../../../Common/Permissions/PermissionStyles.module.scss";
+import PermissionEditor from "./PermissionEditor";
+import { setDefaults } from "./reducer";
 
-const queryTypes = ['Permission'];
+const queryTypes = ["Permission"];
 
 const Permissions = ({
   currentAction,
@@ -43,12 +43,12 @@ const Permissions = ({
     );
 
     const getPermissionsTableHead = () => {
-      const headings = ['Role', ...queryTypes];
+      const headings = ["Role", ...queryTypes];
       return <PermTableHeader headings={headings} />;
     };
 
     const getPermissionsTableBody = () => {
-      const dispatchRoleNameChange = e => {
+      const dispatchRoleNameChange = (e) => {
         dispatch(permSetRoleName(e.target.value));
       };
 
@@ -62,7 +62,7 @@ const Permissions = ({
 
       // get root types for a given role
       const getQueryTypes = (role, isNewRole) => {
-        return queryTypes.map(queryType => {
+        return queryTypes.map((queryType) => {
           const dispatchOpenEdit = () => () => {
             if (isNewRole && !!role) {
               dispatch(permOpenEdit(role, isNewRole, true));
@@ -70,7 +70,7 @@ const Permissions = ({
               const existingPerm = findActionPermission(allPermissions, role);
               dispatch(permOpenEdit(role, isNewRole, !existingPerm));
             } else {
-              document.getElementById('new-role-input').focus();
+              document.getElementById("new-role-input").focus();
             }
           };
 
@@ -82,10 +82,10 @@ const Permissions = ({
             isEditing &&
             (permissionEdit.role === role ||
               (permissionEdit.isNewRole && permissionEdit.newRole === role));
-          let editIcon = '';
-          let className = '';
+          let editIcon = "";
+          let className = "";
           let onClick = () => {};
-          if (role !== 'admin' && !readOnlyMode) {
+          if (role !== "admin" && !readOnlyMode) {
             editIcon = getEditIcon();
 
             if (isCurrEdit) {
@@ -99,7 +99,7 @@ const Permissions = ({
 
           const getRoleQueryPermission = () => {
             let _permission;
-            if (role === 'admin') {
+            if (role === "admin") {
               _permission = permissionsSymbols.fullAccess;
             } else if (isNewRole) {
               _permission = permissionsSymbols.noAccess;
@@ -126,8 +126,8 @@ const Permissions = ({
       };
 
       // form rolesList and permissions metadata associated with each role
-      const _roleList = ['admin', ...allRoles];
-      const rolePermissions = _roleList.map(r => {
+      const _roleList = ["admin", ...allRoles];
+      const rolePermissions = _roleList.map((r) => {
         return {
           roleName: r,
           permTypes: getQueryTypes(r, false),

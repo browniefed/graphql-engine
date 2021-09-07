@@ -1,10 +1,10 @@
-import React, { useState, useEffect, ReactText } from 'react';
-import { GraphQLEnumType, GraphQLInputField, GraphQLScalarType } from 'graphql';
-import Pen from './Pen';
-import { useDebouncedEffect } from '../../../../hooks/useDebounceEffect';
-import { isNumberString } from '../../../Common/utils/jsUtils';
-import { ArgTreeType } from './types';
-import styles from '../../../Common/Permissions/PermissionStyles.scss';
+import React, { useState, useEffect, ReactText } from "react";
+import { GraphQLEnumType, GraphQLInputField, GraphQLScalarType } from "graphql";
+import Pen from "./Pen";
+import { useDebouncedEffect } from "../../../../hooks/useDebounceEffect";
+import { isNumberString } from "../../../Common/utils/jsUtils";
+import { ArgTreeType } from "./types";
+import styles from "../../../Common/Permissions/PermissionStyles.module.scss";
 
 interface RSPInputProps {
   k: string;
@@ -18,7 +18,7 @@ interface RSPInputProps {
 const RSPInputComponent: React.FC<RSPInputProps> = ({
   k,
   editMode,
-  value = '',
+  value = "",
   setArgVal,
   v,
   setEditMode,
@@ -34,7 +34,7 @@ const RSPInputComponent: React.FC<RSPInputProps> = ({
   };
 
   const [localValue, setLocalValue] = useState<ReactText>(
-    typeof value === 'object' ? '' : value
+    typeof value === "object" ? "" : value
   );
 
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -47,11 +47,11 @@ const RSPInputComponent: React.FC<RSPInputProps> = ({
   useDebouncedEffect(
     () => {
       if (
-        (v?.type?.inspect() === 'Int' || v?.type?.inspect() === 'Int!') &&
+        (v?.type?.inspect() === "Int" || v?.type?.inspect() === "Int!") &&
         localValue &&
         isNumberString(localValue)
       ) {
-        if (localValue === '0') return setArgVal({ [v?.name]: 0 });
+        if (localValue === "0") return setArgVal({ [v?.name]: 0 });
         return setArgVal({ [v?.name]: Number(localValue) });
       }
 
@@ -77,10 +77,10 @@ const RSPInputComponent: React.FC<RSPInputProps> = ({
             data-test={`input-${k}`}
             style={{
               border: 0,
-              borderBottom: '2px dotted black',
+              borderBottom: "2px dotted black",
               borderRadius: 0,
             }}
-            onChange={e => setLocalValue(e.target.value)}
+            onChange={(e) => setLocalValue(e.target.value)}
           />
           {isSessionvar() && (
             <button

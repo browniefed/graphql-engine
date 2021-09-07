@@ -1,36 +1,36 @@
-import React, { useReducer } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import React, { useReducer } from "react";
+import { connect, ConnectedProps } from "react-redux";
 
 import {
   getFunctions,
   getTableInformation,
   rolesSelector,
-} from '../../../../../../metadata/selector';
-import { permissionsSymbols } from '../../../../../Common/Permissions/PermissionSymbols';
-import PermTableBody from '../../../../../Common/Permissions/TableBody';
-import PermTableHeader from '../../../../../Common/Permissions/TableHeader';
-import { mapDispatchToPropsEmpty } from '../../../../../Common/utils/reactUtils';
+} from "../../../../../../metadata/selector";
+import { permissionsSymbols } from "../../../../../Common/Permissions/PermissionSymbols";
+import PermTableBody from "../../../../../Common/Permissions/TableBody";
+import PermTableHeader from "../../../../../Common/Permissions/TableHeader";
+import { mapDispatchToPropsEmpty } from "../../../../../Common/utils/reactUtils";
 import {
   dropFunctionPermission,
   setFunctionPermission,
-} from '../../customFunctionReducer';
-import PermissionEditor from './PermissionEditor';
-import { ReduxState } from '../../../../../../types';
+} from "../../customFunctionReducer";
+import PermissionEditor from "./PermissionEditor";
+import { ReduxState } from "../../../../../../types";
 import {
   FunctionPermission,
   SelectPermissionEntry,
-} from '../../../../../../metadata/types';
-import Tooltip from '../../../../../Common/Tooltip/Tooltip';
+} from "../../../../../../metadata/types";
+import Tooltip from "../../../../../Common/Tooltip/Tooltip";
 
-import styles from '../../../../../Common/Permissions/PermissionStyles.scss';
+import styles from "../../../../../Common/Permissions/PermissionStyles.module.scss";
 
 const getFunctionPermissions = (
-  allFunctions: InjectedProps['allFunctions'],
+  allFunctions: InjectedProps["allFunctions"],
   currentFunctionSchema: string,
   currentFunctionName: string
 ) =>
   allFunctions.find(
-    fn =>
+    (fn) =>
       fn.function_name === currentFunctionName &&
       fn.function_schema === currentFunctionSchema
   )?.permissions;
@@ -42,7 +42,7 @@ const findFunctionPermissions = (
   if (!allPermissions) {
     return undefined;
   }
-  return allPermissions.find(permRole => permRole.role === userRole);
+  return allPermissions.find((permRole) => permRole.role === userRole);
 };
 
 const getRoleQueryPermissionSymbol = (
@@ -51,7 +51,7 @@ const getRoleQueryPermissionSymbol = (
   selectPermissionsForTable: SelectPermissionEntry[] | null,
   isEditable: boolean
 ) => {
-  if (permissionRole === 'admin') {
+  if (permissionRole === "admin") {
     return permissionsSymbols.fullAccess;
   }
 
@@ -62,7 +62,7 @@ const getRoleQueryPermissionSymbol = (
   if (
     selectPermissionsForTable &&
     selectPermissionsForTable.find(
-      selectPermissionEntry => selectPermissionEntry.role === permissionRole
+      (selectPermissionEntry) => selectPermissionEntry.role === permissionRole
     )
   ) {
     isTableSelectPermissionsEnabled = true;
@@ -93,13 +93,13 @@ const getRoleQueryPermissionSymbol = (
 
 const initialState = {
   isEditing: false,
-  role: '',
+  role: "",
 };
 type ReducerState = typeof initialState;
 type ReducerAction = { type: string; role: string };
 
-const PERM_UPDATE_OPEN_STATE = 'PERM_UPDATE_OPEN_STATE';
-const PERM_UPDATE_CLOSE_STATE = 'PERM_UPDATE_CLOSE_STATE';
+const PERM_UPDATE_OPEN_STATE = "PERM_UPDATE_OPEN_STATE";
+const PERM_UPDATE_CLOSE_STATE = "PERM_UPDATE_CLOSE_STATE";
 
 const functionsPermissionsReducer = (
   state: ReducerState,
@@ -138,12 +138,12 @@ const PermissionsLegend = () => (
 
 const getPermissionAccessString = (permissionSymbol: JSX.Element) => {
   if (permissionSymbol === permissionsSymbols.fullAccess) {
-    return 'full';
+    return "full";
   } else if (permissionSymbol === permissionsSymbols.noAccess) {
-    return 'no';
+    return "no";
   }
 
-  return 'partial';
+  return "partial";
 };
 
 const EditIcon = () => (
@@ -162,11 +162,11 @@ const PermissionsTableBody: React.FC<PermissionTableProps> = ({
   isEditable,
   selectRoles,
 }) => {
-  const queryTypes = ['Permission'];
+  const queryTypes = ["Permission"];
   const { isEditing, role: permEditRole } = permissionsEditState;
 
   const getQueryTypes = (role: string) =>
-    queryTypes.map(queryType => {
+    queryTypes.map((queryType) => {
       const dispatchOpenEdit = (r: string) => () => {
         if (r) {
           permOpenEdit(r);
@@ -175,14 +175,14 @@ const PermissionsTableBody: React.FC<PermissionTableProps> = ({
 
       const isCurrEdit = isEditing && permEditRole === role;
       let editIcon = null;
-      let className = '';
+      let className = "";
       let onClick = () => {};
       const tooltip =
-        !isEditable && role !== 'admin' ? (
+        !isEditable && role !== "admin" ? (
           <Tooltip message="Forbidden from edits since function permissions are inferred" />
         ) : null;
 
-      if (role !== 'admin' && !readOnlyMode && isEditable) {
+      if (role !== "admin" && !readOnlyMode && isEditable) {
         editIcon = <EditIcon />;
         if (isCurrEdit) {
           onClick = permCloseEdit;
@@ -209,8 +209,8 @@ const PermissionsTableBody: React.FC<PermissionTableProps> = ({
       };
     });
 
-  const roleList = ['admin', ...allRoles];
-  const rolePermissions = roleList.map(r => ({
+  const roleList = ["admin", ...allRoles];
+  const rolePermissions = roleList.map((r) => ({
     roleName: r,
     permTypes: getQueryTypes(r),
   }));
@@ -233,11 +233,11 @@ type PermissionTableProps = {
   isEditable: boolean;
   selectRoles: SelectPermissionEntry[] | null;
 };
-const PermissionsTable: React.FC<PermissionTableProps> = props => (
+const PermissionsTable: React.FC<PermissionTableProps> = (props) => (
   <>
     <PermissionsLegend />
     <table className={`table table-bordered ${styles.permissionsTable}`}>
-      <PermTableHeader headings={['Role', 'Permission']} />
+      <PermTableHeader headings={["Role", "Permission"]} />
       <PermissionsTableBody {...props} />
     </table>
   </>
@@ -269,7 +269,7 @@ const Permissions: React.FC<PermissionsProps> = ({
   const permCloseEdit = () => {
     permissionsDispatch({
       type: PERM_UPDATE_CLOSE_STATE,
-      role: '',
+      role: "",
     });
   };
   const permOpenEdit = (role: string) => {
@@ -337,7 +337,7 @@ const mapStateToProps = (state: ReduxState) => {
     readOnlyMode: state.main.readOnlyMode,
     tableSelectPermissions:
       getTableInformation(state)(setOffTable, setOffTableSchema)(
-        'select_permissions'
+        "select_permissions"
       ) ?? [],
     currentTable: setOffTable,
   };

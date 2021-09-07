@@ -1,5 +1,3 @@
-@import '../Common.scss';
-
 .container {
   padding: 0;
 }
@@ -59,7 +57,7 @@
   label.radioLabel {
     padding-top: 0;
 
-    input[type='radio'] {
+    input[type="radio"] {
       margin-top: 10px;
     }
   }
@@ -219,7 +217,7 @@ a.expanded {
   font-size: 14px;
 }
 
-input[type='checkbox'].migrationCheckbox {
+input[type="checkbox"].migrationCheckbox {
   margin: 0;
   margin-right: 10px;
 }

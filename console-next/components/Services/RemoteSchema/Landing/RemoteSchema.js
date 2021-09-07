@@ -1,17 +1,16 @@
-import React from 'react';
-import Helmet from 'react-helmet';
-import { push } from 'react-router-redux';
+import React from "react";
+import Helmet from "react-helmet";
+// import { push } from 'react-router-redux';
 
-import { appPrefix, pageTitle } from '../constants';
-import globals from '../../../../Globals';
-import Button from '../../../Common/Button/Button';
-import TopicDescription from '../../Common/Landing/TopicDescription';
-import TryItOut from '../../Common/Landing/TryItOut';
+import { appPrefix, pageTitle } from "../constants";
+import globals from "../../../../Globals";
+import Button from "../../../Common/Button/Button";
+import TopicDescription from "../../Common/Landing/TopicDescription";
+import TryItOut from "../../Common/Landing/TryItOut";
+import styles from "../RemoteSchema.module.scss";
 
 class RemoteSchema extends React.Component {
   render() {
-    const styles = require('../RemoteSchema.scss');
-
     const { dispatch, readOnlyMode } = this.props;
 
     const getAddBtn = () => {
@@ -19,7 +18,7 @@ class RemoteSchema extends React.Component {
         return null;
       }
 
-      const handleClick = e => {
+      const handleClick = (e) => {
         e.preventDefault();
         dispatch(push(`${globals.urlPrefix}${appPrefix}/manage/add`));
       };
@@ -80,12 +79,13 @@ class RemoteSchema extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     readOnlyMode: state.main.readOnlyMode,
   };
 };
 
-const remoteSchemaConnector = connect => connect(mapStateToProps)(RemoteSchema);
+const remoteSchemaConnector = (connect) =>
+  connect(mapStateToProps)(RemoteSchema);
 
 export default remoteSchemaConnector;

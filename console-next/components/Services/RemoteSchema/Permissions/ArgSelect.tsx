@@ -1,10 +1,10 @@
-import React, { useRef, useEffect, useState, ReactText } from 'react';
-import merge from 'lodash.merge';
-import { GraphQLInputField } from 'graphql';
-import { getChildArguments } from './utils';
-import RSPInput from './RSPInput';
-import { ArgTreeType } from './types';
-import styles from '../../../Common/Permissions/PermissionStyles.scss';
+import React, { useRef, useEffect, useState, ReactText } from "react";
+import merge from "lodash.merge";
+import { GraphQLInputField } from "graphql";
+import { getChildArguments } from "./utils";
+import RSPInput from "./RSPInput";
+import { ArgTreeType } from "./types";
+import styles from "../../../Common/Permissions/PermissionStyles.module.scss";
 
 interface ArgSelectProps {
   valueField: GraphQLInputField;
@@ -21,7 +21,7 @@ export const ArgSelect: React.FC<ArgSelectProps> = ({
   valueField: v,
   value,
   level,
-  setArg = e => console.log(e),
+  setArg = (e) => console.log(e),
   isInputObjectType,
   isFirstLevelInputObjPreset,
 }) => {
@@ -30,13 +30,13 @@ export const ArgSelect: React.FC<ArgSelectProps> = ({
   const [editMode, setEditMode] = useState<boolean>(
     Boolean(
       value &&
-        ((typeof value === 'string' && value.length > 0) ||
-          typeof value === 'number')
+        ((typeof value === "string" && value.length > 0) ||
+          typeof value === "number")
     )
   );
   const prevState = useRef<Record<string, any>>();
   useEffect(() => {
-    if (value && typeof value === 'string' && value.length > 0 && !editMode) {
+    if (value && typeof value === "string" && value.length > 0 && !editMode) {
       // show value instead of pen icon, if the value is defined in the prop
       setEditMode(true);
     }
@@ -70,15 +70,15 @@ export const ArgSelect: React.FC<ArgSelectProps> = ({
     }
   };
 
-  const toggleExpandMode = () => setExpanded(b => !b);
+  const toggleExpandMode = () => setExpanded((b) => !b);
 
   if (children) {
     return (
       <>
         {!hideInputArgName ? (
           <>
-            <button onClick={toggleExpandMode} style={{ marginLeft: '-1em' }}>
-              {expanded ? '-' : '+'}
+            <button onClick={toggleExpandMode} style={{ marginLeft: "-1em" }}>
+              {expanded ? "-" : "+"}
             </button>
             {!expanded && (
               <label
@@ -100,15 +100,15 @@ export const ArgSelect: React.FC<ArgSelectProps> = ({
         ) : null}
         {hideInputArgName ? (
           expanded &&
-          Object.values(children).map(i => {
-            if (typeof value === 'string') return undefined;
+          Object.values(children).map((i) => {
+            if (typeof value === "string") return undefined;
             const childVal =
-              value && typeof value === 'object' ? value[i?.name] : undefined;
+              value && typeof value === "object" ? value[i?.name] : undefined;
             return (
               <li key={i.name}>
                 <ArgSelect
                   keyName={i.name}
-                  setArg={val => setArgVal({ [k]: val })}
+                  setArg={(val) => setArgVal({ [k]: val })}
                   valueField={i}
                   value={childVal}
                   level={level + 1}
@@ -119,17 +119,17 @@ export const ArgSelect: React.FC<ArgSelectProps> = ({
         ) : (
           <ul>
             {expanded &&
-              Object.values(children).map(i => {
-                if (typeof value === 'string') return undefined;
+              Object.values(children).map((i) => {
+                if (typeof value === "string") return undefined;
                 const childVal =
-                  value && typeof value === 'object'
+                  value && typeof value === "object"
                     ? value[i?.name]
                     : undefined;
                 return (
                   <li key={i.name}>
                     <ArgSelect
                       keyName={i.name}
-                      setArg={val => setArgVal({ [k]: val })}
+                      setArg={(val) => setArgVal({ [k]: val })}
                       valueField={i}
                       value={childVal}
                       level={level + 1}

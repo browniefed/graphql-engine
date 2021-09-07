@@ -7,106 +7,76 @@ import { Nullable } from "@/components/Common/utils/tsUtils";
 
 type ConsoleType = "oss" | "cloud" | "pro" | "pro-cloud";
 
-declare global {
-  interface Window {
-    __env: {
-      nodeEnv: string;
-      apiHost: string;
-      apiPort: string;
-      dataApiUrl: string;
-      urlPrefix: string;
-      adminSecret: string;
-      isAdminSecretSet: boolean;
-      consoleMode: string;
-      enableTelemetry: boolean;
-      assetsPath: string;
-      serverVersion: string;
-      consolePath: string;
-      cliUUID: string;
-      consoleId: Nullable<string>;
-      herokuOAuthClientId: string;
-      tenantID: Nullable<string>;
-      projectID: Nullable<string>;
-      userRole: Nullable<string>;
-      cloudRootDomain: Nullable<string>;
-      luxDataHost: Nullable<string>;
-      consoleType: ConsoleType;
-      eeMode: Nullable<string>;
-    };
-  }
-  const CONSOLE_ASSET_VERSION: string;
-}
-
 /* initialize globals */
 
-const isProduction = window.__env?.nodeEnv !== "development";
+const isProduction = process.env.NODE_ENV !== "development";
 
 const globals = {
-  apiHost: window.__env?.apiHost,
-  apiPort: window.__env?.apiPort,
-  dataApiUrl: stripTrailingSlash(window.__env?.dataApiUrl), // overridden below if server mode
-  urlPrefix: stripTrailingSlash(window.__env?.urlPrefix || "/"), // overridden below if server mode in production
-  adminSecret: window.__env?.adminSecret || null, // gets updated after login/logout in server mode
+  apiHost: process.env?.apiHost,
+  apiPort: process.env?.apiPort,
+  dataApiUrl: stripTrailingSlash(process.env?.dataApiUrl), // overridden below if server mode
+  urlPrefix: stripTrailingSlash(process.env?.urlPrefix || "/"), // overridden below if server mode in production
+  adminSecret: process.env?.adminSecret || null, // gets updated after login/logout in server mode
   isAdminSecretSet:
-    window.__env?.isAdminSecretSet ||
-    !isEmpty(window.__env?.adminSecret) ||
+    process.env?.isAdminSecretSet ||
+    !isEmpty(process.env?.adminSecret) ||
     false,
-  consoleMode: window.__env?.consoleMode || SERVER_CONSOLE_MODE,
-  enableTelemetry: window.__env?.enableTelemetry,
+  consoleMode: process.env?.consoleMode || process.env.SERVER_CONSOLE_MODE,
+  enableTelemetry: process.env?.enableTelemetry,
   telemetryTopic: isProduction ? "console" : "console_test",
-  assetsPath: window.__env?.assetsPath,
-  serverVersion: window.__env?.serverVersion,
-  consoleAssetVersion: CONSOLE_ASSET_VERSION, // set during console build
-  featuresCompatibility: window.__env?.serverVersion
-    ? getFeaturesCompatibility(window.__env?.serverVersion)
+  assetsPath: process.env?.assetsPath,
+  serverVersion: process.env?.serverVersion,
+  consoleAssetVersion: process.env.CONSOLE_ASSET_VERSION, // set during console build
+  featuresCompatibility: process.env?.serverVersion
+    ? getFeaturesCompatibility(process.env?.serverVersion)
     : null,
-  cliUUID: window.__env?.cliUUID,
+  cliUUID: process.env?.cliUUID,
   hasuraUUID: "",
   telemetryNotificationShown: false,
   isProduction,
-  herokuOAuthClientId: window.__env?.herokuOAuthClientId,
-  hasuraCloudTenantId: window.__env?.tenantID,
-  hasuraCloudProjectId: window.__env?.projectID,
-  cloudDataApiUrl: `${window.location?.protocol}//data.${window.__env?.cloudRootDomain}`,
-  luxDataHost: window.__env?.luxDataHost,
+  herokuOAuthClientId: process.env?.herokuOAuthClientId,
+  hasuraCloudTenantId: process.env?.tenantID,
+  hasuraCloudProjectId: process.env?.projectID,
+  // cloudDataApiUrl: `${window.location?.protocol}//data.${process.env?.cloudRootDomain}`,
+  luxDataHost: process.env?.luxDataHost,
   userRole: undefined, // userRole is not applicable for the OSS console
-  consoleType: window.__env?.consoleType,
-  eeMode: window.__env?.eeMode === "true",
+  consoleType: process.env?.consoleType,
+  eeMode: process.env?.eeMode === "true",
 };
-if (globals.consoleMode === SERVER_CONSOLE_MODE) {
-  if (!window.__env?.dataApiUrl) {
-    globals.dataApiUrl = stripTrailingSlash(window.location?.href);
+if (globals.consoleMode === process.env.SERVER_CONSOLE_MODE) {
+  if (!process.env?.dataApiUrl) {
+    // globals.dataApiUrl = stripTrailingSlash(window.location?.href);
   }
-  if (isProduction) {
-    const consolePath = window.__env?.consolePath;
-    if (consolePath) {
-      let currentUrl = stripTrailingSlash(window.location?.href);
-      let slicePath = true;
-      if (window.__env?.dataApiUrl) {
-        currentUrl = stripTrailingSlash(window.__env?.dataApiUrl);
-        slicePath = false;
-      }
-      const currentPath = stripTrailingSlash(window.location?.pathname);
+  // if (isProduction) {
+  //   const consolePath = process.env?.consolePath;
+  //   if (consolePath) {
+  //     // let currentUrl = stripTrailingSlash(window.location?.href);
+  //     let slicePath = true;
+  //     if (process.env?.dataApiUrl) {
+  //       // currentUrl = stripTrailingSlash(process.env?.dataApiUrl);
+  //       slicePath = false;
+  //     }
+  //     const currentPath = stripTrailingSlash(window.location?.pathname);
 
-      // NOTE: perform the slice if not on team console
-      // as on team console, we're using the server
-      // endpoint directly to load the assets of the console
-      if (slicePath) {
-        globals.dataApiUrl = currentUrl.slice(
-          0,
-          currentUrl.lastIndexOf(consolePath)
-        );
-      }
+  //     // NOTE: perform the slice if not on team console
+  //     // as on team console, we're using the server
+  //     // endpoint directly to load the assets of the console
+  //     if (slicePath) {
+  //       globals.dataApiUrl = currentUrl.slice(
+  //         0,
+  //         currentUrl.lastIndexOf(consolePath)
+  //       );
+  //     }
 
-      globals.urlPrefix = `${currentPath.slice(
-        0,
-        currentPath.lastIndexOf(consolePath)
-      )}/console`;
-    } else {
-      const windowHostUrl = `${window.location?.protocol}//${window.location?.host}`;
-      globals.dataApiUrl = windowHostUrl;
-    }
-  }
+  //     globals.urlPrefix = `${currentPath.slice(
+  //       0,
+  //       currentPath.lastIndexOf(consolePath)
+  //     )}/console`;
+  //   } else {
+  //     // const windowHostUrl = `${window.location?.protocol}//${window.location?.host}`;
+  //     // globals.dataApiUrl = windowHostUrl;
+  //   }
+  // }
 }
 
 export default globals;

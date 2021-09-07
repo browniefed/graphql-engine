@@ -1,8 +1,8 @@
-import React from 'react';
-import Button from '../../../Common/Button/Button';
-import styles from '../../../Common/Permissions/PermissionStyles.scss';
-import { saveActionPermission, removeActionPermission } from '../ServerIO';
-import { permCloseEdit } from './reducer';
+import React from "react";
+import Button from "../../../Common/Button/Button";
+import styles from "../../../Common/Permissions/PermissionStyles.module.scss";
+import { saveActionPermission, removeActionPermission } from "../ServerIO";
+import { permCloseEdit } from "./reducer";
 
 const PermissionEditor = ({
   permissionEdit,

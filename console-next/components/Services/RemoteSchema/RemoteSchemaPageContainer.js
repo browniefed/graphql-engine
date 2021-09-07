@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router";
+import Link from "next/link";
 import PropTypes from "prop-types";
 
 import LeftContainer from "../../Common/Layout/LeftContainer/LeftContainer";

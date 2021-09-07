@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import Helmet from 'react-helmet';
-import { push } from 'react-router-redux';
+import React, { Component } from "react";
+import Helmet from "react-helmet";
+// import { push } from 'react-router-redux';
 
-import Modal from '../../../Common/Modal/Modal';
-import Button from '../../../Common/Button/Button';
+import Modal from "../../../Common/Modal/Modal";
+import Button from "../../../Common/Button/Button";
 
-import styles from './PermissionsSummary.scss';
+import styles from "./PermissionsSummary.scss";
 
-import { getTablePermissionsRoute } from '../../../Common/utils/routesUtils';
-import { permissionsSymbols } from '../../../Common/Permissions/PermissionSymbols';
+import { getTablePermissionsRoute } from "../../../Common/utils/routesUtils";
+import { permissionsSymbols } from "../../../Common/Permissions/PermissionSymbols";
 import {
   findTable,
   getTableNameWithSchema,
@@ -16,15 +16,15 @@ import {
   getSchemaTables,
   getTrackedTables,
   dataSource,
-} from '../../../../dataSources';
-import { getConfirmation } from '../../../Common/utils/jsUtils';
+} from "../../../../dataSources";
+import { getConfirmation } from "../../../Common/utils/jsUtils";
 
-import { updateSchemaInfo } from '../DataActions';
+import { updateSchemaInfo } from "../DataActions";
 import {
   copyRolePermissions,
   permOpenEdit,
   deleteRoleGlobally,
-} from '../TablePermissions/Actions';
+} from "../TablePermissions/Actions";
 
 import {
   getAllRoles,
@@ -32,23 +32,23 @@ import {
   getPermissionColumnAccessSummary,
   getTablePermissionsByRoles,
   getPermissionRowAccessSummary,
-} from './utils';
+} from "./utils";
 
-import Header from './Header';
-import RolesHeader from './RolesHeader';
-import { RightContainer } from '../../../Common/Layout/RightContainer';
+import Header from "./Header";
+import RolesHeader from "./RolesHeader";
+import { RightContainer } from "../../../Common/Layout/RightContainer";
 
 class PermissionsSummary extends Component {
   initState = {
     currRole: null,
     currTable: null,
-    currAction: 'select',
+    currAction: "select",
     copyState: {
-      copyFromRole: '',
-      copyFromTable: '',
-      copyFromAction: '',
+      copyFromRole: "",
+      copyFromTable: "",
+      copyFromAction: "",
       copyToRoles: [],
-      newRole: '',
+      newRole: "",
     },
   };
 
@@ -79,24 +79,24 @@ class PermissionsSummary extends Component {
       getSchemaTables(allSchemas, currentSchema)
     );
 
-    const allActions = ['select', 'insert', 'update', 'delete'];
+    const allActions = ["select", "insert", "update", "delete"];
 
     let allRoles = getAllRoles(allSchemas);
 
     // add newly added roles
-    const newRoles = copyState.copyToRoles.filter(r => !allRoles.includes(r));
+    const newRoles = copyState.copyToRoles.filter((r) => !allRoles.includes(r));
     allRoles = allRoles.concat(newRoles);
 
     // ------------------------------------------------------------------------------
 
     const noAccessDisplay = (
-      <div className={styles.text_center + ' ' + styles.wd100}>
+      <div className={styles.text_center + " " + styles.wd100}>
         {permissionsSymbols.noAccess}
       </div>
     );
 
     const fullAccessDisplay = (
-      <div className={styles.text_center + ' ' + styles.wd100}>
+      <div className={styles.text_center + " " + styles.wd100}>
         {permissionsSymbols.fullAccess}
       </div>
     );
@@ -104,12 +104,12 @@ class PermissionsSummary extends Component {
     // ------------------------------------------------------------------------------
 
     const getActionSelector = () => {
-      const setAction = e => {
+      const setAction = (e) => {
         this.setState({ currAction: e.target.value });
       };
 
       const getActionsOptions = () => {
-        return allActions.map(action => (
+        return allActions.map((action) => (
           <option key={action} value={action}>
             {action}
           </option>
@@ -117,10 +117,10 @@ class PermissionsSummary extends Component {
       };
 
       return (
-        <th key={'action-select'} className={styles.selected}>
+        <th key={"action-select"} className={styles.selected}>
           <select
             value={currAction}
-            className={'form-control'}
+            className={"form-control"}
             onChange={setAction}
           >
             {getActionsOptions()}
@@ -129,8 +129,8 @@ class PermissionsSummary extends Component {
       );
     };
 
-    const getBackBtn = dimension => {
-      const clear = e => {
+    const getBackBtn = (dimension) => {
+      const clear = (e) => {
         e.preventDefault();
 
         this.setState({ [dimension]: null });
@@ -138,8 +138,8 @@ class PermissionsSummary extends Component {
 
       return (
         <th
-          key={'back-btn'}
-          className={styles.cursorPointer + ' ' + styles.selected}
+          key={"back-btn"}
+          className={styles.cursorPointer + " " + styles.selected}
           onClick={clear}
         >
           <span className={styles.text_link}>&larr; Back</span>
@@ -158,7 +158,7 @@ class PermissionsSummary extends Component {
     };
 
     const getEditIcon = () => {
-      return getActionIcon('fa-pencil');
+      return getActionIcon("fa-pencil");
     };
 
     // ------------------------------------------------------------------------------
@@ -178,7 +178,7 @@ class PermissionsSummary extends Component {
           onClick={onClick}
         >
           <div
-            className={styles.display_flex + ' ' + styles.flex_space_between}
+            className={styles.display_flex + " " + styles.flex_space_between}
           >
             <div>{content}</div>
             <div>{actionIcon}</div>
@@ -215,8 +215,8 @@ class PermissionsSummary extends Component {
         copyState: {
           ...copyState,
           copyFromRole: role,
-          copyFromTable: currTable ? getTableNameWithSchema(currTable) : 'all',
-          copyFromAction: currRole ? 'all' : currAction,
+          copyFromTable: currTable ? getTableNameWithSchema(currTable) : "all",
+          copyFromAction: currRole ? "all" : currAction,
         },
       });
     };
@@ -252,7 +252,7 @@ class PermissionsSummary extends Component {
     const getRolesCells = (table, roleCellRenderer) => {
       const tablePermissions = getTablePermissionsByRoles(table);
 
-      return allRoles.map(role => {
+      return allRoles.map((role) => {
         const rolePermissions = tablePermissions[role];
         const actionPermission = rolePermissions
           ? rolePermissions[currAction]
@@ -262,7 +262,7 @@ class PermissionsSummary extends Component {
         const cellContent = roleCellRenderer(actionPermission, table);
         const editIcon = getEditIcon();
         const cellOnClick = getCellOnClick(table, role, currAction);
-        const cellTooltip = 'Go to edit page';
+        const cellTooltip = "Go to edit page";
 
         return getClickableCell(
           cellKey,
@@ -278,14 +278,14 @@ class PermissionsSummary extends Component {
       const tablePermissions = getTablePermissionsByRoles(table);
       const rolePermission = tablePermissions[currRole] || {};
 
-      return allActions.map(action => {
+      return allActions.map((action) => {
         const actionPermission = rolePermission[action];
 
         const cellKey = action;
         const cellContent = actionCellRenderer(actionPermission, table, action);
         const editIcon = getEditIcon();
         const cellOnClick = getCellOnClick(table, currRole, action);
-        const cellTooltip = 'Go to edit page';
+        const cellTooltip = "Go to edit page";
 
         return getClickableCell(
           cellKey,
@@ -306,7 +306,7 @@ class PermissionsSummary extends Component {
 
       if (!currSchemaTrackedTables.length) {
         tablesRows.push(
-          <tr key={'No tables'}>
+          <tr key={"No tables"}>
             <Header content="No tables" selectable={false} />
           </tr>
         );
@@ -386,7 +386,7 @@ class PermissionsSummary extends Component {
 
             filterDisplay = (
               <div>
-                <b>Rows</b> -{' '}
+                <b>Rows</b> -{" "}
                 <i>{getPermissionRowAccessSummary(filterString)}</i>
                 {showDetails && getRowsDetails()}
               </div>
@@ -402,12 +402,12 @@ class PermissionsSummary extends Component {
           const columns = actionPermission.columns;
           if (columns) {
             const getColumnsDetails = () => {
-              return <div>{columns.length ? columns.join(', ') : 'None'}</div>;
+              return <div>{columns.length ? columns.join(", ") : "None"}</div>;
             };
 
             columnsDisplay = (
               <div className={styles.add_mar_bottom_small}>
-                <b>Columns</b> -{' '}
+                <b>Columns</b> -{" "}
                 <i>
                   {getPermissionColumnAccessSummary(actionPermission, {
                     columns: table.columns,
@@ -443,7 +443,7 @@ class PermissionsSummary extends Component {
             className={`table table-bordered ${styles.rolesTable} ${styles.remove_margin}`}
           >
             <thead>
-              <tr>{getBackBtn('currTable')}</tr>
+              <tr>{getBackBtn("currTable")}</tr>
             </thead>
             <tbody>{getTablesRows(() => {}, true, true)}</tbody>
           </table>
@@ -455,7 +455,7 @@ class PermissionsSummary extends Component {
           const rowRows = [];
 
           const getTableActionRolesRowPermissions = () => {
-            const roleRowPermissionsRenderer = actionPermission => {
+            const roleRowPermissionsRenderer = (actionPermission) => {
               let rowsDisplay = noAccessDisplay;
 
               const filterString = getPermissionFilterString(
@@ -484,7 +484,7 @@ class PermissionsSummary extends Component {
           };
 
           const getTableActionRolesRowLimits = () => {
-            const roleRowLimitRenderer = actionPermission => {
+            const roleRowLimitRenderer = (actionPermission) => {
               return (
                 <div className={styles.text_center}>
                   {actionPermission && actionPermission.limit !== undefined
@@ -498,7 +498,7 @@ class PermissionsSummary extends Component {
           };
 
           const getTableActionRolesAggregationAllowed = () => {
-            const roleAggregateAllowedRenderer = actionPermission => {
+            const roleAggregateAllowedRenderer = (actionPermission) => {
               return (
                 <div className={styles.text_center}>
                   {actionPermission &&
@@ -513,16 +513,16 @@ class PermissionsSummary extends Component {
           };
 
           rowRows.push(
-            <tr key={'rows'}>
-              <th className={styles.selected + ' ' + styles.text_gray}>Rows</th>
+            <tr key={"rows"}>
+              <th className={styles.selected + " " + styles.text_gray}>Rows</th>
               {getTableActionRolesRowPermissions()}
             </tr>
           );
 
-          if (currAction === 'select') {
+          if (currAction === "select") {
             rowRows.push(
-              <tr key={'row-limit'}>
-                <th className={styles.selected + ' ' + styles.text_gray}>
+              <tr key={"row-limit"}>
+                <th className={styles.selected + " " + styles.text_gray}>
                   Rows limit
                 </th>
                 {getTableActionRolesRowLimits()}
@@ -530,8 +530,8 @@ class PermissionsSummary extends Component {
             );
 
             rowRows.push(
-              <tr key={'aggregations-allowed'}>
-                <th className={styles.selected + ' ' + styles.text_gray}>
+              <tr key={"aggregations-allowed"}>
+                <th className={styles.selected + " " + styles.text_gray}>
                   Aggregations allowed
                 </th>
                 {getTableActionRolesAggregationAllowed()}
@@ -543,11 +543,11 @@ class PermissionsSummary extends Component {
         };
 
         const getColumnRows = () => {
-          return currTableInfo.columns.map(column => {
+          return currTableInfo.columns.map((column) => {
             const columnName = column.column_name;
 
             const getTableActionRolesColumnPermissions = () => {
-              const roleColumnPermissionRenderer = actionPermission => {
+              const roleColumnPermissionRenderer = (actionPermission) => {
                 const columnAllowed =
                   actionPermission &&
                   actionPermission.columns &&
@@ -599,7 +599,7 @@ class PermissionsSummary extends Component {
         const getRolesHeaderRow = () => {
           return (
             <tr>
-              {getBackBtn('currRole')}
+              {getBackBtn("currRole")}
               <RolesHeader
                 selectable
                 selectedFirst
@@ -621,7 +621,7 @@ class PermissionsSummary extends Component {
       const getRoleAllTablesAllActionsTable = () => {
         const getActionsHeaderRow = () => {
           const getActionsHeaders = () => {
-            return allActions.map(action => <th key={action}>{action}</th>);
+            return allActions.map((action) => <th key={action}>{action}</th>);
           };
 
           return (
@@ -633,7 +633,7 @@ class PermissionsSummary extends Component {
         };
 
         const getRoleAllTablesAllActionsRows = () => {
-          const tablePermissionListRenderer = table => {
+          const tablePermissionListRenderer = (table) => {
             return getActionsCells(table, rolePermissionsRenderer);
           };
 
@@ -669,7 +669,7 @@ class PermissionsSummary extends Component {
       };
 
       const getAllTableAllRolesRows = () => {
-        const tablePermissionListRenderer = table => {
+        const tablePermissionListRenderer = (table) => {
           return getRolesCells(table, rolePermissionsRenderer);
         };
 
@@ -715,11 +715,11 @@ class PermissionsSummary extends Component {
 
       const onSave = () => {
         if (!copyToRoles.length) {
-          document.getElementsByClassName('role-selector')[0].focus();
+          document.getElementsByClassName("role-selector")[0].focus();
           return;
         }
 
-        const confirmMessage = 'This will overwrite any existing permissions';
+        const confirmMessage = "This will overwrite any existing permissions";
         const isOk = getConfirmation(confirmMessage);
         if (isOk) {
           const onSuccess = () => {
@@ -739,7 +739,7 @@ class PermissionsSummary extends Component {
       };
 
       const getFromRoleOptions = () => {
-        return allRoles.map(role => {
+        return allRoles.map((role) => {
           return (
             <option key={role} value={role}>
               {role}
@@ -749,7 +749,7 @@ class PermissionsSummary extends Component {
       };
 
       const getFromTableOptions = () => {
-        return currSchemaTrackedTables.map(table => {
+        return currSchemaTrackedTables.map((table) => {
           const tableName = table.table_name;
           const tableValue = getTableNameWithSchema(getTableDef(table));
 
@@ -762,7 +762,7 @@ class PermissionsSummary extends Component {
       };
 
       const getFromActionOptions = () => {
-        return allActions.map(action => {
+        return allActions.map((action) => {
           return (
             <option key={action} value={action}>
               {action}
@@ -771,19 +771,19 @@ class PermissionsSummary extends Component {
         });
       };
 
-      const onFromRoleChange = e => {
+      const onFromRoleChange = (e) => {
         this.setState({
           copyState: { ...copyState, copyFromRole: e.target.value },
         });
       };
 
-      const onFromTableChange = e => {
+      const onFromTableChange = (e) => {
         this.setState({
           copyState: { ...copyState, copyFromTable: e.target.value },
         });
       };
 
-      const onFromActionChange = e => {
+      const onFromActionChange = (e) => {
         this.setState({
           copyState: { ...copyState, copyFromAction: e.target.value },
         });
@@ -796,11 +796,11 @@ class PermissionsSummary extends Component {
           const getToRoleOptions = () => {
             return allRoles
               .filter(
-                role =>
+                (role) =>
                   role === value ||
                   (role !== copyFromRole && !copyToRoles.includes(role))
               )
-              .map(role => {
+              .map((role) => {
                 return (
                   <option key={role} value={role}>
                     {role}
@@ -809,7 +809,7 @@ class PermissionsSummary extends Component {
               });
           };
 
-          const onSelect = e => {
+          const onSelect = (e) => {
             const _newCopyToRoles = [...copyToRoles];
 
             const selectedValue = e.target.value;
@@ -832,12 +832,12 @@ class PermissionsSummary extends Component {
             <select
               key={value}
               className={
-                'role-selector form-control ' + styles.add_mar_top_small
+                "role-selector form-control " + styles.add_mar_top_small
               }
               value={value}
               onChange={onSelect}
             >
-              <option value={''}>--</option>
+              <option value={""}>--</option>
               {getToRoleOptions()}
             </select>
           );
@@ -849,13 +849,13 @@ class PermissionsSummary extends Component {
         });
 
         // add empty role selector at end
-        _toRolesList.push(getRoleSelector('', copyToRoles.length));
+        _toRolesList.push(getRoleSelector("", copyToRoles.length));
 
         return _toRolesList;
       };
 
       const getNewRoleCreator = () => {
-        const setNewRole = e => {
+        const setNewRole = (e) => {
           this.setState({
             copyState: {
               ...copyState,
@@ -874,7 +874,7 @@ class PermissionsSummary extends Component {
               copyState: {
                 ...copyState,
                 copyToRoles: _newCopyToRoles,
-                newRole: '',
+                newRole: "",
               },
             });
           }
@@ -884,7 +884,7 @@ class PermissionsSummary extends Component {
           <div className={styles.display_flex}>
             <input
               type="text"
-              className={'form-control'}
+              className={"form-control"}
               placeholder="new_role"
               value={newRole}
               onChange={setNewRole}
@@ -904,12 +904,12 @@ class PermissionsSummary extends Component {
 
       return (
         <Modal
-          show={copyFromRole !== ''}
-          title={'Copy permissions'}
+          show={copyFromRole !== ""}
+          title={"Copy permissions"}
           onClose={onClose}
           onSubmit={onSave}
-          submitText={'Copy'}
-          submitTestId={'copy-roles-button'}
+          submitText={"Copy"}
+          submitTestId={"copy-roles-button"}
         >
           <div>
             <div>
@@ -919,7 +919,7 @@ class PermissionsSummary extends Component {
                   <div className="form-group col-md-4">
                     <label>Role</label>
                     <select
-                      className={'form-control ' + styles.add_mar_top_small}
+                      className={"form-control " + styles.add_mar_top_small}
                       value={copyFromRole}
                       onChange={onFromRoleChange}
                     >
@@ -929,11 +929,11 @@ class PermissionsSummary extends Component {
                   <div className="form-group col-md-4">
                     <label>Table</label>
                     <select
-                      className={'form-control ' + styles.add_mar_top_small}
+                      className={"form-control " + styles.add_mar_top_small}
                       value={copyFromTable}
                       onChange={onFromTableChange}
                     >
-                      <option key={'all'} value={'all'}>
+                      <option key={"all"} value={"all"}>
                         All
                       </option>
                       {getFromTableOptions()}
@@ -942,11 +942,11 @@ class PermissionsSummary extends Component {
                   <div className="form-group col-md-4">
                     <label>Action</label>
                     <select
-                      className={'form-control ' + styles.add_mar_top_small}
+                      className={"form-control " + styles.add_mar_top_small}
                       value={copyFromAction}
                       onChange={onFromActionChange}
                     >
-                      <option key={'all'} value={'all'}>
+                      <option key={"all"} value={"all"}>
                         All
                       </option>
                       {getFromActionOptions()}
@@ -965,9 +965,9 @@ class PermissionsSummary extends Component {
                     <div
                       className={
                         styles.add_mar_top +
-                        ' ' +
+                        " " +
                         styles.add_mar_bottom +
-                        ' ' +
+                        " " +
                         styles.add_mar_left
                       }
                     >
@@ -1004,8 +1004,8 @@ class PermissionsSummary extends Component {
   }
 }
 
-const permissionsSummaryConnector = connect => {
-  const mapStateToProps = state => {
+const permissionsSummaryConnector = (connect) => {
+  const mapStateToProps = (state) => {
     return {
       allSchemas: state.tables.allSchemas,
       currentSchema: state.tables.currentSchema,

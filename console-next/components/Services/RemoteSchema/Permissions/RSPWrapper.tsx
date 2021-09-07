@@ -1,19 +1,19 @@
-import React from 'react';
-import CommonTabLayout from '../../../Common/Layout/CommonTabLayout/CommonTabLayout';
-import { NotFoundError } from '../../../Error/PageNotFound';
-import { appPrefix } from '../constants';
-import styles from '../RemoteSchema.scss';
-import { RemoteSchema } from '../../../../metadata/types';
+import React from "react";
+import CommonTabLayout from "../../../Common/Layout/CommonTabLayout/CommonTabLayout";
+import { NotFoundError } from "../../../Error/PageNotFound";
+import { appPrefix } from "../constants";
+import styles from "../RemoteSchema.module.scss";
+import { RemoteSchema } from "../../../../metadata/types";
 
 const tabInfo = {
   details: {
-    display_text: 'Details',
+    display_text: "Details",
   },
   modify: {
-    display_text: 'Modify',
+    display_text: "Modify",
   },
   permissions: {
-    display_text: 'Permissions',
+    display_text: "Permissions",
   },
 };
 export type RSPWrapperProps = {
@@ -34,26 +34,26 @@ const RSPWrapper: React.FC<RSPWrapperProps> = ({
   React.useEffect(() => {
     viewRemoteSchema(remoteSchemaName);
     return () => {
-      viewRemoteSchema('');
+      viewRemoteSchema("");
     };
   }, [remoteSchemaName]);
 
   const currentRemoteSchema =
     allRemoteSchemas &&
-    allRemoteSchemas.find(rs => rs.name === remoteSchemaName);
+    allRemoteSchemas.find((rs) => rs.name === remoteSchemaName);
 
   if (!currentRemoteSchema) {
-    viewRemoteSchema('');
+    viewRemoteSchema("");
     throw new NotFoundError();
   }
 
   const breadCrumbs = [
     {
-      title: 'Remote schemas',
+      title: "Remote schemas",
       url: appPrefix,
     },
     {
-      title: 'Manage',
+      title: "Manage",
       url: `${appPrefix}/manage`,
     },
     {
@@ -62,7 +62,7 @@ const RSPWrapper: React.FC<RSPWrapperProps> = ({
     },
     {
       title: tabName,
-      url: '',
+      url: "",
     },
   ];
 

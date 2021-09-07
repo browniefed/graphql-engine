@@ -1,9 +1,9 @@
-import React from 'react';
-import { Link } from 'react-router';
+import React from "react";
+import Link from "next/link";
 
-import LeftSubSidebar from '../../Common/Layout/LeftSubSidebar/LeftSubSidebar';
-import styles from '../../Common/Layout/LeftSubSidebar/LeftSubSidebar.scss';
-import WarningSymbol from '../../Common/WarningSymbol/WarningSymbol';
+import LeftSubSidebar from "../../Common/Layout/LeftSubSidebar/LeftSubSidebar";
+import styles from "../../Common/Layout/LeftSubSidebar/LeftSubSidebar.module.scss";
+import WarningSymbol from "../../Common/WarningSymbol/WarningSymbol";
 
 const RemoteSchemaSubSidebar = ({
   appPrefix,
@@ -18,7 +18,7 @@ const RemoteSchemaSubSidebar = ({
 }) => {
   const { inconsistentObjects } = props.metadata;
   const inconsistentRemoteSchemas = inconsistentObjects.filter(
-    inconObject => inconObject.type === 'remote_schema'
+    (inconObject) => inconObject.type === "remote_schema"
   );
 
   function tableSearch(e) {
@@ -54,7 +54,7 @@ const RemoteSchemaSubSidebar = ({
     } else {
       if (_dataList.length > 0) {
         childList = _dataList.map((d, i) => {
-          let activeTableClass = '';
+          let activeTableClass = "";
 
           if (
             d.name === viewRemoteSchema &&
@@ -64,7 +64,7 @@ const RemoteSchemaSubSidebar = ({
           }
 
           const inconsistentCurrentSchema = inconsistentRemoteSchemas.find(
-            elem => elem.definition.name === d.name
+            (elem) => elem.definition.name === d.name
           );
 
           return (
@@ -86,8 +86,8 @@ const RemoteSchemaSubSidebar = ({
                   <WarningSymbol
                     customStyle={styles.padLeft4}
                     tooltipText={
-                      'This remote schema is in an inconsistent state. ' +
-                      'Fields from this remote schema are currently not exposed over the GraphQL API'
+                      "This remote schema is in an inconsistent state. " +
+                      "Fields from this remote schema are currently not exposed over the GraphQL API"
                     }
                     tooltipPlacement="right"
                   />
@@ -108,9 +108,9 @@ const RemoteSchemaSubSidebar = ({
       searchInput={getSearchInput()}
       heading={`Remote Schemas (${dataList.length ?? 0})`}
       addLink={`${appPrefix}/manage/add`}
-      addLabel={'Add'}
-      addTestString={'remote-schema-sidebar-add-table'}
-      childListTestString={'remote-schema-table-links'}
+      addLabel={"Add"}
+      addTestString={"remote-schema-sidebar-add-table"}
+      childListTestString={"remote-schema-table-links"}
     >
       {getChildList()}
     </LeftSubSidebar>

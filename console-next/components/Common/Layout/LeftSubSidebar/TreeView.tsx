@@ -1,8 +1,8 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState } from "react";
 
-import { Link } from 'react-router';
+import Link from "next/link";
 
-import styles from './LeftSubSidebar.scss';
+import styles from "./LeftSubSidebar.scss";
 
 type CollapsibleItemsProps = {
   source: string;
@@ -23,12 +23,12 @@ const CollapsibleItems: React.FC<CollapsibleItemsProps> = ({
   return (
     <div className={styles.padd_bottom_small}>
       <div
-        onClick={() => setIsOpen(prev => !prev)}
-        onKeyDown={() => setIsOpen(prev => !prev)}
+        onClick={() => setIsOpen((prev) => !prev)}
+        onKeyDown={() => setIsOpen((prev) => !prev)}
         role="button"
         className={styles.padd_bottom_small}
       >
-        <span className={`${styles.title} ${isOpen ? '' : styles.titleClosed}`}>
+        <span className={`${styles.title} ${isOpen ? "" : styles.titleClosed}`}>
           <i className="fa fa-database" /> {source}
         </span>
       </div>
@@ -38,13 +38,13 @@ const CollapsibleItems: React.FC<CollapsibleItemsProps> = ({
               className={
                 currentItem && currentItem.name === name
                   ? styles.activeLink
-                  : ''
+                  : ""
               }
               key={name}
               data-test={`action-sidebar-links-${name}`}
             >
               <Link to={getServiceEntityLink(name)} data-test={name}>
-                <i className={`fa ${icon || 'fa-wrench'}`} aria-hidden="true" />
+                <i className={`fa ${icon || "fa-wrench"}`} aria-hidden="true" />
                 {name}
               </Link>
             </li>
@@ -85,7 +85,7 @@ export const TreeView: React.FC<TreeViewProps> = ({
 
   return (
     <div className={styles.treeNav}>
-      {Object.keys(itemsBySource).map(source => (
+      {Object.keys(itemsBySource).map((source) => (
         <CollapsibleItems
           source={source}
           items={itemsBySource[source]}

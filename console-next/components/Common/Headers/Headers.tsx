@@ -1,21 +1,21 @@
-import React from 'react';
-import styles from './Headers.scss';
-import DropdownButton from '../DropdownButton/DropdownButton';
-import { addPlaceholderHeader } from './utils';
+import React from "react";
+import styles from "./Headers.module.scss";
+import DropdownButton from "../DropdownButton/DropdownButton";
+import { addPlaceholderHeader } from "./utils";
 
 export type Header = {
-  type: 'static' | 'env';
+  type: "static" | "env";
   name: string;
   value: string;
 };
 
 export const defaultHeader: Header = {
-  name: '',
-  type: 'static',
-  value: '',
+  name: "",
+  type: "static",
+  value: "",
 };
 
-interface HeadersListProps extends React.ComponentProps<'div'> {
+interface HeadersListProps extends React.ComponentProps<"div"> {
   headers: Header[];
   disabled?: boolean;
   setHeaders: (h: Header[]) => void;
@@ -31,7 +31,7 @@ const Headers: React.FC<HeadersListProps> = ({
       {headers.map(({ name, value, type }, i) => {
         const setHeaderType = (e: React.BaseSyntheticEvent) => {
           const newHeaders = JSON.parse(JSON.stringify(headers));
-          newHeaders[i].type = e.target.getAttribute('value');
+          newHeaders[i].type = e.target.getAttribute("value");
           addPlaceholderHeader(newHeaders);
           setHeaders(newHeaders);
         };
@@ -70,18 +70,18 @@ const Headers: React.FC<HeadersListProps> = ({
             <div className={styles.headerInputWidth}>
               <DropdownButton
                 dropdownOptions={[
-                  { display_text: 'Value', value: 'static' },
-                  { display_text: 'From env var', value: 'env' },
+                  { display_text: "Value", value: "static" },
+                  { display_text: "From env var", value: "env" },
                 ]}
-                title={type === 'env' ? 'From env var' : 'Value'}
-                dataKey={type === 'env' ? 'env' : 'static'}
+                title={type === "env" ? "From env var" : "Value"}
+                dataKey={type === "env" ? "env" : "static"}
                 onButtonChange={setHeaderType}
                 onInputChange={setHeaderValue}
                 required={false}
                 bsClass={styles.dropdown_button}
                 inputVal={value}
                 id={`header-value-${i}`}
-                inputPlaceHolder={type === 'env' ? 'HEADER_FROM_ENV' : 'value'}
+                inputPlaceHolder={type === "env" ? "HEADER_FROM_ENV" : "value"}
                 testId={`header-value-${i}`}
                 disabled={disabled}
               />

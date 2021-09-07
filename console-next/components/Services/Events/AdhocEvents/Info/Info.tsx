@@ -1,10 +1,10 @@
-import React from 'react';
-import { Link } from 'react-router';
-import globals from '../../../../../Globals';
-import styles from '../../Events.scss';
-import { ADHOC_EVENTS_HEADING } from '../../constants';
-import TopicDescription from '../../../Common/Landing/TopicDescription';
-import { getAddAdhocEventRoute } from '../../../../Common/utils/routesUtils';
+import React from "react";
+import Link from "next/link";
+import globals from "../../../../../Globals";
+import styles from "../../Events.scss";
+import { ADHOC_EVENTS_HEADING } from "../../constants";
+import TopicDescription from "../../../Common/Landing/TopicDescription";
+import { getAddAdhocEventRoute } from "../../../../Common/utils/routesUtils";
 
 const Info: React.FC = () => {
   const topicDescription = (
@@ -15,16 +15,16 @@ const Info: React.FC = () => {
         particular timestamp.
       </p>
       <p>
-        You can schedule an event from your backend using the{' '}
+        You can schedule an event from your backend using the{" "}
         <a
           href="https://hasura.io/docs/latest/graphql/core/api-reference/schema-metadata-api/scheduled-triggers.html#create-scheduled-event"
           target="_blank"
           rel="noopener noreferrer"
         >
           create_scheduled_event API
-        </a>{' '}
-        or through the console from the{' '}
-        <Link to={getAddAdhocEventRoute('absolute')}>Schedule an event</Link>{' '}
+        </a>{" "}
+        or through the console from the{" "}
+        <Link to={getAddAdhocEventRoute("absolute")}>Schedule an event</Link>{" "}
         tab.
       </p>
     </div>

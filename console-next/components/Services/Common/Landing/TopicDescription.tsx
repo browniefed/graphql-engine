@@ -1,8 +1,8 @@
-import React from 'react';
-import styles from '../../RemoteSchema/RemoteSchema.scss';
-import KnowMoreLink from '../../../Common/KnowMoreLink/KnowMoreLink';
+import React from "react";
+import styles from "../../RemoteSchema/RemoteSchema.module.scss";
+import KnowMoreLink from "../../../Common/KnowMoreLink/KnowMoreLink";
 
-const Rectangle = require('./images/Rectangle.svg');
+const Rectangle = require("./images/Rectangle.svg");
 
 type TopicDescriptionProps = {
   title: string;
@@ -14,14 +14,8 @@ type TopicDescriptionProps = {
 };
 
 const TopicDescription = (props: TopicDescriptionProps) => {
-  const {
-    title,
-    imgUrl,
-    imgAlt,
-    description,
-    knowMoreHref,
-    imgElement,
-  } = props;
+  const { title, imgUrl, imgAlt, description, knowMoreHref, imgElement } =
+    props;
   return (
     <div>
       <div className={styles.subHeaderText}>

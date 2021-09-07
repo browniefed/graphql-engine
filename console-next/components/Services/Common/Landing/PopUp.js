@@ -1,11 +1,11 @@
-import React from 'react';
-import TextAreaWithCopy from '../../../Common/TextAreaWithCopy/TextAreaWithCopy';
-import RemoteSchemaContent from './RemoteSchemaContent';
-import EventTriggerContent from './EventTriggerContent';
+import React from "react";
+import TextAreaWithCopy from "../../../Common/TextAreaWithCopy/TextAreaWithCopy";
+import RemoteSchemaContent from "./RemoteSchemaContent";
+import EventTriggerContent from "./EventTriggerContent";
 
-const styles = require('./Popup.scss');
+import styles from "./Popup.module.scss";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 const ContentMap = {
   remoteSchema: <RemoteSchemaContent styles={styles} />,
@@ -13,7 +13,7 @@ const ContentMap = {
 };
 class PopUp extends React.Component {
   render() {
-    const close = require('./images/cancel.svg');
+    const close = require("./images/cancel.svg");
     const { onClose, title, queryDefinition, footerDescription } = this.props;
     // const queryDefinition = 'query { hello }';
     const commonPopupStyle = this.props.isAvailable
@@ -28,32 +28,32 @@ class PopUp extends React.Component {
           <div
             className={
               styles.descriptionText +
-              ' ' +
+              " " +
               styles.fontWeightBold +
-              ' ' +
+              " " +
               styles.addPaddBottom +
-              ' ' +
+              " " +
               styles.commonBorBottom
             }
           >
             {title}
           </div>
           <div className={styles.close} onClick={onClose}>
-            <img className={'img-responsive'} src={close} alt={'Close'} />
+            <img className={"img-responsive"} src={close} alt={"Close"} />
           </div>
           {isAvailableText}
           {ContentMap[this.props.service]}
           <div
-            className={styles.addPaddLeft + ' text-left ' + styles.addPaddTop}
+            className={styles.addPaddLeft + " text-left " + styles.addPaddTop}
           >
             <TextAreaWithCopy
               copyText={queryDefinition}
-              textLanguage={'graphql'}
-              id={'copyQueryDefinition'}
+              textLanguage={"graphql"}
+              id={"copyQueryDefinition"}
             />
           </div>
           <div className={styles.listItems}>
-            <div className={styles.descriptionText + ' ' + styles.addPaddLeft}>
+            <div className={styles.descriptionText + " " + styles.addPaddLeft}>
               {footerDescription}
             </div>
           </div>

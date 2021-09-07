@@ -1,8 +1,8 @@
-import React from 'react';
-import { Link } from 'react-router';
+import React from "react";
+import Link from "next/link";
 
-import LeftSubSidebar from '../../../Common/Layout/LeftSubSidebar/LeftSubSidebar';
-import styles from '../../../Common/Layout/LeftSubSidebar/LeftSubSidebar.scss';
+import LeftSubSidebar from "../../../Common/Layout/LeftSubSidebar/LeftSubSidebar";
+import styles from "../../../Common/Layout/LeftSubSidebar/LeftSubSidebar.scss";
 
 const LeftSidebar = ({
   appPrefix,
@@ -10,9 +10,9 @@ const LeftSidebar = ({
   actions,
   readOnlyMode,
 }) => {
-  const [searchText, setSearchText] = React.useState('');
+  const [searchText, setSearchText] = React.useState("");
 
-  const handleSearch = e => setSearchText(e.target.value);
+  const handleSearch = (e) => setSearchText(e.target.value);
 
   const getSearchInput = () => {
     return (
@@ -30,7 +30,7 @@ const LeftSidebar = ({
   let actionsList = [];
   if (searchText) {
     const secondaryResults = [];
-    actions.forEach(a => {
+    actions.forEach((a) => {
       if (a.name.startsWith(searchText)) {
         actionsList.push(a);
       } else if (a.name.includes(searchText)) {
@@ -42,14 +42,14 @@ const LeftSidebar = ({
     actionsList = [...actions];
   }
 
-  const getActionIcon = action => {
+  const getActionIcon = (action) => {
     switch (action.definition.type) {
-      case 'mutation':
-        return 'fa-pencil-square-o';
-      case 'query':
-        return 'fa-book';
+      case "mutation":
+        return "fa-pencil-square-o";
+      case "query":
+        return "fa-book";
       default:
-        return 'fa-wrench';
+        return "fa-wrench";
     }
   };
 
@@ -66,7 +66,7 @@ const LeftSidebar = ({
       );
     } else {
       childList = actionsList.map((a, i) => {
-        let activeTableClass = '';
+        let activeTableClass = "";
         if (a.name === currentAction) {
           activeTableClass = styles.activeLink;
         }
@@ -80,11 +80,11 @@ const LeftSidebar = ({
             data-test={`action-sidebar-links-${i + 1}`}
           >
             <Link
-              to={appPrefix + '/manage/' + a.name + '/modify'}
+              to={appPrefix + "/manage/" + a.name + "/modify"}
               data-test={a.name}
             >
               <i
-                className={styles.tableIcon + ' fa ' + actionIcon}
+                className={styles.tableIcon + " fa " + actionIcon}
                 aria-hidden="true"
               />
               {a.name}
@@ -103,9 +103,9 @@ const LeftSidebar = ({
       searchInput={getSearchInput()}
       heading={`Actions (${actionsList.length})`}
       addLink={`${appPrefix}/manage/add`}
-      addLabel={'Create'}
-      addTestString={'actions-sidebar-add-table'}
-      childListTestString={'actions-table-links'}
+      addLabel={"Create"}
+      addTestString={"actions-sidebar-add-table"}
+      childListTestString={"actions-table-links"}
     >
       {getChildList()}
     </LeftSubSidebar>

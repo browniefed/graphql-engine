@@ -1,40 +1,40 @@
-import React from 'react';
-import { Link } from 'react-router';
-import Helmet from 'react-helmet';
-import { getReactHelmetTitle } from '../../../../Common/utils/reactUtils';
-import BreadCrumb from '../../../../Common/Layout/BreadCrumb/BreadCrumb';
+import React from "react";
+import Link from "next/link";
+import Helmet from "react-helmet";
+import { getReactHelmetTitle } from "../../../../Common/utils/reactUtils";
+import BreadCrumb from "../../../../Common/Layout/BreadCrumb/BreadCrumb";
 import {
   getETModifyRoute,
   getETProcessedEventsRoute,
   getDataEventsLandingRoute,
-} from '../../../../Common/utils/routesUtils';
-import { EVENTS_SERVICE_HEADING } from '../../constants';
+} from "../../../../Common/utils/routesUtils";
+import { EVENTS_SERVICE_HEADING } from "../../constants";
 
 const TableHeader = ({ triggerName, tabName, count, readOnlyMode }) => {
-  const styles = require('./EventTable.scss');
-  let showCount = '';
+  const styles = require("./EventTable.scss");
+  let showCount = "";
   if (!(count === null || count === undefined)) {
-    showCount = '(' + count + ')';
+    showCount = "(" + count + ")";
   }
   let activeTab;
-  if (tabName === 'processed') {
-    activeTab = 'Processed';
-  } else if (tabName === 'pending') {
-    activeTab = 'Pending';
-  } else if (tabName === 'modify') {
-    activeTab = 'Modify';
-  } else if (tabName === 'logs') {
-    activeTab = 'Invocation Logs';
+  if (tabName === "processed") {
+    activeTab = "Processed";
+  } else if (tabName === "pending") {
+    activeTab = "Pending";
+  } else if (tabName === "modify") {
+    activeTab = "Modify";
+  } else if (tabName === "logs") {
+    activeTab = "Invocation Logs";
   }
 
   const getBreadCrumbs = () => {
     return [
       {
-        title: 'Events',
-        url: '',
+        title: "Events",
+        url: "",
       },
       {
-        title: 'Data Triggers',
+        title: "Data Triggers",
         url: getDataEventsLandingRoute(),
       },
       {
@@ -64,7 +64,7 @@ const TableHeader = ({ triggerName, tabName, count, readOnlyMode }) => {
             {!readOnlyMode && (
               <li
                 role="presentation"
-                className={tabName === 'modify' ? styles.active : ''}
+                className={tabName === "modify" ? styles.active : ""}
               >
                 <Link
                   to={getETModifyRoute({ name: triggerName })}
@@ -76,29 +76,29 @@ const TableHeader = ({ triggerName, tabName, count, readOnlyMode }) => {
             )}
             <li
               role="presentation"
-              className={tabName === 'pending' ? styles.active : ''}
+              className={tabName === "pending" ? styles.active : ""}
             >
               <Link
                 to={`/events/data/${triggerName}/pending`}
                 data-test="trigger-pending-events"
               >
-                Pending Events {tabName === 'pending' ? showCount : null}
+                Pending Events {tabName === "pending" ? showCount : null}
               </Link>
             </li>
             <li
               role="presentation"
-              className={tabName === 'processed' ? styles.active : ''}
+              className={tabName === "processed" ? styles.active : ""}
             >
               <Link
                 to={`/events/data/${triggerName}/processed`}
                 data-test="trigger-processed-events"
               >
-                Processed Events {tabName === 'processed' ? showCount : null}
+                Processed Events {tabName === "processed" ? showCount : null}
               </Link>
             </li>
             <li
               role="presentation"
-              className={tabName === 'logs' ? styles.active : ''}
+              className={tabName === "logs" ? styles.active : ""}
             >
               <Link
                 to={`/events/data/${triggerName}/logs`}

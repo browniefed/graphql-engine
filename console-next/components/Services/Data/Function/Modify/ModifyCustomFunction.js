@@ -1,31 +1,31 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import Helmet from 'react-helmet';
-import { push } from 'react-router-redux';
-import CommonTabLayout from '../../../../Common/Layout/CommonTabLayout/CommonTabLayout';
-import tabInfo from './tabInfo';
-import globals from '../../../../../Globals';
-import Button from '../../../../Common/Button/Button';
-import styles from './ModifyCustomFunction.scss';
-import TextAreaWithCopy from '../../../../Common/TextAreaWithCopy/TextAreaWithCopy';
+import Helmet from "react-helmet";
+// import { push } from 'react-router-redux';
+import CommonTabLayout from "../../../../Common/Layout/CommonTabLayout/CommonTabLayout";
+import tabInfo from "./tabInfo";
+import globals from "../../../../../Globals";
+import Button from "../../../../Common/Button/Button";
+import styles from "./ModifyCustomFunction.scss";
+import TextAreaWithCopy from "../../../../Common/TextAreaWithCopy/TextAreaWithCopy";
 import {
   fetchCustomFunction,
   unTrackCustomFunction,
   updateSessVar,
   deleteFunction,
-} from '../customFunctionReducer';
-import { NotFoundError } from '../../../../Error/PageNotFound';
-import { getConfirmation } from '../../../../Common/utils/jsUtils';
+} from "../customFunctionReducer";
+import { NotFoundError } from "../../../../Error/PageNotFound";
+import { getConfirmation } from "../../../../Common/utils/jsUtils";
 import {
   getFunctionBaseRoute,
   getSchemaBaseRoute,
-} from '../../../../Common/utils/routesUtils';
-import SessionVarSection from './SessionVarSection';
-import RawSqlButton from '../../Common/Components/RawSqlButton';
-import { connect } from 'react-redux';
+} from "../../../../Common/utils/routesUtils";
+import SessionVarSection from "./SessionVarSection";
+import RawSqlButton from "../../Common/Components/RawSqlButton";
+import { connect } from "react-redux";
 
-export const pageTitle = 'Custom Function';
+export const pageTitle = "Custom Function";
 
 class ModifyCustomFunction extends React.Component {
   constructor(props) {
@@ -36,12 +36,10 @@ class ModifyCustomFunction extends React.Component {
       funcFetchCompleted: false,
     };
 
-    this.handleUntrackCustomFunction = this.handleUntrackCustomFunction.bind(
-      this
-    );
-    this.handleDeleteCustomFunction = this.handleDeleteCustomFunction.bind(
-      this
-    );
+    this.handleUntrackCustomFunction =
+      this.handleUntrackCustomFunction.bind(this);
+    this.handleDeleteCustomFunction =
+      this.handleDeleteCustomFunction.bind(this);
     this.urlWithSource = `/data/${props.currentSource}`;
     this.prefixUrl = globals.urlPrefix + this.urlWithSource;
     this.urlWithSchema = `/data/${props.currentSource}/schema/${props.currentSchema}`;
@@ -81,7 +79,7 @@ class ModifyCustomFunction extends React.Component {
     }
   }
 
-  onSessVarUpdate = sessVar => this.props.dispatch(updateSessVar(sessVar));
+  onSessVarUpdate = (sessVar) => this.props.dispatch(updateSessVar(sessVar));
 
   updateDeleteConfirmationError(data) {
     this.setState({ deleteConfirmationError: data });
@@ -112,7 +110,7 @@ class ModifyCustomFunction extends React.Component {
         this.updateDeleteConfirmationError(null);
         this.props.dispatch(deleteFunction());
       } catch (err) {
-        console.error('Delete custom function error: ', err);
+        console.error("Delete custom function error: ", err);
       }
     }
   }
@@ -154,19 +152,19 @@ class ModifyCustomFunction extends React.Component {
             className={styles.add_mar_right}
             onClick={this.handleUntrackCustomFunction}
             disabled={loading}
-            data-test={'custom-function-edit-untrack-btn'}
+            data-test={"custom-function-edit-untrack-btn"}
           >
             {loading?.isUntracking
-              ? 'Untracking Function...'
-              : 'Untrack Function'}
+              ? "Untracking Function..."
+              : "Untrack Function"}
           </Button>
           <Button
             color="red"
             onClick={this.handleDeleteCustomFunction}
-            data-test={'custom-function-edit-delete-btn'}
+            data-test={"custom-function-edit-delete-btn"}
             disabled={loading}
           >
-            {loading?.isDeleting ? 'Deleting Function...' : 'Delete Function'}
+            {loading?.isDeleting ? "Deleting Function..." : "Delete Function"}
           </Button>
           {this.state.deleteConfirmationError ? (
             <span
@@ -181,11 +179,11 @@ class ModifyCustomFunction extends React.Component {
     };
     const breadCrumbs = [
       {
-        title: 'Data',
+        title: "Data",
         url: this.urlWithSource,
       },
       {
-        title: 'Schema',
+        title: "Schema",
         url: this.urlWithSchema,
       },
       {
@@ -200,13 +198,13 @@ class ModifyCustomFunction extends React.Component {
         url: functionBaseUrl,
       });
       breadCrumbs.push({
-        title: 'Modify',
-        url: '',
+        title: "Modify",
+        url: "",
       });
     }
 
     return (
-      <div className={'col-xs-8' + ' ' + styles.modifyWrapper}>
+      <div className={"col-xs-8" + " " + styles.modifyWrapper}>
         <Helmet
           title={`Edit ${pageTitle} - ${functionName} - ${pageTitle}s | Hasura`}
         />
@@ -218,7 +216,7 @@ class ModifyCustomFunction extends React.Component {
           breadCrumbs={breadCrumbs}
           baseUrl={functionBaseUrl}
           showLoader={isFetching}
-          testPrefix={'functions'}
+          testPrefix={"functions"}
         />
         <br />
         <div className={`${styles.display_flex}`}>
@@ -241,7 +239,7 @@ class ModifyCustomFunction extends React.Component {
         <div className={styles.sqlBlock}>
           <TextAreaWithCopy
             copyText={functionDefinition}
-            textLanguage={'sql'}
+            textLanguage={"sql"}
             id="copyCustomFunctionSQL"
           />
         </div>
@@ -264,14 +262,13 @@ ModifyCustomFunction.propTypes = {
   functions: PropTypes.array.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currentSource: state.tables.currentDataSource,
   currentSchema: state.tables.currentSchema,
 });
 
 const modifyCustomFnConnector = connect(mapStateToProps);
-const ConnectedModifyCustomFunction = modifyCustomFnConnector(
-  ModifyCustomFunction
-);
+const ConnectedModifyCustomFunction =
+  modifyCustomFnConnector(ModifyCustomFunction);
 
 export default ConnectedModifyCustomFunction;

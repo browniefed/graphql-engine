@@ -1,10 +1,10 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from "react";
+import { connect } from "react-redux";
 
-import { Link } from 'react-router';
-import Helmet from 'react-helmet';
-import globals from '../../Globals';
-import styles from './ErrorPage.scss';
+import Link from "next/link";
+// import Helmet from "react-helmet";
+import globals from "../../Globals";
+import styles from "./ErrorPage.module.scss";
 
 export class NotFoundError extends Error {}
 
@@ -19,14 +19,14 @@ const PageNotFound = (props: PageNotFoundProps) => {
 
   return (
     <div className={styles.viewContainer}>
-      <Helmet title="404 - Page Not Found | Hasura" />
+      {/* <Helmet title="404 - Page Not Found | Hasura" /> */}
       <div className={`container  ${styles.centerContent}`}>
         <div className={`row ${styles.message}`}>
           <div className="col-xs-8">
             <h1>404</h1>
             <br />
             <div>
-              This page does not exist. Head back{' '}
+              This page does not exist. Head back{" "}
               <Link to="/" onClick={resetCallback}>
                 Home
               </Link>

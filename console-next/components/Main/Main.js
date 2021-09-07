@@ -1,26 +1,26 @@
-import React from 'react';
+import React from "react";
 
-import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
-import Tooltip from 'react-bootstrap/lib/Tooltip';
-import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import OverlayTrigger from "react-bootstrap/lib/OverlayTrigger";
+import Tooltip from "react-bootstrap/lib/Tooltip";
+import { connect } from "react-redux";
+import Link from "next/link";
 
-import { HASURA_COLLABORATOR_TOKEN } from '../../constants';
-import globals from '../../Globals';
-import { versionGT } from '../../helpers/versionUtils';
-import { loadInconsistentObjects } from '../../metadata/actions';
-import { UPDATE_CONSOLE_NOTIFICATIONS } from '../../telemetry/Actions';
-import { getLSItem, LS_KEYS, setLSItem } from '../../utils/localStorage';
-import Onboarding from '../Common/Onboarding';
-import Spinner from '../Common/Spinner/Spinner';
+import { HASURA_COLLABORATOR_TOKEN } from "../../constants";
+import globals from "../../Globals";
+import { versionGT } from "../../helpers/versionUtils";
+import { loadInconsistentObjects } from "../../metadata/actions";
+import { UPDATE_CONSOLE_NOTIFICATIONS } from "../../telemetry/Actions";
+import { getLSItem, LS_KEYS, setLSItem } from "../../utils/localStorage";
+import Onboarding from "../Common/Onboarding";
+import Spinner from "../Common/Spinner/Spinner";
 import {
   getSchemaBaseRoute,
   redirectToMetadataStatus,
   getDataSourceBaseRoute,
-} from '../Common/utils/routesUtils';
-import { getPathRoot } from '../Common/utils/urlUtils';
-import WarningSymbol from '../Common/WarningSymbol/WarningSymbol';
-import _push from '../Services/Data/push';
+} from "../Common/utils/routesUtils";
+import { getPathRoot } from "../Common/utils/urlUtils";
+import WarningSymbol from "../Common/WarningSymbol/WarningSymbol";
+import _push from "../Services/Data/push";
 import {
   emitProClickedEvent,
   featureCompatibilityInit,
@@ -28,27 +28,27 @@ import {
   fetchServerConfig,
   loadLatestServerVersion,
   loadServerVersion,
-} from './Actions';
-import { Help, ProPopup } from './components/';
-import { UpdateVersion } from './components/UpdateVersion';
-import logo from './images/white-logo.svg';
-import LoveSection from './LoveSection';
-import styles from './Main.scss';
-import NotificationSection from './NotificationSection';
-import * as tooltips from './Tooltips';
+} from "./Actions";
+import { Help, ProPopup } from "./components/";
+import { UpdateVersion } from "./components/UpdateVersion";
+import logo from "./images/white-logo.svg";
+import LoveSection from "./LoveSection";
+import styles from "./Main.scss";
+import NotificationSection from "./NotificationSection";
+import * as tooltips from "./Tooltips";
 import {
   getLoveConsentState,
   getProClickState,
   getUserType,
   setLoveConsentState,
   setProClickState,
-} from './utils';
+} from "./utils";
 
-export const updateRequestHeaders = props => {
+export const updateRequestHeaders = (props) => {
   const { requestHeaders, dispatch } = props;
 
   const collabTokenKey = Object.keys(requestHeaders).find(
-    hdr => hdr.toLowerCase() === HASURA_COLLABORATOR_TOKEN
+    (hdr) => hdr.toLowerCase() === HASURA_COLLABORATOR_TOKEN
   );
 
   if (collabTokenKey) {
@@ -113,7 +113,7 @@ class Main extends React.Component {
 
     if (
       prevHeaders.length !== currHeaders.length ||
-      prevHeaders.filter(hdr => !currHeaders.includes(hdr)).length
+      prevHeaders.filter((hdr) => !currHeaders.includes(hdr)).length
     ) {
       updateRequestHeaders(this.props);
     }
@@ -141,7 +141,7 @@ class Main extends React.Component {
 
   updateLocalStorageState() {
     const s = getProClickState();
-    if (s && 'isProClicked' in s && !s.isProClicked) {
+    if (s && "isProClicked" in s && !s.isProClicked) {
       setProClickState({
         isProClicked: !s.isProClicked,
       });
@@ -163,7 +163,7 @@ class Main extends React.Component {
   };
 
   toggleDropDown = () => {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       isDropdownOpen: !prevState.isDropdownOpen,
     }));
   };
@@ -181,7 +181,7 @@ class Main extends React.Component {
   };
 
   toggleLoveSection = () => {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       isLoveSectionOpen: !prevState.isLoveSectionOpen,
     }));
   };
@@ -254,7 +254,7 @@ class Main extends React.Component {
       isPopUpOpen,
     } = this.state;
 
-    const appPrefix = '';
+    const appPrefix = "";
 
     const currentLocation = location.pathname;
     const currentActiveBlock = getPathRoot(currentLocation);
@@ -267,8 +267,8 @@ class Main extends React.Component {
       } else {
         mainContent = (
           <div>
-            {' '}
-            <Spinner />{' '}
+            {" "}
+            <Spinner />{" "}
           </div>
         );
       }
@@ -278,7 +278,7 @@ class Main extends React.Component {
     const getSettingsSelectedMarker = () => {
       let metadataSelectedMarker = null;
 
-      if (currentActiveBlock === 'settings') {
+      if (currentActiveBlock === "settings") {
         metadataSelectedMarker = <span className={styles.selected} />;
       }
 
@@ -287,15 +287,15 @@ class Main extends React.Component {
 
     const getMetadataStatusIcon = () => {
       if (metadata.inconsistentObjects.length === 0) {
-        return <i className={styles.question + ' fa fa-cog'} />;
+        return <i className={styles.question + " fa fa-cog"} />;
       }
       return (
         <div className={styles.question}>
-          <i className={'fa fa-cog'} />
+          <i className={"fa fa-cog"} />
           <div className={styles.overlappingExclamation}>
             <div className={styles.iconWhiteBackground} />
             <div>
-              <i className={'fa fa-exclamation-circle'} />
+              <i className={"fa fa-exclamation-circle"} />
             </div>
           </div>
         </div>
@@ -315,7 +315,7 @@ class Main extends React.Component {
             >
               <WarningSymbol
                 tooltipText={tooltips.secureEndpoint}
-                tooltipPlacement={'left'}
+                tooltipPlacement={"left"}
                 customStyle={styles.secureSectionSymbol}
               />
               <span className={styles.secureSectionText}>
@@ -345,9 +345,9 @@ class Main extends React.Component {
             <Link
               className={
                 currentActiveBlock === block ||
-                (isDefault && currentActiveBlock === '')
+                (isDefault && currentActiveBlock === "")
                   ? styles.navSideBarActive
-                  : ''
+                  : ""
               }
               to={appPrefix + path}
             >
@@ -385,46 +385,46 @@ class Main extends React.Component {
             <div className={styles.header_items}>
               <ul className={styles.sidebarItems}>
                 {getSidebarItem(
-                  'API',
-                  'fa-flask',
+                  "API",
+                  "fa-flask",
                   tooltips.apiExplorer,
-                  '/api/api-explorer',
+                  "/api/api-explorer",
                   true
                 )}
                 {getSidebarItem(
-                  'Data',
-                  'fa-database',
+                  "Data",
+                  "fa-database",
                   tooltips.data,
                   currentSource
                     ? schemaList.length
                       ? getSchemaBaseRoute(currentSchema, currentSource)
                       : getDataSourceBaseRoute(currentSource)
-                    : '/data'
+                    : "/data"
                 )}
                 {getSidebarItem(
-                  'Actions',
-                  'fa-cogs',
+                  "Actions",
+                  "fa-cogs",
                   tooltips.actions,
-                  '/actions/manage/actions'
+                  "/actions/manage/actions"
                 )}
                 {getSidebarItem(
-                  'Remote Schemas',
-                  'fa-plug',
+                  "Remote Schemas",
+                  "fa-plug",
                   tooltips.remoteSchema,
-                  '/remote-schemas/manage/schemas'
-                )}{' '}
+                  "/remote-schemas/manage/schemas"
+                )}{" "}
                 {getSidebarItem(
-                  'Events',
-                  'fa-cloud',
+                  "Events",
+                  "fa-cloud",
                   tooltips.events,
-                  '/events/data/manage'
+                  "/events/data/manage"
                 )}
               </ul>
             </div>
             <div
               id="dropdown_wrapper"
               className={`${styles.clusterInfoWrapper} ${
-                this.state.isDropdownOpen ? 'open' : ''
+                this.state.isDropdownOpen ? "open" : ""
               }`}
             >
               {getAdminSecretSection()}
@@ -435,7 +435,7 @@ class Main extends React.Component {
                 <span
                   className={`
                     ${isProClicked ? styles.proNameClicked : styles.proName}
-                    ${isPopUpOpen ? styles.navActive : ''}`}
+                    ${isPopUpOpen ? styles.navActive : ""}`}
                 >
                   CLOUD
                 </span>
@@ -447,7 +447,7 @@ class Main extends React.Component {
                   {getSettingsSelectedMarker()}
                 </div>
               </Link>
-              <Help isSelected={currentActiveBlock === 'support'} />
+              <Help isSelected={currentActiveBlock === "support"} />
               <NotificationSection
                 isDropDownOpen={this.state.isDropdownOpen}
                 closeDropDown={this.closeDropDown}
@@ -456,7 +456,7 @@ class Main extends React.Component {
               {!this.state.loveConsentState.isDismissed ? (
                 <div
                   id="dropdown_wrapper"
-                  className={`${this.state.isLoveSectionOpen ? 'open' : ''}`}
+                  className={`${this.state.isLoveSectionOpen ? "open" : ""}`}
                 >
                   <LoveSection
                     closeLoveSection={this.closeLoveSection}
@@ -466,7 +466,7 @@ class Main extends React.Component {
               ) : null}
             </div>
           </div>
-          <div className={styles.main + ' container-fluid'}>
+          <div className={styles.main + " container-fluid"}>
             {getMainContent()}
           </div>
           <UpdateVersion

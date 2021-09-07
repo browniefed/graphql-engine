@@ -1,5 +1,5 @@
-import React from 'react';
-import Common from '../Common/Common';
+import React from "react";
+import Common from "../Common/Common";
 
 import {
   fetchRemoteSchema,
@@ -8,22 +8,22 @@ import {
   RESET,
   TOGGLE_MODIFY,
   getHeaderEvents,
-} from '../Add/addRemoteSchemaReducer';
-import { VIEW_REMOTE_SCHEMA } from '../Actions';
-import { push } from 'react-router-redux';
-import Helmet from 'react-helmet';
-import tabInfo from './tabInfo';
-import CommonTabLayout from '../../../Common/Layout/CommonTabLayout/CommonTabLayout';
-import Button from '../../../Common/Button/Button';
+} from "../Add/addRemoteSchemaReducer";
+import { VIEW_REMOTE_SCHEMA } from "../Actions";
+// import { push } from 'react-router-redux';
+import Helmet from "react-helmet";
+import tabInfo from "./tabInfo";
+import CommonTabLayout from "../../../Common/Layout/CommonTabLayout/CommonTabLayout";
+import Button from "../../../Common/Button/Button";
 
-import { appPrefix, pageTitle } from '../constants';
+import { appPrefix, pageTitle } from "../constants";
 
-import { NotFoundError } from '../../../Error/PageNotFound';
+import { NotFoundError } from "../../../Error/PageNotFound";
 
-import globals from '../../../../Globals';
-import { getConfirmation } from '../../../Common/utils/jsUtils';
-import styles from '../RemoteSchema.scss';
-import { getRemoteSchemasSelector } from '../../../../metadata/selector';
+import globals from "../../../../Globals";
+import { getConfirmation } from "../../../Common/utils/jsUtils";
+import styles from "../RemoteSchema.module.scss";
+import { getRemoteSchemasSelector } from "../../../../metadata/selector";
 
 const prefixUrl = globals.urlPrefix + appPrefix;
 
@@ -74,13 +74,13 @@ class Edit extends React.Component {
         type: getHeaderEvents.UPDATE_HEADERS,
         data: [
           {
-            name: '',
-            type: 'static',
-            value: '',
+            name: "",
+            type: "static",
+            value: "",
           },
         ],
       }),
-      this.props.dispatch({ type: VIEW_REMOTE_SCHEMA, data: '' }),
+      this.props.dispatch({ type: VIEW_REMOTE_SCHEMA, data: "" }),
     ]);
   }
 
@@ -114,7 +114,7 @@ class Edit extends React.Component {
 
   render() {
     const currentRemoteSchema = this.props.allRemoteSchemas.find(
-      r => r.name === this.props.params.remoteSchemaName
+      (r) => r.name === this.props.params.remoteSchemaName
     );
 
     if (!currentRemoteSchema) {
@@ -122,52 +122,48 @@ class Edit extends React.Component {
       throw new NotFoundError();
     }
 
-    const {
-      isFetching,
-      isRequesting,
-      editState,
-      inconsistentObjects,
-    } = this.props;
+    const { isFetching, isRequesting, editState, inconsistentObjects } =
+      this.props;
     const { remoteSchemaName } = this.props.params;
 
     const inconsistencyDetails = inconsistentObjects.find(
-      inconObj =>
-        inconObj.type === 'remote_schema' &&
+      (inconObj) =>
+        inconObj.type === "remote_schema" &&
         inconObj?.definition?.name === remoteSchemaName
     );
 
     const fixInconsistencyMsg =
-      'This remote schema is in an inconsistent state. Please fix inconsistencies and reload metadata first';
+      "This remote schema is in an inconsistent state. Please fix inconsistencies and reload metadata first";
 
     const generateMigrateBtns = () => {
-      return 'isModify' in editState && !editState.isModify ? (
+      return "isModify" in editState && !editState.isModify ? (
         <div className={styles.commonBtn}>
           <Button
             className={styles.button_mar_right}
             color="yellow"
             size="sm"
-            onClick={e => {
+            onClick={(e) => {
               e.preventDefault();
               this.modifyClick();
             }}
-            data-test={'remote-schema-edit-modify-btn'}
+            data-test={"remote-schema-edit-modify-btn"}
             disabled={isRequesting || inconsistencyDetails}
-            title={inconsistencyDetails ? fixInconsistencyMsg : ''}
+            title={inconsistencyDetails ? fixInconsistencyMsg : ""}
           >
             Modify
           </Button>
           <Button
             color="red"
             size="sm"
-            onClick={e => {
+            onClick={(e) => {
               e.preventDefault();
               this.handleDeleteRemoteSchema(e);
             }}
             disabled={isRequesting || inconsistencyDetails}
-            title={inconsistencyDetails ? fixInconsistencyMsg : ''}
-            data-test={'remote-schema-edit-delete-btn'}
+            title={inconsistencyDetails ? fixInconsistencyMsg : ""}
+            data-test={"remote-schema-edit-delete-btn"}
           >
-            {isRequesting ? 'Deleting ...' : 'Delete'}
+            {isRequesting ? "Deleting ..." : "Delete"}
           </Button>
           {this.state.deleteConfirmationError ? (
             <span
@@ -186,18 +182,18 @@ class Edit extends React.Component {
             size="sm"
             type="submit"
             disabled={isRequesting}
-            data-test={'remote-schema-edit-save-btn'}
+            data-test={"remote-schema-edit-save-btn"}
           >
-            {isRequesting ? 'Saving' : 'Save'}
+            {isRequesting ? "Saving" : "Save"}
           </Button>
           <Button
             color="white"
             size="sm"
-            onClick={e => {
+            onClick={(e) => {
               e.preventDefault();
               this.handleCancelModify();
             }}
-            data-test={'remote-schema-edit-cancel-btn'}
+            data-test={"remote-schema-edit-cancel-btn"}
             disabled={isRequesting}
           >
             Cancel
@@ -208,12 +204,12 @@ class Edit extends React.Component {
 
     const breadCrumbs = [
       {
-        title: 'Remote schemas',
+        title: "Remote schemas",
         url: appPrefix,
       },
       {
-        title: 'Manage',
-        url: appPrefix + '/' + 'manage',
+        title: "Manage",
+        url: appPrefix + "/" + "manage",
       },
     ];
 
@@ -222,16 +218,16 @@ class Edit extends React.Component {
         title: remoteSchemaName.trim(),
         url:
           appPrefix +
-          '/' +
-          'manage' +
-          '/' +
+          "/" +
+          "manage" +
+          "/" +
           remoteSchemaName.trim() +
-          '/' +
-          'details',
+          "/" +
+          "details",
       });
       breadCrumbs.push({
-        title: 'modify',
-        url: '',
+        title: "modify",
+        url: "",
       });
     }
 
@@ -251,7 +247,7 @@ class Edit extends React.Component {
         />
         {isFetching ? null : (
           <form
-            onSubmit={e => {
+            onSubmit={(e) => {
               e.preventDefault();
               this.editClicked();
             }}
@@ -264,7 +260,7 @@ class Edit extends React.Component {
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     ...state.remoteSchemas.addData,
     ...state.remoteSchemas.headerData,
@@ -274,4 +270,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect => connect(mapStateToProps)(Edit);
+export default (connect) => connect(mapStateToProps)(Edit);

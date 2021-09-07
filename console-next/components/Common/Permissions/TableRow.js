@@ -1,5 +1,5 @@
-import React from 'react';
-import styles from './PermissionStyles.scss';
+import React from "react";
+import styles from "./PermissionStyles.module.scss";
 
 const TableRow = ({
   roleName,
@@ -12,7 +12,7 @@ const TableRow = ({
 
   if (isNewRole) {
     rowCells.push(
-      <th key={'role-textbox'}>
+      <th key={"role-textbox"}>
         <input
           id="new-role-input"
           className={`form-control ${styles.newRoleInput}`}
@@ -26,13 +26,13 @@ const TableRow = ({
     );
   } else {
     rowCells.push(
-      <th data-test={`role-${roleName}`} key={'role-textbox'}>
+      <th data-test={`role-${roleName}`} key={"role-textbox"}>
         {roleName}
       </th>
     );
   }
 
-  permTypes.forEach(p => {
+  permTypes.forEach((p) => {
     rowCells.push(
       <td
         key={p.dataTest}

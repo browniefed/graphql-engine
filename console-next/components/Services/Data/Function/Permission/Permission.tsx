@@ -1,32 +1,32 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import Helmet from 'react-helmet';
-import { connect, ConnectedProps } from 'react-redux';
-import { Link, RouteComponentProps } from 'react-router';
-import { push } from 'react-router-redux';
+import React, { useState, useEffect, useMemo } from "react";
+import Helmet from "react-helmet";
+import { connect, ConnectedProps } from "react-redux";
+import { Link, RouteComponentProps } from "react-router";
+// import { push } from 'react-router-redux';
 
-import globals from '../../../../../Globals';
-import { ReduxState } from '../../../../../types';
-import CommonTabLayout from '../../../../Common/Layout/CommonTabLayout/CommonTabLayout';
-import { mapDispatchToPropsEmpty } from '../../../../Common/utils/reactUtils';
+import globals from "../../../../../Globals";
+import { ReduxState } from "../../../../../types";
+import CommonTabLayout from "../../../../Common/Layout/CommonTabLayout/CommonTabLayout";
+import { mapDispatchToPropsEmpty } from "../../../../Common/utils/reactUtils";
 import {
   getFunctionBaseRoute,
   getSchemaBaseRoute,
   getTablePermissionsRoute,
-} from '../../../../Common/utils/routesUtils';
-import { NotFoundError } from '../../../../Error/PageNotFound';
+} from "../../../../Common/utils/routesUtils";
+import { NotFoundError } from "../../../../Error/PageNotFound";
 import {
   fetchFunctionInit,
   setTable,
   updateSchemaInfo,
   UPDATE_CURRENT_SCHEMA,
-} from '../../DataActions';
-import { fetchCustomFunction } from '../customFunctionReducer';
-import tabInfo from '../Modify/tabInfo';
-import PermissionsEditor from './PermissionsEditor';
+} from "../../DataActions";
+import { fetchCustomFunction } from "../customFunctionReducer";
+import tabInfo from "../Modify/tabInfo";
+import PermissionsEditor from "./PermissionsEditor";
 
-import styles from '../Modify/ModifyCustomFunction.scss';
-import { PGFunction } from '../../../../../dataSources/services/postgresql/types';
-import { getFunctionSelector } from '../../../../../metadata/selector';
+import styles from "../Modify/ModifyCustomFunction.scss";
+import { PGFunction } from "../../../../../dataSources/services/postgresql/types";
+import { getFunctionSelector } from "../../../../../metadata/selector";
 
 const PermissionServerFlagNote = ({ isEditable = false }) =>
   !isEditable ? (
@@ -34,7 +34,7 @@ const PermissionServerFlagNote = ({ isEditable = false }) =>
       <br />
       <p>
         Function will be exposed automatically if there are SELECT permissions
-        for the role. To expose query functions to roles explicitly, set{' '}
+        for the role. To expose query functions to roles explicitly, set{" "}
         <code>HASURA_GRAPHQL_INFER_FUNCTION_PERMISSIONS=false</code> on the
         server (
         <a
@@ -77,10 +77,10 @@ const Permissions: React.FC<PermissionsProps> = ({
 
     const isFunctionExposedAsMutation =
       currentFunctionInfo(currentFunction, currentSchema)?.configuration
-        ?.exposed_as === 'mutation' ?? false;
+        ?.exposed_as === "mutation" ?? false;
 
     if (
-      databaseFunction?.function_type === 'VOLATILE' &&
+      databaseFunction?.function_type === "VOLATILE" &&
       (isFunctionExposedAsMutation ||
         !serverConfig.is_function_permissions_inferred)
     ) {
@@ -136,11 +136,11 @@ const Permissions: React.FC<PermissionsProps> = ({
 
   const breadCrumbs = [
     {
-      title: 'Data',
+      title: "Data",
       url: urlWithSchema,
     },
     {
-      title: 'Schema',
+      title: "Schema",
       url: urlWithSchema,
     },
     {
@@ -169,8 +169,8 @@ const Permissions: React.FC<PermissionsProps> = ({
       url: functionBaseURL,
     });
     breadCrumbs.push({
-      title: 'Permission',
-      url: '',
+      title: "Permission",
+      url: "",
     });
   }
 

@@ -1,11 +1,11 @@
-import React, { useCallback } from 'react';
-import Button from '../../../Common/Button';
-import { isJsonString, getConfirmation } from '../../../Common/utils/jsUtils';
-import { FilterState } from './utils';
-import { showErrorNotification } from '../../Common/Notification';
-import { permChangePermissions, permChangeTypes } from './Actions';
-import styles from '../../../Common/Permissions/PermissionStyles.scss';
-import { Dispatch } from '../../../../types';
+import React, { useCallback } from "react";
+import Button from "../../../Common/Button";
+import { isJsonString, getConfirmation } from "../../../Common/utils/jsUtils";
+import { FilterState } from "./utils";
+import { showErrorNotification } from "../../Common/Notification";
+import { permChangePermissions, permChangeTypes } from "./Actions";
+import styles from "../../../Common/Permissions/PermissionStyles.module.scss";
+import { Dispatch } from "../../../../types";
 
 interface PermButtonSectionProps {
   readOnlyMode: string;
@@ -27,7 +27,7 @@ const PermButtonSection: React.FC<PermButtonSectionProps> = ({
   currQueryPermissions,
 }) => {
   const dispatchSavePermissions = useCallback(() => {
-    const isInvalid = Object.values(localFilterString).some(val => {
+    const isInvalid = Object.values(localFilterString).some((val) => {
       if (val && !isJsonString(val)) {
         return true;
       }
@@ -37,8 +37,8 @@ const PermButtonSection: React.FC<PermButtonSectionProps> = ({
     if (isInvalid) {
       dispatch(
         showErrorNotification(
-          'Saving permissions failed',
-          'Row permission is not a valid JSON'
+          "Saving permissions failed",
+          "Row permission is not a valid JSON"
         )
       );
       return;
@@ -49,7 +49,7 @@ const PermButtonSection: React.FC<PermButtonSectionProps> = ({
 
   const dispatchRemoveAccess = useCallback(() => {
     const confirmMessage =
-      'This will permanently delete the currently set permissions';
+      "This will permanently delete the currently set permissions";
     const isOk = getConfirmation(confirmMessage);
     if (isOk) {
       dispatch(permChangePermissions(permChangeTypes.delete));
@@ -70,7 +70,7 @@ const PermButtonSection: React.FC<PermButtonSectionProps> = ({
         disabled={
           permissionsState.applySamePermissions.length !== 0 || !permsChanged
         }
-        title={!permsChanged ? 'No changes made' : ''}
+        title={!permsChanged ? "No changes made" : ""}
         data-test="Save-Permissions-button"
       >
         Save Permissions
@@ -81,7 +81,7 @@ const PermButtonSection: React.FC<PermButtonSectionProps> = ({
         size="sm"
         onClick={dispatchRemoveAccess}
         disabled={!currQueryPermissions}
-        title={!currQueryPermissions ? 'No permissions set' : ''}
+        title={!currQueryPermissions ? "No permissions set" : ""}
         data-test="Delete-Permissions-button"
       >
         Delete Permissions

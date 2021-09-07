@@ -1,20 +1,20 @@
-import React from 'react';
-import { connect, ConnectedProps } from 'react-redux';
-import { Link } from 'react-router';
+import React from "react";
+import { connect, ConnectedProps } from "react-redux";
+import Link from "next/link";
 
-import { ReduxState } from '../../../../types';
-import { mapDispatchToPropsEmpty } from '../../../Common/utils/reactUtils';
-import AceEditor from '../../../Common/AceEditor/BaseEditor';
-import URLPreview from './Create/URLPreview';
-import { allowedQueriesCollection } from '../../../../metadata/utils';
-import Button from '../../../Common/Button';
-import { dropRESTEndpoint } from '../../../../metadata/actions';
-import _push from '../../Data/push';
-import Landing from './Landing';
-import { badgeSort } from './utils';
-import CollapsibleToggle from '../../../Common/CollapsibleToggle/CollapsibleToggle';
+import { ReduxState } from "../../../../types";
+import { mapDispatchToPropsEmpty } from "../../../Common/utils/reactUtils";
+import AceEditor from "../../../Common/AceEditor/BaseEditor";
+import URLPreview from "./Create/URLPreview";
+import { allowedQueriesCollection } from "../../../../metadata/utils";
+import Button from "../../../Common/Button";
+import { dropRESTEndpoint } from "../../../../metadata/actions";
+import _push from "../../Data/push";
+import Landing from "./Landing";
+import { badgeSort } from "./utils";
+import CollapsibleToggle from "../../../Common/CollapsibleToggle/CollapsibleToggle";
 
-import styles from './RESTStyles.scss';
+import styles from "./RESTStyles.scss";
 
 const ListComponent: React.FC<Props> = ({
   restEndpoints,
@@ -22,7 +22,7 @@ const ListComponent: React.FC<Props> = ({
   dispatch,
 }) => {
   const allowedQueries = queryCollections?.find(
-    collection => collection.name === allowedQueriesCollection
+    (collection) => collection.name === allowedQueriesCollection
   );
 
   if (!queryCollections || !allowedQueries || !restEndpoints) {
@@ -32,7 +32,7 @@ const ListComponent: React.FC<Props> = ({
   const allAllowedQueries = allowedQueries.definition.queries;
 
   const findQuery = (name: string) =>
-    allAllowedQueries.find(q => q.name === name)?.query ?? '';
+    allAllowedQueries.find((q) => q.name === name)?.query ?? "";
 
   const onClickDelete = (name: string, request: string) => () => {
     dispatch(dropRESTEndpoint(name, request));
@@ -51,7 +51,7 @@ const ListComponent: React.FC<Props> = ({
         </h2>
       </div>
       <div className={`${styles.subHeader} ${styles.padd_top}`}>
-        Create endpoints from GraphQL queries using{' '}
+        Create endpoints from GraphQL queries using{" "}
         <Link to="/api/api-explorer">GraphiQL</Link>.
         <div className="w-8/12 mt-sm">
           REST endpoints allow for the creation of a REST interface to your
@@ -86,7 +86,7 @@ const ListComponent: React.FC<Props> = ({
             </th>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {restEndpoints.map(endpoint => (
+            {restEndpoints.map((endpoint) => (
               <>
                 <tr key={`rest_list_endpoint_${endpoint.name}`}>
                   {/* Details */}
@@ -128,7 +128,7 @@ const ListComponent: React.FC<Props> = ({
                   </td>
 
                   <td className="px-md py-sm align-top">
-                    {badgeSort(endpoint.methods).map(method => (
+                    {badgeSort(endpoint.methods).map((method) => (
                       <span className="mr-sm" key={`badge-list-${method}`}>
                         <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-semibold bg-blue-100 text-blue-800">
                           {method}
@@ -146,11 +146,11 @@ const ListComponent: React.FC<Props> = ({
                         findQuery(endpoint.name)
                       )}
                       color="white"
-                      style={{ marginRight: '4px' }}
+                      style={{ marginRight: "4px" }}
                     >
                       <i
                         className="fa fa-times"
-                        style={{ marginRight: '4px' }}
+                        style={{ marginRight: "4px" }}
                       />
                       Delete
                     </Button>
@@ -161,7 +161,7 @@ const ListComponent: React.FC<Props> = ({
                     >
                       <i
                         className="fa fa-edit"
-                        style={{ marginRight: '4px' }}
+                        style={{ marginRight: "4px" }}
                       />
                       Edit
                     </Button>

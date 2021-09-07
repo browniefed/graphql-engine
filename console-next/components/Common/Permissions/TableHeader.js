@@ -1,12 +1,12 @@
-import React from 'react';
-import styles from './PermissionStyles.scss';
+import React from "react";
+import styles from "./PermissionStyles.module.scss";
 
 const TableHeader = ({ headings }) => {
   return (
     <thead>
       <tr>
         {headings.map((heading, index) => {
-          if (heading === '') {
+          if (heading === "") {
             return (
               <th key={index} className={styles.bulkSelectCell}>
                 {heading}

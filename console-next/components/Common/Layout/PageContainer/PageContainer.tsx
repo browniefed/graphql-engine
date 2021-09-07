@@ -1,8 +1,7 @@
-import React from 'react';
-import Helmet from 'react-helmet';
-import styles from '../../Common.scss';
+import React from "react";
+import styles from "@/css/Common.module.scss";
 
-interface PageContainerProps extends React.ComponentProps<'div'> {
+interface PageContainerProps extends React.ComponentProps<"div"> {
   helmet: string;
   leftContainer: React.ReactNode;
 }
@@ -14,7 +13,7 @@ const PageContainer: React.FC<PageContainerProps> = ({
 }) => {
   return (
     <>
-      <Helmet title={helmet} />
+      {/* <Helmet title={helmet} /> */}
       <div
         className={`${styles.wd20} ${styles.align_left} ${styles.height100}`}
       >

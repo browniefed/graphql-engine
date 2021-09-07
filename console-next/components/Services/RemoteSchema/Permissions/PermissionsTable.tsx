@@ -1,20 +1,20 @@
-import React, { ChangeEvent } from 'react';
-import { GraphQLSchema } from 'graphql';
-import styles from '../../../Common/Permissions/PermissionStyles.scss';
-import PermTableHeader from '../../../Common/Permissions/TableHeader';
-import PermTableBody from '../../../Common/Permissions/TableBody';
-import { permissionsSymbols } from '../../../Common/Permissions/PermissionSymbols';
+import React, { ChangeEvent } from "react";
+import { GraphQLSchema } from "graphql";
+import styles from "../../../Common/Permissions/PermissionStyles.module.scss";
+import PermTableHeader from "../../../Common/Permissions/TableHeader";
+import PermTableBody from "../../../Common/Permissions/TableBody";
+import { permissionsSymbols } from "../../../Common/Permissions/PermissionSymbols";
 import {
   buildSchemaFromRoleDefn,
   findRemoteSchemaPermission,
   getRemoteSchemaFields,
-} from './utils';
+} from "./utils";
 import {
   RolePermissions,
   PermOpenEditType,
   PermissionsType,
   PermissionEdit,
-} from './types';
+} from "./types";
 
 export type PermissionsTableProps = {
   setSchemaDefinition: (data: string) => void;
@@ -34,7 +34,7 @@ export type PermissionsTableProps = {
   isEditing: boolean;
 };
 
-const queryTypes = ['Permission'];
+const queryTypes = ["Permission"];
 
 const PermissionsTable: React.FC<PermissionsTableProps> = ({
   allRoles,
@@ -52,7 +52,7 @@ const PermissionsTable: React.FC<PermissionsTableProps> = ({
 }) => {
   const allPermissions = currentRemoteSchema?.permissions || [];
 
-  const headings = ['Role', ...queryTypes];
+  const headings = ["Role", ...queryTypes];
 
   const dispatchRoleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     permSetRoleName(e.target.value?.trim());
@@ -69,18 +69,18 @@ const PermissionsTable: React.FC<PermissionsTableProps> = ({
   const getBulkCheckbox = (role: string, isNewRole: boolean) => {
     const dispatchBulkSelect = (e: ChangeEvent<HTMLInputElement>) => {
       const isChecked = e.target.checked;
-      const selectedRole = e.target.getAttribute('data-role');
+      const selectedRole = e.target.getAttribute("data-role");
       permSetBulkSelect(isChecked, selectedRole as string);
     };
 
     const disableCheckbox = !findRemoteSchemaPermission(allPermissions, role);
 
     return {
-      showCheckbox: !(role === 'admin' || isNewRole),
+      showCheckbox: !(role === "admin" || isNewRole),
       disableCheckbox,
       title: disableCheckbox
-        ? 'No permissions exist'
-        : 'Select for bulk actions',
+        ? "No permissions exist"
+        : "Select for bulk actions",
       bulkSelect,
       onChange: dispatchBulkSelect,
       role,
@@ -90,10 +90,10 @@ const PermissionsTable: React.FC<PermissionsTableProps> = ({
   };
 
   const getQueryTypes = (role: string, isNewRole: boolean) => {
-    return queryTypes.map(queryType => {
+    return queryTypes.map((queryType) => {
       const dispatchOpenEdit = () => () => {
         if (isNewRole && !!role) {
-          setSchemaDefinition('');
+          setSchemaDefinition("");
           permOpenEdit(role, isNewRole, true);
         } else if (role) {
           const existingPerm = findRemoteSchemaPermission(allPermissions, role);
@@ -103,10 +103,10 @@ const PermissionsTable: React.FC<PermissionsTableProps> = ({
             const schemaDefinitionSdl = existingPerm.definition.schema;
             setSchemaDefinition(schemaDefinitionSdl);
           } else {
-            setSchemaDefinition('');
+            setSchemaDefinition("");
           }
         } else {
-          const inputFocusElem = document.getElementById('new-role-input');
+          const inputFocusElem = document.getElementById("new-role-input");
           if (inputFocusElem) {
             inputFocusElem.focus();
           }
@@ -115,7 +115,7 @@ const PermissionsTable: React.FC<PermissionsTableProps> = ({
 
       const dispatchCloseEdit = () => {
         permCloseEdit();
-        setSchemaDefinition('');
+        setSchemaDefinition("");
       };
 
       const isCurrEdit =
@@ -123,9 +123,9 @@ const PermissionsTable: React.FC<PermissionsTableProps> = ({
         (permissionEdit.role === role ||
           (permissionEdit.isNewRole && permissionEdit.newRole === role));
       let editIcon;
-      let className = '';
+      let className = "";
       let onClick = () => {};
-      if (role !== 'admin' && !readOnlyMode) {
+      if (role !== "admin" && !readOnlyMode) {
         editIcon = getEditIcon();
 
         if (isCurrEdit) {
@@ -139,7 +139,7 @@ const PermissionsTable: React.FC<PermissionsTableProps> = ({
 
       const getRoleQueryPermission = () => {
         let permissionAccess;
-        if (role === 'admin') {
+        if (role === "admin") {
           permissionAccess = permissionsSymbols.fullAccess;
         } else if (isNewRole) {
           permissionAccess = permissionsSymbols.noAccess;
@@ -155,12 +155,12 @@ const PermissionsTable: React.FC<PermissionsTableProps> = ({
             if (
               remoteFields
                 .filter(
-                  field =>
-                    !field.name.startsWith('enum') &&
-                    !field.name.startsWith('scalar')
+                  (field) =>
+                    !field.name.startsWith("enum") &&
+                    !field.name.startsWith("scalar")
                 )
-                .some(field =>
-                  field.children?.some(element => element.checked === false)
+                .some((field) =>
+                  field.children?.some((element) => element.checked === false)
                 )
             ) {
               permissionAccess = permissionsSymbols.partialAccess;
@@ -184,8 +184,8 @@ const PermissionsTable: React.FC<PermissionsTableProps> = ({
   };
 
   // form rolesList and permissions metadata associated with each role
-  const roleList = ['admin', ...allRoles];
-  const rolePermissions: RolePermissions[] = roleList.map(r => {
+  const roleList = ["admin", ...allRoles];
+  const rolePermissions: RolePermissions[] = roleList.map((r) => {
     return {
       roleName: r,
       permTypes: getQueryTypes(r, false),

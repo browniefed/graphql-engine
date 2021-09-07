@@ -1,11 +1,12 @@
-import React from 'react';
-import Common from '../Common/Common';
+import React from "react";
+import Common from "../Common/Common";
 
-import { addRemoteSchema, RESET } from './addRemoteSchemaReducer';
-import Helmet from 'react-helmet';
-import Button from '../../../Common/Button/Button';
+import { addRemoteSchema, RESET } from "./addRemoteSchemaReducer";
+import Helmet from "react-helmet";
+import Button from "../../../Common/Button/Button";
 
-import { pageTitle } from '../constants';
+import { pageTitle } from "../constants";
+import styles from "../RemoteSchema.module.scss";
 
 class Add extends React.Component {
   componentWillUnmount() {
@@ -13,8 +14,6 @@ class Add extends React.Component {
   }
 
   render() {
-    const styles = require('../RemoteSchema.scss');
-
     const { isRequesting, dispatch } = this.props;
 
     return (
@@ -22,7 +21,7 @@ class Add extends React.Component {
         <Helmet title={`Add ${pageTitle} - ${pageTitle}s | Hasura`} />
         <div className={styles.heading_text}>Add a new remote schema</div>
         <form
-          onSubmit={e => {
+          onSubmit={(e) => {
             e.preventDefault();
             dispatch(addRemoteSchema());
           }}
@@ -36,7 +35,7 @@ class Add extends React.Component {
               // disabled={isRequesting} // TODO
               data-test="add-remote-schema-submit"
             >
-              {isRequesting ? 'Adding...' : 'Add Remote Schema'}
+              {isRequesting ? "Adding..." : "Add Remote Schema"}
             </Button>
             {/*
             <button className={styles.default_button}>Cancel</button>
@@ -48,11 +47,11 @@ class Add extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     ...state.remoteSchemas.addData,
     ...state.remoteSchemas.headerData,
   };
 };
 
-export default connect => connect(mapStateToProps)(Add);
+export default (connect) => connect(mapStateToProps)(Add);

@@ -1,7 +1,7 @@
-import { push } from 'react-router-redux';
-import globals from '../Globals';
-import { Thunk } from '../types';
-import dataHeaders from '../components/Services/Data/Common/Headers';
+// import { push } from 'react-router-redux';
+import globals from "../Globals";
+import { Thunk } from "../types";
+import dataHeaders from "../components/Services/Data/Common/Headers";
 
 import {
   LOAD_REQUEST,
@@ -9,8 +9,8 @@ import {
   FAILED_REQUEST,
   ERROR_REQUEST,
   CONNECTION_FAILED,
-} from '../components/App/Actions';
-import { globalCookiePolicy } from '../Endpoints';
+} from "../components/App/Actions";
+import { globalCookiePolicy } from "../Endpoints";
 
 const requestAction = <T = any>(
   url: string,
@@ -36,12 +36,12 @@ const requestAction = <T = any>(
     return new Promise((resolve, reject) => {
       dispatch({ type: LOAD_REQUEST });
       fetch(url, requestOptions).then(
-        response => {
-          const contentType = response.headers.get('Content-Type');
-          const isResponseJson = `${contentType}`.includes('application/json');
+        (response) => {
+          const contentType = response.headers.get("Content-Type");
+          const isResponseJson = `${contentType}`.includes("application/json");
           if (response.ok) {
             if (!isResponseJson) {
-              return response.text().then(responseBody => {
+              return response.text().then((responseBody) => {
                 if (SUCCESS) {
                   dispatch({ type: SUCCESS, data: responseBody });
                 }
@@ -51,7 +51,7 @@ const requestAction = <T = any>(
               });
             }
 
-            return response.json().then(results => {
+            return response.json().then((results) => {
               if (SUCCESS) {
                 dispatch({ type: SUCCESS, data: results });
               }
@@ -62,7 +62,7 @@ const requestAction = <T = any>(
           dispatch({ type: FAILED_REQUEST });
           if (response.status >= 400 && response.status <= 500) {
             if (!isResponseJson) {
-              return response.text().then(errorMessage => {
+              return response.text().then((errorMessage) => {
                 if (ERROR) {
                   dispatch({ type: ERROR, data: errorMessage });
                 } else {
@@ -77,7 +77,7 @@ const requestAction = <T = any>(
                 reject(errorMessage);
               });
             }
-            return response.json().then(errorMsg => {
+            return response.json().then((errorMsg) => {
               const msg = errorMsg;
               if (ERROR) {
                 dispatch({ type: ERROR, data: msg });
@@ -90,7 +90,7 @@ const requestAction = <T = any>(
                   statusCode: response.status,
                 });
               }
-              if (msg.code && msg.code === 'access-denied') {
+              if (msg.code && msg.code === "access-denied") {
                 if (window.location.pathname !== `${globals.urlPrefix}/login`) {
                   dispatch(push(`${globals.urlPrefix}/login`));
                 }
@@ -98,7 +98,7 @@ const requestAction = <T = any>(
               reject(msg);
             });
           }
-          return response.text().then(errorMsg => {
+          return response.text().then((errorMsg) => {
             dispatch({ type: FAILED_REQUEST });
             if (ERROR) {
               dispatch({ type: ERROR, response, data: errorMsg });
@@ -106,8 +106,8 @@ const requestAction = <T = any>(
             reject();
           });
         },
-        error => {
-          console.error('Request error: ', error);
+        (error) => {
+          console.error("Request error: ", error);
           dispatch({ type: CONNECTION_FAILED });
           if (ERROR) {
             dispatch({

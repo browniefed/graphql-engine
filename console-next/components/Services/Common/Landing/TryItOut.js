@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import PopUp from './PopUp';
+import React from "react";
+import PopUp from "./PopUp";
+import styles from "../../RemoteSchema/RemoteSchema.module.scss";
 
 class TryItOut extends React.Component {
   constructor() {
@@ -13,13 +13,12 @@ class TryItOut extends React.Component {
     this.setState({ isPopUp: !this.state.isPopUp });
   }
   render() {
-    const Rectangle = require('./images/Rectangle.svg');
-    const styles = require('../../RemoteSchema/RemoteSchema.scss');
-    const glitch = require('./images/glitch.png');
-    const googleCloud = require('./images/google_cloud.svg');
-    const MicrosoftAzure = require('./images/Microsoft_Azure_Logo.svg');
-    const AWS = require('./images/AWS.png');
-    const externalLink = require('./images/external-link.svg');
+    const Rectangle = require("./images/Rectangle.svg");
+    const glitch = require("./images/glitch.png");
+    const googleCloud = require("./images/google_cloud.svg");
+    const MicrosoftAzure = require("./images/Microsoft_Azure_Logo.svg");
+    const AWS = require("./images/AWS.png");
+    const externalLink = require("./images/external-link.svg");
     // const { title, imgUrl, imgAlt,  description} = this.props;
     const commonStyle = this.props.isAvailable
       ? styles.instructionsWrapper
@@ -27,13 +26,13 @@ class TryItOut extends React.Component {
     return (
       <div>
         <div className={styles.subHeaderText}>
-          <img className={'img-responsive'} src={Rectangle} alt={'Rectangle'} />
+          <img className={"img-responsive"} src={Rectangle} alt={"Rectangle"} />
           Try it out
         </div>
         <div className={styles.tryOutWrapper}>
           <div className={styles.boxLarge}>
             <div className={styles.logoIcon}>
-              <img className={'img-responsive'} src={glitch} alt={'glitch'} />
+              <img className={"img-responsive"} src={glitch} alt={"glitch"} />
             </div>
             <a
               href={this.props.glitchLink}
@@ -41,18 +40,18 @@ class TryItOut extends React.Component {
               rel="noopener noreferrer"
             >
               <button className={styles.default_button}>
-                Try it with Glitch{' '}
+                Try it with Glitch{" "}
                 <img
-                  className={'img-responsive ' + styles.externalLinkImg}
+                  className={"img-responsive " + styles.externalLinkImg}
                   src={externalLink}
-                  alt={'externalLink'}
+                  alt={"externalLink"}
                 />
               </button>
             </a>
-            <div className={styles.displayFlex + ' ' + commonStyle}>
+            <div className={styles.displayFlex + " " + commonStyle}>
               <span
                 onClick={this.togglePopup.bind(this)}
-                className={styles.instructions + ' ' + styles.displayFlex}
+                className={styles.instructions + " " + styles.displayFlex}
               >
                 <span>Instructions</span>
                 <div className={styles.rightArrow} />
@@ -72,48 +71,48 @@ class TryItOut extends React.Component {
           <div className={styles.boxSmallWrapper}>
             <a
               href={this.props.googleCloudLink}
-              target={'_blank'}
+              target={"_blank"}
               rel="noopener noreferrer"
-              title={'Google Cloud'}
+              title={"Google Cloud"}
             >
               <div className={styles.boxSmall}>
                 <div className={styles.logoIcon}>
                   <img
-                    className={'img-responsive'}
+                    className={"img-responsive"}
                     src={googleCloud}
-                    alt={'Google Cloud'}
+                    alt={"Google Cloud"}
                   />
                 </div>
               </div>
             </a>
             <a
               href={this.props.MicrosoftAzureLink}
-              target={'_blank'}
+              target={"_blank"}
               rel="noopener noreferrer"
-              title={'Microsoft Azure'}
+              title={"Microsoft Azure"}
             >
               <div className={styles.boxSmall}>
                 <div className={styles.logoIcon}>
                   <img
-                    className={'img-responsive'}
+                    className={"img-responsive"}
                     src={MicrosoftAzure}
-                    alt={'Microsoft Azure'}
+                    alt={"Microsoft Azure"}
                   />
                 </div>
               </div>
             </a>
             <a
               href={this.props.awsLink}
-              target={'_blank'}
+              target={"_blank"}
               rel="noopener noreferrer"
-              title={'AWS'}
+              title={"AWS"}
             >
               <div className={styles.boxSmall}>
                 <div className={styles.logoIcon}>
                   <img
-                    className={'img-responsive ' + styles.imgAws}
+                    className={"img-responsive " + styles.imgAws}
                     src={AWS}
-                    alt={'AWS'}
+                    alt={"AWS"}
                   />
                 </div>
               </div>
@@ -133,16 +132,16 @@ class TryItOut extends React.Component {
     );
   }
 }
-TryItOut.propTypes = {
-  service: PropTypes.string.isRequired,
-  queryDefinition: PropTypes.string.isRequired,
-  glitchLink: PropTypes.string.isRequired,
-  googleCloudLink: PropTypes.string.isRequired,
-  MicrosoftAzureLink: PropTypes.string.isRequired,
-  awsLink: PropTypes.string.isRequired,
-  adMoreLink: PropTypes.string.isRequired,
-  // imgUrl: PropTypes.string.isRequired,
-  // imgAlt: PropTypes.string.isRequired,
-  // description: PropTypes.string.isRequired,
-};
+// TryItOut.propTypes = {
+//   service: PropTypes.string.isRequired,
+//   queryDefinition: PropTypes.string.isRequired,
+//   glitchLink: PropTypes.string.isRequired,
+//   googleCloudLink: PropTypes.string.isRequired,
+//   MicrosoftAzureLink: PropTypes.string.isRequired,
+//   awsLink: PropTypes.string.isRequired,
+//   adMoreLink: PropTypes.string.isRequired,
+//   // imgUrl: PropTypes.string.isRequired,
+//   // imgAlt: PropTypes.string.isRequired,
+//   // description: PropTypes.string.isRequired,
+// };
 export default TryItOut;

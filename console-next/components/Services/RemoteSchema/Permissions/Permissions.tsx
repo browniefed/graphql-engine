@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import Helmet from 'react-helmet';
-import { GraphQLSchema } from 'graphql';
-import PermissionsTable from './PermissionsTable';
-import PermissionEditor from './PermissionEditor';
-import { useIntrospectionSchemaRemote } from '../graphqlUtils';
-import globals from '../../../../Globals';
-import styles from '../../../Common/Permissions/PermissionStyles.scss';
-import { getRemoteSchemaFields, buildSchemaFromRoleDefn } from './utils';
+import React, { useEffect, useState } from "react";
+import Helmet from "react-helmet";
+import { GraphQLSchema } from "graphql";
+import PermissionsTable from "./PermissionsTable";
+import PermissionEditor from "./PermissionEditor";
+import { useIntrospectionSchemaRemote } from "../graphqlUtils";
+import globals from "../../../../Globals";
+import styles from "../../../Common/Permissions/PermissionStyles.module.scss";
+import { getRemoteSchemaFields, buildSchemaFromRoleDefn } from "./utils";
 import {
   RemoteSchemaFields,
   PermissionEdit,
   PermOpenEditType,
   PermissionsType,
-} from './types';
-import BulkSelect from './BulkSelect';
-import { Dispatch } from '../../../../types';
+} from "./types";
+import BulkSelect from "./BulkSelect";
+import { Dispatch } from "../../../../types";
 
 export type PermissionsProps = {
   allRoles: string[];
@@ -47,7 +47,7 @@ export type PermissionsProps = {
   permRemoveMultipleRoles: () => void;
 };
 
-const Permissions: React.FC<PermissionsProps> = props => {
+const Permissions: React.FC<PermissionsProps> = (props) => {
   const {
     allRoles,
     currentRemoteSchema,
@@ -82,7 +82,7 @@ const Permissions: React.FC<PermissionsProps> = props => {
   const res = useIntrospectionSchemaRemote(
     currentRemoteSchema.name,
     {
-      'x-hasura-admin-secret': globals.adminSecret,
+      "x-hasura-admin-secret": globals.adminSecret,
     },
     dispatch
   );
@@ -109,10 +109,10 @@ const Permissions: React.FC<PermissionsProps> = props => {
   if (error || !schema) {
     return (
       <div>
-        Error introspecting remote schema.{' '}
+        Error introspecting remote schema.{" "}
         <a onClick={introspect} className={styles.cursorPointer} role="button">
-          {' '}
-          Try again{' '}
+          {" "}
+          Try again{" "}
         </a>
       </div>
     );
@@ -146,7 +146,7 @@ const Permissions: React.FC<PermissionsProps> = props => {
       <div className={`${styles.add_mar_bottom}`}>
         {!readOnlyMode && (
           <PermissionEditor
-            key={permissionEdit.isNewRole ? 'NEW' : permissionEdit.role}
+            key={permissionEdit.isNewRole ? "NEW" : permissionEdit.role}
             permissionEdit={permissionEdit}
             isFetching={isFetching}
             isEditing={isEditing}

@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { Link } from "react-router";
+import Link from "next/link";
 import styles from "../../TableCommon/Table.module.scss";
 
 export type BreadCrumb = {

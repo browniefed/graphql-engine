@@ -1,32 +1,33 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
-import Tooltip from 'react-bootstrap/lib/Tooltip';
-import DropdownButton from '../../../Common/DropdownButton/DropdownButton';
+import React from "react";
+import PropTypes from "prop-types";
+import OverlayTrigger from "react-bootstrap/lib/OverlayTrigger";
+import Tooltip from "react-bootstrap/lib/Tooltip";
+import DropdownButton from "../../../Common/DropdownButton/DropdownButton";
 
 import {
   inputChange,
   UPDATE_FORWARD_CLIENT_HEADERS,
-} from '../Add/addRemoteSchemaReducer';
+} from "../Add/addRemoteSchemaReducer";
 
-import CommonHeader from '../../../Common/Layout/ReusableHeader/Header';
+import CommonHeader from "../../../Common/Layout/ReusableHeader/Header";
+import styles from "../RemoteSchema.module.scss";
 
 class Common extends React.Component {
   getPlaceHolderText(valType) {
-    if (valType === 'static') {
-      return 'header value';
+    if (valType === "static") {
+      return "header value";
     }
-    return 'env var name';
+    return "env var name";
   }
 
   handleInputChange(e) {
-    const fieldName = e.target.getAttribute('data-key');
+    const fieldName = e.target.getAttribute("data-key");
     this.props.dispatch(inputChange(fieldName, e.target.value));
   }
 
   toggleUrlParam(e) {
-    const field = e.target.getAttribute('value');
-    this.props.dispatch(inputChange(field, ''));
+    const field = e.target.getAttribute("value");
+    this.props.dispatch(inputChange(field, ""));
   }
 
   toggleForwardHeaders() {
@@ -34,8 +35,6 @@ class Common extends React.Component {
   }
 
   render() {
-    const styles = require('../RemoteSchema.scss');
-
     const {
       name,
       manualUrl,
@@ -96,11 +95,11 @@ class Common extends React.Component {
           </div>
           <label
             className={
-              styles.inputLabel + ' radio-inline ' + styles.padd_left_remove
+              styles.inputLabel + " radio-inline " + styles.padd_left_remove
             }
           >
             <input
-              className={'form-control'}
+              className={"form-control"}
               type="text"
               placeholder="Timeout in seconds"
               value={timeoutConf}
@@ -118,7 +117,7 @@ class Common extends React.Component {
 
     return (
       <div className={styles.CommonWrapper}>
-        <div className={styles.subheading_text + ' ' + styles.addPaddTop}>
+        <div className={styles.subheading_text + " " + styles.addPaddTop}>
           Remote Schema name *
           <OverlayTrigger placement="right" overlay={tooltips.schema}>
             <i className="fa fa-question-circle" aria-hidden="true" />
@@ -126,11 +125,11 @@ class Common extends React.Component {
         </div>
         <label
           className={
-            styles.inputLabel + ' radio-inline ' + styles.padd_left_remove
+            styles.inputLabel + " radio-inline " + styles.padd_left_remove
           }
         >
           <input
-            className={'form-control'}
+            className={"form-control"}
             type="text"
             placeholder="Name of the schema"
             value={name}
@@ -153,17 +152,17 @@ class Common extends React.Component {
         <div className={styles.wd_300}>
           <DropdownButton
             dropdownOptions={[
-              { display_text: 'URL', value: 'manualUrl' },
-              { display_text: 'From env var', value: 'envName' },
+              { display_text: "URL", value: "manualUrl" },
+              { display_text: "From env var", value: "envName" },
             ]}
             title={
-              (manualUrl !== null && 'URL') ||
-              (envName !== null && 'From env var') ||
-              'Value'
+              (manualUrl !== null && "URL") ||
+              (envName !== null && "From env var") ||
+              "Value"
             }
             dataKey={
-              (manualUrl !== null && 'manualUrl') ||
-              (envName !== null && 'envName')
+              (manualUrl !== null && "manualUrl") ||
+              (envName !== null && "envName")
             }
             onButtonChange={this.toggleUrlParam.bind(this)}
             onInputChange={this.handleInputChange.bind(this)}
@@ -174,8 +173,8 @@ class Common extends React.Component {
             id="graphql-server-url"
             inputPlaceHolder={
               (manualUrl !== null &&
-                'https://my-graphql-service.com/graphql') ||
-              (envName !== null && 'MY_GRAPHQL_ENDPOINT')
+                "https://my-graphql-service.com/graphql") ||
+              (envName !== null && "MY_GRAPHQL_ENDPOINT")
             }
             testId="remote-schema-graphql-url"
           />
@@ -185,7 +184,7 @@ class Common extends React.Component {
           Note: Specifying the server URL via an environmental variable is
           recommended if you have different URLs for multiple environments.
         </small>
-        <div className={styles.subheading_text + ' ' + styles.addPaddTop}>
+        <div className={styles.subheading_text + " " + styles.addPaddTop}>
           Headers for the remote GraphQL server
         </div>
         <div className={styles.check_box}>
@@ -208,7 +207,7 @@ class Common extends React.Component {
             <i className="fa fa-question-circle" aria-hidden="true" />
           </OverlayTrigger>
         </div>
-        <div className={styles.subheading_text + ' ' + styles.font_normal}>
+        <div className={styles.subheading_text + " " + styles.font_normal}>
           Additional headers:
           <OverlayTrigger
             placement="right"
@@ -222,8 +221,8 @@ class Common extends React.Component {
           headers={this.props.headers}
           dispatch={this.props.dispatch}
           typeOptions={[
-            { display_text: 'Value', value: 'static' },
-            { display_text: 'From env var', value: 'env' },
+            { display_text: "Value", value: "static" },
+            { display_text: "From env var", value: "env" },
           ]}
           isDisabled={isDisabled}
           placeHolderText={this.getPlaceHolderText.bind(this)}

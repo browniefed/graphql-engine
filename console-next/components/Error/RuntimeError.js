@@ -1,28 +1,28 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import PropTypes from "prop-types";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import { Link } from 'react-router';
-import Helmet from 'react-helmet';
-import globals from '../../Globals';
+import Link from "next/link";
+import Helmet from "react-helmet";
+import globals from "../../Globals";
 
 class RuntimeError extends Component {
   render() {
     const errorImage = `${globals.assetsPath}/common/img/hasura_icon_green.svg`;
-    const styles = require('./ErrorPage.scss');
+    const styles = require("./ErrorPage.scss");
 
     const { resetCallback, error } = this.props;
 
     return (
       <div className={styles.viewContainer}>
         <Helmet title="Error | Hasura" />
-        <div className={'container ' + styles.centerContent}>
-          <div className={'row ' + styles.message}>
+        <div className={"container " + styles.centerContent}>
+          <div className={"row " + styles.message}>
             <div className="col-xs-8">
               <h1>Error</h1>
               <br />
               <div>
-                Something went wrong. Head back{' '}
+                Something went wrong. Head back{" "}
                 <Link to="/" onClick={resetCallback}>
                   Home
                 </Link>
@@ -34,11 +34,11 @@ class RuntimeError extends Component {
               </div>
               <br />
               <div>
-                You can report this issue on our{' '}
+                You can report this issue on our{" "}
                 <a href="https://github.com/hasura/graphql-engine/issues">
                   GitHub
-                </a>{' '}
-                or chat with us on{' '}
+                </a>{" "}
+                or chat with us on{" "}
                 <a href="http://discord.gg/hasura">Discord</a>
               </div>
             </div>

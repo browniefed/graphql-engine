@@ -1,20 +1,20 @@
-import React from 'react';
-import CommonTabLayout from '../../../Common/Layout/CommonTabLayout/CommonTabLayout';
-import tabInfo from './tabInfo';
-import { push } from 'react-router-redux';
+import React from "react";
+import CommonTabLayout from "../../../Common/Layout/CommonTabLayout/CommonTabLayout";
+import tabInfo from "./tabInfo";
+// import { push } from 'react-router-redux';
 import {
   fetchRemoteSchema,
   RESET,
   getHeaderEvents,
-} from '../Add/addRemoteSchemaReducer';
-import { VIEW_REMOTE_SCHEMA } from '../Actions';
-import ReloadRemoteSchema from '../../Settings/MetadataOptions/ReloadRemoteSchema';
-import { appPrefix } from '../constants';
-import globals from '../../../../Globals';
-import styles from '../RemoteSchema.scss';
-import ToolTip from '../../../Common/Tooltip/Tooltip';
-import WarningSymbol from '../../../Common/WarningSymbol/WarningSymbol';
-import { getRemoteSchemasSelector } from '../../../../metadata/selector';
+} from "../Add/addRemoteSchemaReducer";
+import { VIEW_REMOTE_SCHEMA } from "../Actions";
+import ReloadRemoteSchema from "../../Settings/MetadataOptions/ReloadRemoteSchema";
+import { appPrefix } from "../constants";
+import globals from "../../../../Globals";
+import styles from "../RemoteSchema.module.scss";
+import ToolTip from "../../../Common/Tooltip/Tooltip";
+import WarningSymbol from "../../../Common/WarningSymbol/WarningSymbol";
+import { getRemoteSchemasSelector } from "../../../../metadata/selector";
 
 const prefixUrl = globals.urlPrefix + appPrefix;
 
@@ -25,14 +25,14 @@ const RSHeadersDisplay = ({ data }) =>
       <td>
         {data &&
           data
-            .filter(header => !!header.name)
+            .filter((header) => !!header.name)
             .map((header, index) => [
               <tr key={header}>
                 <td>
                   {`${header.name}: `}
-                  {header.type === 'static'
+                  {header.type === "static"
                     ? header.value
-                    : '<' + header.value + '>'}
+                    : "<" + header.value + ">"}
                 </td>
               </tr>,
               index !== data.length - 1 ? <hr className="my-md" /> : null,
@@ -87,35 +87,30 @@ class ViewStitchedSchema extends React.Component {
         type: getHeaderEvents.UPDATE_HEADERS,
         data: [
           {
-            name: '',
-            type: 'static',
-            value: '',
+            name: "",
+            type: "static",
+            value: "",
           },
         ],
       }),
-      this.props.dispatch({ type: VIEW_REMOTE_SCHEMA, data: '' }),
+      this.props.dispatch({ type: VIEW_REMOTE_SCHEMA, data: "" }),
     ]);
   }
 
   render() {
     const { remoteSchemaName } = this.props.params;
-    const {
-      manualUrl,
-      envName,
-      headers,
-      readOnlyMode,
-      inconsistentObjects,
-    } = this.props;
+    const { manualUrl, envName, headers, readOnlyMode, inconsistentObjects } =
+      this.props;
 
-    const filterHeaders = headers.filter(h => !!h.name);
+    const filterHeaders = headers.filter((h) => !!h.name);
 
     const breadCrumbs = [
       {
-        title: 'Remote schemas',
+        title: "Remote schemas",
         url: appPrefix,
       },
       {
-        title: 'Manage',
+        title: "Manage",
         url: `${appPrefix}/manage`,
       },
     ];
@@ -126,8 +121,8 @@ class ViewStitchedSchema extends React.Component {
         url: `${appPrefix}/manage/${remoteSchemaName.trim()}/details`,
       });
       breadCrumbs.push({
-        title: 'details',
-        url: '',
+        title: "details",
+        url: "",
       });
     }
 
@@ -139,14 +134,14 @@ class ViewStitchedSchema extends React.Component {
     }
 
     const inconsistencyDetails = inconsistentObjects.find(
-      inconObj =>
-        inconObj.type === 'remote_schema' &&
+      (inconObj) =>
+        inconObj.type === "remote_schema" &&
         inconObj?.definition?.name === remoteSchemaName
     );
 
     return (
       <div
-        className={styles.view_stitch_schema_wrapper + ' ' + styles.addWrapper}
+        className={styles.view_stitch_schema_wrapper + " " + styles.addWrapper}
       >
         <CommonTabLayout
           appPrefix={appPrefix}
@@ -173,7 +168,7 @@ class ViewStitchedSchema extends React.Component {
           {inconsistencyDetails && (
             <div className={styles.add_mar_bottom}>
               <div className={styles.subheading_text}>
-                <WarningSymbol tooltipText={'Inconsistent schema'} />
+                <WarningSymbol tooltipText={"Inconsistent schema"} />
                 <span className={styles.add_mar_left_mid}>
                   This remote schema is in an inconsistent state.
                 </span>
@@ -203,7 +198,7 @@ class ViewStitchedSchema extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     ...state.remoteSchemas.addData,
     ...state.remoteSchemas.headerData,
@@ -214,4 +209,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect => connect(mapStateToProps)(ViewStitchedSchema);
+export default (connect) => connect(mapStateToProps)(ViewStitchedSchema);
