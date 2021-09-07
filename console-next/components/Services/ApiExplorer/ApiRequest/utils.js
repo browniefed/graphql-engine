@@ -36,8 +36,6 @@ export const getHeadersSectionIsOpen = () => {
 };
 
 export const getAdminSecret = () => {
-  return "admin_secret";
-
   let adminSecret = null;
   if (globals.consoleMode === SERVER_CONSOLE_MODE && globals.isAdminSecretSet) {
     const adminSecretFromLS = loadAdminSecretState();
