@@ -348,12 +348,14 @@ class Main extends React.Component {
                   ? styles.navSideBarActive
                   : ""
               }
-              to={appPrefix + path}
+              href={appPrefix + path}
             >
-              <div className={styles.iconCenter} data-test={block}>
-                <i className={`fa ${icon}`} aria-hidden="true" />
+              <div>
+                <div className={styles.iconCenter} data-test={block}>
+                  <i className={`fa ${icon}`} aria-hidden="true" />
+                </div>
+                <p>{title}</p>
               </div>
-              <p>{title}</p>
             </Link>
           </li>
         </OverlayTrigger>

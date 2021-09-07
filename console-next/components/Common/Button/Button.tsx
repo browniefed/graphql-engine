@@ -38,8 +38,6 @@ const Button: React.FC<ButtonProps> = (props) => {
       break;
   }
 
-  const globals = React.useContext(GlobalContext);
-
   const trackedOnClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -49,7 +47,7 @@ const Button: React.FC<ButtonProps> = (props) => {
       }
     } catch (error) {
       console.error(error);
-      trackRuntimeError(globals, error);
+      // trackRuntimeError(globals, error);
     }
   };
 

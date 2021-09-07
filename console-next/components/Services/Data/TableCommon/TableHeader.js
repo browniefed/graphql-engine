@@ -108,7 +108,7 @@ const TableHeader = ({
             {getTab(
               "browse",
               getTableBrowseRoute(tableSchema, source, tableName, isTableType),
-              `Browse Rods ${
+              `Browse Rows ${
                 isFeatureSupported("tables.browse.aggregation")
                   ? countDisplay
                   : ""

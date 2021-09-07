@@ -2,7 +2,7 @@
 import globals from "../Globals";
 import { Thunk } from "../types";
 import dataHeaders from "../components/Services/Data/Common/Headers";
-
+import Router from "next/router";
 import {
   LOAD_REQUEST,
   DONE_REQUEST,
@@ -92,7 +92,7 @@ const requestAction = <T = any>(
               }
               if (msg.code && msg.code === "access-denied") {
                 if (window.location.pathname !== `${globals.urlPrefix}/login`) {
-                  dispatch(push(`${globals.urlPrefix}/login`));
+                  // Router.push(`${globals.urlPrefix}/login`);
                 }
               }
               reject(msg);

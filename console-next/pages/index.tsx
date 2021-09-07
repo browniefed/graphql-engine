@@ -4,6 +4,9 @@ import { ConnectInjectedProps } from "@/types";
 import Main from "@/components/Main/Main";
 
 const Index: NextPage<ConnectInjectedProps> = (props) => {
+  if (typeof window === "undefined") {
+    return null;
+  }
   return <Main {...props} />;
 };
 
