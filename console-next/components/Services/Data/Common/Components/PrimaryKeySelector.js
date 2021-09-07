@@ -1,5 +1,5 @@
-import React from 'react';
-import styles from '../../../../Common/TableCommon/Table.scss';
+import React from "react";
+import styles from "../../../../Common/TableCommon/Table.module.scss";
 
 const PrimaryKeySelector = ({ primaryKeys, columns, setPk, dispatch }) => {
   const numPks = primaryKeys.length;
@@ -15,7 +15,7 @@ const PrimaryKeySelector = ({ primaryKeys, columns, setPk, dispatch }) => {
       }
       return null;
     })
-    .filter(rc => Boolean(rc));
+    .filter((rc) => Boolean(rc));
 
   // map over the primary keys
   const pkEditors = () => {
@@ -23,14 +23,14 @@ const PrimaryKeySelector = ({ primaryKeys, columns, setPk, dispatch }) => {
       let removeIcon;
 
       // dispatch action for a column in PK state
-      const dispatchSet = e => {
+      const dispatchSet = (e) => {
         const newPks = [
           ...primaryKeys.slice(0, i),
           e.target.value,
           ...primaryKeys.slice(i + 1),
         ];
         if (i + 1 === primaryKeys.length) {
-          newPks.push('');
+          newPks.push("");
         }
         dispatch(setPk(newPks));
       };
@@ -60,12 +60,12 @@ const PrimaryKeySelector = ({ primaryKeys, columns, setPk, dispatch }) => {
       return (
         <div key={i} className={`form-group ${styles.pkEditorWrapper}`}>
           <select
-            value={pk || ''}
+            value={pk || ""}
             className={`${styles.select} ${styles.sample} form-control ${styles.add_pad_left}`}
             onChange={dispatchSet}
             data-test={`primary-key-select-${i}`}
           >
-            {pk === '' ? (
+            {pk === "" ? (
               <option disabled value="">
                 -- select --
               </option>

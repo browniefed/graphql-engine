@@ -1,9 +1,6 @@
-import React from 'react';
-
-import styles from '../../../../css/Common.module.scss';
-
-import { GlobalContext } from '../../App/App';
-import { trackRuntimeError } from '../../../telemetry';
+import React from "react";
+import styles from "@/css/Common.module.scss";
+import { trackRuntimeError } from "@/telemetry";
 
 /*
   This is a Button HOC that takes all the props supported by <button>
@@ -13,31 +10,31 @@ import { trackRuntimeError } from '../../../telemetry';
                and not the ones that change the appearance (color, font, size) of the button
 */
 
-export interface ButtonProps extends React.ComponentProps<'button'> {
+export interface ButtonProps extends React.ComponentProps<"button"> {
   size?: string;
-  color?: 'yellow' | 'red' | 'green' | 'gray' | 'white' | 'black';
+  color?: "yellow" | "red" | "green" | "gray" | "white" | "black";
 }
 
-const Button: React.FC<ButtonProps> = props => {
-  const { children, onClick, size, color, className, type = 'button' } = props;
-  let extendedClassName = `${className || ''} btn ${
-    size ? `btn-${size} ` : 'button '
+const Button: React.FC<ButtonProps> = (props) => {
+  const { children, onClick, size, color, className, type = "button" } = props;
+  let extendedClassName = `${className || ""} btn ${
+    size ? `btn-${size} ` : "button "
   }`;
   switch (color) {
-    case 'yellow':
+    case "yellow":
       extendedClassName += styles.yellow_button;
       break;
-    case 'red':
-      extendedClassName += 'btn-danger';
+    case "red":
+      extendedClassName += "btn-danger";
       break;
-    case 'green':
-      extendedClassName += 'btn-success';
+    case "green":
+      extendedClassName += "btn-success";
       break;
-    case 'gray':
+    case "gray":
       extendedClassName += styles.gray_button;
       break;
     default:
-      extendedClassName += 'btn-default';
+      extendedClassName += "btn-default";
       break;
   }
 

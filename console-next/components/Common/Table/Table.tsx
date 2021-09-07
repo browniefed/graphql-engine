@@ -1,6 +1,6 @@
-import React, { ReactNode, useEffect } from 'react';
-import { TableProvider, useTable } from './hooks';
-import styles from './Table.scss';
+import React, { ReactNode, useEffect } from "react";
+import { TableProvider, useTable } from "./hooks";
+import styles from "./Table.module.scss";
 
 /**
  * In the future, this component can be extended to be able to have a table without
@@ -50,10 +50,10 @@ const SideBarItem: React.FC<{
           className="form_control"
           value={inputValue}
           placeholder="Enter new Role"
-          onChange={e => setInputValue(e.target.value)}
+          onChange={(e) => setInputValue(e.target.value)}
         />
       )}
-      <div className={`${isLast ? styles.hidden : ''}`}>
+      <div className={`${isLast ? styles.hidden : ""}`}>
         {renderItem ? renderItem(item) : item}
       </div>
     </div>
@@ -71,7 +71,7 @@ type InternalTableFormProps<T = any> = {
 };
 
 export type TableFormProps<T = any> = Parameters<
-  InternalTableFormProps<T>['children']
+  InternalTableFormProps<T>["children"]
 >[0];
 
 export function TableForm<T = any>({ children }: InternalTableFormProps<T>) {
@@ -93,7 +93,7 @@ export function TableForm<T = any>({ children }: InternalTableFormProps<T>) {
       return a;
     }, {});
   return (
-    <div className={`${showForm ? '' : styles.collapsed} ${styles.table_form}`}>
+    <div className={`${showForm ? "" : styles.collapsed} ${styles.table_form}`}>
       {children?.({
         currentColKey: colKeys[currentCol + 1],
         currentData: currentData as T,
@@ -101,8 +101,8 @@ export function TableForm<T = any>({ children }: InternalTableFormProps<T>) {
         expandForm: () => setShowForm(true),
         collapseForm: () => {
           setShowForm(false);
-          setInputValue('');
-          setCurrentRow('---');
+          setInputValue("");
+          setCurrentRow("---");
         },
       })}
     </div>
@@ -219,7 +219,7 @@ type TableHeaderProps = {
 
 export const TableHeader: React.FC<TableHeaderProps> = ({ headers, keys }) => {
   if ((keys?.length || 0) > 0 && keys?.length !== headers.length) {
-    throw new Error('Keys, when specified, must be the same length as headers');
+    throw new Error("Keys, when specified, must be the same length as headers");
   }
   const { setColKeys, hasLegend } = useTable();
 
@@ -231,7 +231,7 @@ export const TableHeader: React.FC<TableHeaderProps> = ({ headers, keys }) => {
     <>
       {headers.map((e, i) => (
         <div
-          className={`${hasLegend ? '' : styles.top} ${styles.header_item}`}
+          className={`${hasLegend ? "" : styles.top} ${styles.header_item}`}
           key={i}
         >
           {e}

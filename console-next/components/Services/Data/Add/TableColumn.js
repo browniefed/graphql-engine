@@ -1,27 +1,27 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import { getDataOptions, inferDefaultValues } from '../Common/utils';
+import { getDataOptions, inferDefaultValues } from "../Common/utils";
 
-import TableColumnDefault from './TableColumnDefault';
-import { ColumnTypeSelector } from '../Common/Components/ColumnTypeSelector';
-import { dataSource, isFeatureSupported } from '../../../../dataSources';
+import TableColumnDefault from "./TableColumnDefault";
+import { ColumnTypeSelector } from "../Common/Components/ColumnTypeSelector";
+import { dataSource, isFeatureSupported } from "../../../../dataSources";
 
 /* Custom style object for searchable select box */
 const customSelectBoxStyles = {
   dropdownIndicator: {
-    padding: '5px',
+    padding: "5px",
   },
   singleValue: {
-    color: '#555555',
+    color: "#555555",
   },
   valueContainer: {
-    padding: '0px 12px',
+    padding: "0px 12px",
   },
 };
 
-const TableColumn = props => {
-  const styles = require('../../../Common/TableCommon/Table.scss');
+const TableColumn = (props) => {
+  const styles = require("../../../Common/TableCommon/Table.module.scss");
   const {
     column,
     colLength,
@@ -51,7 +51,7 @@ const TableColumn = props => {
     }
   }
 
-  const handleColTypeChange = selectedOption => {
+  const handleColTypeChange = (selectedOption) => {
     onColTypeChange(selectedOption.colIdentifier, selectedOption.value);
   };
   const { columnDataTypes, columnTypeValueMap } = getDataOptions(
@@ -60,7 +60,7 @@ const TableColumn = props => {
     i
   );
 
-  const getRemoveIcon = colLen => {
+  const getRemoveIcon = (colLen) => {
     let removeIcon;
     if (i + 1 === colLen) {
       removeIcon = <i className={`${styles.fontAwosomeClose}`} />;
@@ -99,7 +99,7 @@ const TableColumn = props => {
         className={`${styles.inputDefault} ${styles.defaultWidth}`}
         data-test={`col-type-${i}`}
       >
-        {isFeatureSupported('tables.create.frequentlyUsedColumns') ? (
+        {isFeatureSupported("tables.create.frequentlyUsedColumns") ? (
           <ColumnTypeSelector
             options={columnDataTypes}
             onChange={handleColTypeChange}
@@ -113,9 +113,9 @@ const TableColumn = props => {
         ) : (
           <input
             type="text"
-            style={{ maxWidth: '200px' }}
+            style={{ maxWidth: "200px" }}
             className={`${styles.input} form-control col-type-${i}`}
-            onChange={e => {
+            onChange={(e) => {
               e.persist();
               onColTypeChange(i, e.target.value);
             }}

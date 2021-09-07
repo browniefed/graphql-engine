@@ -1,6 +1,6 @@
-import React, { ReactElement } from 'react';
-import { Link } from 'react-router';
-import styles from '../../TableCommon/Table.scss';
+import React, { ReactElement } from "react";
+import { Link } from "react-router";
+import styles from "../../TableCommon/Table.module.scss";
 
 export type BreadCrumb = {
   url: string;

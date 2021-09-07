@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
-import { dataSource } from '../../../../../dataSources';
-import styles from '../../../../Common/TableCommon/Table.scss';
-import { TypedInput } from './TypedInput';
-import { TableColumn } from '../../../../../dataSources/types';
+import { dataSource } from "../../../../../dataSources";
+import styles from "../../../../Common/TableCommon/Table.module.scss";
+import { TypedInput } from "./TypedInput";
+import { TableColumn } from "../../../../../dataSources/types";
 
 const getColumnInfo = (
   col: TableColumn,
@@ -13,42 +13,42 @@ const getColumnInfo = (
   const isEditing = prevValue !== undefined;
 
   const hasDefault = col.column_default
-    ? col.column_default.trim() !== ''
+    ? col.column_default.trim() !== ""
     : false;
 
   const isAutoIncrement = dataSource.isColumnAutoIncrement(col);
   const isIdentity = col.is_identity;
   const isGenerated = col.is_generated;
-  const isNullable = col.is_nullable ? col.is_nullable !== 'NO' : false;
+  const isNullable = col.is_nullable ? col.is_nullable !== "NO" : false;
   const identityGeneration = col.identity_generation;
 
   const isDisabled = isAutoIncrement || isGenerated || isIdentity;
 
-  let columnValueType: 'default' | 'null' | 'value' | '';
+  let columnValueType: "default" | "null" | "value" | "";
   switch (true) {
     case isEditing:
-      columnValueType = '';
+      columnValueType = "";
       break;
 
     case !isEditing && !clone && (isIdentity || hasDefault || isGenerated):
     case clone && isDisabled:
-    case identityGeneration === 'ALWAYS':
-      columnValueType = 'default';
+    case identityGeneration === "ALWAYS":
+      columnValueType = "default";
       break;
 
     case clone &&
       clone[col.column_name] !== undefined &&
       clone[col.column_name] !== null:
-      columnValueType = 'value';
+      columnValueType = "value";
       break;
 
     case prevValue === null:
     case !prevValue && isNullable:
-      columnValueType = 'null';
+      columnValueType = "null";
       break;
 
     default:
-      columnValueType = 'value';
+      columnValueType = "value";
       break;
   }
 
@@ -67,7 +67,7 @@ const getColumnInfo = (
 export interface TableRowProps {
   column: TableColumn;
   setRef: (
-    refName: 'valueNode' | 'nullNode' | 'defaultNode' | 'insertRadioNode',
+    refName: "valueNode" | "nullNode" | "defaultNode" | "insertRadioNode",
     node: HTMLInputElement | null
   ) => void;
   enumOptions: Record<string, any>;
@@ -88,13 +88,8 @@ export const TableRow: React.FC<TableRowProps> = ({
   clone,
   prevValue,
 }) => {
-  const {
-    colName,
-    isDisabled,
-    isNullable,
-    hasDefault,
-    columnValueType,
-  } = getColumnInfo(column, prevValue, clone);
+  const { colName, isDisabled, isNullable, hasDefault, columnValueType } =
+    getColumnInfo(column, prevValue, clone);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -127,16 +122,16 @@ export const TableRow: React.FC<TableRowProps> = ({
         <input
           type="radio"
           className="legacy-input-fix"
-          ref={node => {
-            setRef('insertRadioNode', node);
+          ref={(node) => {
+            setRef("insertRadioNode", node);
           }}
           name={`${colName}-value`}
-          defaultChecked={columnValueType === 'value'}
+          defaultChecked={columnValueType === "value"}
           disabled={isDisabled}
         />
         <TypedInput
           inputRef={(node: HTMLInputElement) => {
-            setRef('valueNode', node);
+            setRef("valueNode", node);
           }}
           prevValue={prevValue}
           enumOptions={enumOptions}
@@ -152,11 +147,11 @@ export const TableRow: React.FC<TableRowProps> = ({
         <input
           type="radio"
           className="legacy-input-fix"
-          ref={node => {
-            setRef('nullNode', node);
+          ref={(node) => {
+            setRef("nullNode", node);
           }}
           disabled={!isNullable}
-          defaultChecked={columnValueType === 'null'}
+          defaultChecked={columnValueType === "null"}
           name={`${colName}-value`}
           data-test={`nullable-radio-${index}`}
         />
@@ -166,12 +161,12 @@ export const TableRow: React.FC<TableRowProps> = ({
         <input
           type="radio"
           className="legacy-input-fix"
-          ref={node => {
-            setRef('defaultNode', node);
+          ref={(node) => {
+            setRef("defaultNode", node);
           }}
           name={`${colName}-value`}
           disabled={!hasDefault}
-          defaultChecked={columnValueType === 'default'}
+          defaultChecked={columnValueType === "default"}
           data-test={`typed-input-default-${index}`}
         />
         <span className={styles.radioSpan}>Default</span>

@@ -1,6 +1,6 @@
-import React from 'react';
-import styles from '../../../Common/TableCommon/Table.scss';
-import ToolTip from '../../../Common/Tooltip/Tooltip';
+import React from "react";
+import styles from "../../../Common/TableCommon/Table.module.scss";
+import ToolTip from "../../../Common/Tooltip/Tooltip";
 
 type MigrationCheckboxProps = {
   isChecked: boolean;

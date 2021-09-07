@@ -1,13 +1,13 @@
-import React from 'react';
-import styles from '../../../Common/TableCommon/Table.scss';
+import React from "react";
+import styles from "../../../Common/TableCommon/Table.module.scss";
 import {
   manualRelRTableChanged,
   manualRelTypeChanged,
   setManualRelAdd,
   manualRelNameChanged,
   manualRelRSchemaChanged,
-} from './Actions';
-import { updateSchemaInfo } from '../DataActions';
+} from "./Actions";
+import { updateSchemaInfo } from "../DataActions";
 
 const ManualRelationshipSelector = ({
   tableSchema,
@@ -18,7 +18,7 @@ const ManualRelationshipSelector = ({
   dispatch,
 }) => {
   const relTypeSelect = () => {
-    const dispatchSetRelType = event => {
+    const dispatchSetRelType = (event) => {
       dispatch(manualRelTypeChanged(event.target.value));
     };
 
@@ -28,14 +28,14 @@ const ManualRelationshipSelector = ({
           <b>Relationship Type:</b>
         </div>
         <select
-          value={relAdd.relType || ''}
+          value={relAdd.relType || ""}
           className={`${styles.select} form-control ${styles.add_pad_left}`}
-          data-test={'manual-relationship-type'}
+          data-test={"manual-relationship-type"}
           onChange={dispatchSetRelType}
         >
-          {relAdd.relType === '' && (
-            <option value={''} disabled>
-              {'-- relationship type --'}
+          {relAdd.relType === "" && (
+            <option value={""} disabled>
+              {"-- relationship type --"}
             </option>
           )}
           <option key="object" value="object">
@@ -50,7 +50,7 @@ const ManualRelationshipSelector = ({
   };
 
   const relName = () => {
-    const dispatchSetRelName = event => {
+    const dispatchSetRelName = (event) => {
       dispatch(manualRelNameChanged(event.target.value));
     };
 
@@ -71,7 +71,7 @@ const ManualRelationshipSelector = ({
   };
 
   const refSchemaSelect = () => {
-    const dispatchSetRefSchema = event => {
+    const dispatchSetRefSchema = (event) => {
       dispatch(manualRelRSchemaChanged(event.target.value));
       if (tableSchema.table_schema !== event.target.value) {
         dispatch(updateSchemaInfo({ schemas: [event.target.value] }));
@@ -84,17 +84,17 @@ const ManualRelationshipSelector = ({
           <b>Reference Schema:</b>
         </div>
         <select
-          value={relAdd.rSchema || ''}
+          value={relAdd.rSchema || ""}
           className={`${styles.select} form-control ${styles.add_pad_left}`}
-          data-test={'manual-relationship-ref-schema'}
+          data-test={"manual-relationship-ref-schema"}
           onChange={dispatchSetRefSchema}
           disabled={!relAdd.relType || !relAdd.relName}
         >
           {
             // default unselected option
-            relAdd.rSchema === '' && (
-              <option value={''} disabled>
-                {'-- reference schema --'}
+            relAdd.rSchema === "" && (
+              <option value={""} disabled>
+                {"-- reference schema --"}
               </option>
             )
           }
@@ -112,7 +112,7 @@ const ManualRelationshipSelector = ({
   };
 
   const refTableSelect = () => {
-    const dispatchSetRefTable = event => {
+    const dispatchSetRefTable = (event) => {
       dispatch(manualRelRTableChanged(event.target.value));
     };
 
@@ -122,15 +122,15 @@ const ManualRelationshipSelector = ({
           <b>Reference Table:</b>
         </div>
         <select
-          value={relAdd.rTable || ''}
+          value={relAdd.rTable || ""}
           className={`${styles.select} form-control ${styles.add_pad_left}`}
-          data-test={'manual-relationship-ref-table'}
+          data-test={"manual-relationship-ref-table"}
           onChange={dispatchSetRefTable}
           disabled={!relAdd.relType || !relAdd.relName || !relAdd.rSchema}
         >
-          {relAdd.rTable === '' && (
-            <option value={''} disabled>
-              {'-- reference table --'}
+          {relAdd.rTable === "" && (
+            <option value={""} disabled>
+              {"-- reference table --"}
             </option>
           )}
           {Object.keys(refTables)
@@ -147,7 +147,7 @@ const ManualRelationshipSelector = ({
 
   const columnSelect = () => {
     const selectTitle = !relAdd.rTable
-      ? 'Please select the reference table'
+      ? "Please select the reference table"
       : undefined;
     return (
       <div className={`${styles.add_mar_bottom}`}>
@@ -175,17 +175,17 @@ const ManualRelationshipSelector = ({
               newRelAdd.colMappings[numColMappings - 1].column &&
               newRelAdd.colMappings[numColMappings - 1].refColumn
             ) {
-              newRelAdd.colMappings.push({ column: '', refColumn: '' });
+              newRelAdd.colMappings.push({ column: "", refColumn: "" });
             }
             dispatch(setManualRelAdd(newRelAdd));
           };
 
-          const dispatchSetLcol = event => {
-            dispatchSetCols('column', event.target.value);
+          const dispatchSetLcol = (event) => {
+            dispatchSetCols("column", event.target.value);
           };
 
-          const dispatchSetRcol = event => {
-            dispatchSetCols('refColumn', event.target.value);
+          const dispatchSetRcol = (event) => {
+            dispatchSetCols("refColumn", event.target.value);
           };
 
           const dispatchRemoveCol = () => {
@@ -226,12 +226,12 @@ const ManualRelationshipSelector = ({
                   }
                   title={selectTitle}
                 >
-                  {lc === '' && (
+                  {lc === "" && (
                     <option value="" disabled>
-                      {'-- column --'}
+                      {"-- column --"}
                     </option>
                   )}
-                  {orderedColumns.map(oc => {
+                  {orderedColumns.map((oc) => {
                     return (
                       <option key={oc.name} value={oc.name}>
                         {oc.name}
@@ -240,7 +240,7 @@ const ManualRelationshipSelector = ({
                   })}
                 </select>
               </div>
-              <div className={'col-sm-4'}>
+              <div className={"col-sm-4"}>
                 <select
                   className={`form-control ${styles.select} ${styles.wd100Percent}`}
                   value={rc}
@@ -249,13 +249,13 @@ const ManualRelationshipSelector = ({
                   title={selectTitle}
                   data-test={`manual-relationship-rcol-${_i}`}
                 >
-                  {rc === '' && (
+                  {rc === "" && (
                     <option value="" disabled>
-                      {'-- ref_column --'}
+                      {"-- ref_column --"}
                     </option>
                   )}
                   {refTables[relAdd.rTable] &&
-                    refTables[relAdd.rTable].map(rcOpt => {
+                    refTables[relAdd.rTable].map((rcOpt) => {
                       return (
                         <option key={rcOpt} value={rcOpt}>
                           {rcOpt}

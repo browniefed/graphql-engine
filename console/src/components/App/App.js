@@ -3,8 +3,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ProgressBar from 'react-progress-bar-plus';
 import Notifications from 'react-notification-system-redux';
-import { hot } from 'react-hot-loader';
-import { ThemeProvider } from 'styled-components';
 import ErrorBoundary from '../Error/ErrorBoundary';
 import { telemetryNotificationShown } from '../../telemetry/Actions';
 import { showTelemetryNotification } from '../../telemetry/Notifications';
@@ -64,23 +62,21 @@ const App = ({
 
   return (
     <GlobalContext.Provider value={globals}>
-      <ThemeProvider theme={theme}>
-        <ErrorBoundary metadata={metadata} dispatch={dispatch}>
-          <div>
-            {connectionFailMsg}
-            {ongoingRequest && (
-              <ProgressBar
-                percent={percent}
-                autoIncrement={true} // eslint-disable-line react/jsx-boolean-value
-                intervalTime={intervalTime}
-                spinner={false}
-              />
-            )}
-            <div>{children}</div>
-            <Notifications notifications={notifications} />
-          </div>
-        </ErrorBoundary>
-      </ThemeProvider>
+      <ErrorBoundary metadata={metadata} dispatch={dispatch}>
+        <div>
+          {connectionFailMsg}
+          {ongoingRequest && (
+            <ProgressBar
+              percent={percent}
+              autoIncrement={true} // eslint-disable-line react/jsx-boolean-value
+              intervalTime={intervalTime}
+              spinner={false}
+            />
+          )}
+          <div>{children}</div>
+          <Notifications notifications={notifications} />
+        </div>
+      </ErrorBoundary>
     </GlobalContext.Provider>
   );
 };
@@ -111,4 +107,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default hot(module)(connect(mapStateToProps)(App));
+export default connect(mapStateToProps)(App);

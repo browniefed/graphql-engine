@@ -1,44 +1,44 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import Helmet from 'react-helmet';
-import AceEditor from 'react-ace';
-import 'brace/mode/sql';
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import Helmet from "react-helmet";
+import AceEditor from "react-ace";
+import "brace/mode/sql";
 
-import Modal from '../../../Common/Modal/Modal';
-import Button from '../../../Common/Button/Button';
-import Tooltip from '../../../Common/Tooltip/Tooltip';
-import KnowMoreLink from '../../../Common/KnowMoreLink/KnowMoreLink';
-import Alert from '../../../Common/Alert';
-import StatementTimeout from './StatementTimeout';
-import { parseCreateSQL, removeCommentsSQL } from './utils';
-import styles from '../../../Common/TableCommon/Table.scss';
+import Modal from "../../../Common/Modal/Modal";
+import Button from "../../../Common/Button/Button";
+import Tooltip from "../../../Common/Tooltip/Tooltip";
+import KnowMoreLink from "../../../Common/KnowMoreLink/KnowMoreLink";
+import Alert from "../../../Common/Alert";
+import StatementTimeout from "./StatementTimeout";
+import { parseCreateSQL, removeCommentsSQL } from "./utils";
+import styles from "../../../Common/TableCommon/Table.module.scss";
 import {
   executeSQL,
   SET_SQL,
   SET_CASCADE_CHECKED,
   SET_MIGRATION_CHECKED,
   SET_TRACK_TABLE_CHECKED,
-} from './Actions';
-import { modalOpen, modalClose } from './Actions';
-import globals from '../../../../Globals';
+} from "./Actions";
+import { modalOpen, modalClose } from "./Actions";
+import globals from "../../../../Globals";
 import {
   ACE_EDITOR_THEME,
   ACE_EDITOR_FONT_SIZE,
-} from '../../../Common/AceEditor/utils';
-import { CLI_CONSOLE_MODE } from '../../../../constants';
-import NotesSection from './molecules/NotesSection';
-import ResultTable from './ResultTable';
-import { getLSItem, setLSItem, LS_KEYS } from '../../../../utils/localStorage';
-import DropDownSelector from './DropDownSelector';
-import { getSourceDriver } from '../utils';
-import { getDataSources } from '../../../../metadata/selector';
-import { services } from '../../../../dataSources/services';
-import { isFeatureSupported, setDriver } from '../../../../dataSources';
-import { fetchDataInit, UPDATE_CURRENT_DATA_SOURCE } from '../DataActions';
+} from "../../../Common/AceEditor/utils";
+import { CLI_CONSOLE_MODE } from "../../../../constants";
+import NotesSection from "./molecules/NotesSection";
+import ResultTable from "./ResultTable";
+import { getLSItem, setLSItem, LS_KEYS } from "../../../../utils/localStorage";
+import DropDownSelector from "./DropDownSelector";
+import { getSourceDriver } from "../utils";
+import { getDataSources } from "../../../../metadata/selector";
+import { services } from "../../../../dataSources/services";
+import { isFeatureSupported, setDriver } from "../../../../dataSources";
+import { fetchDataInit, UPDATE_CURRENT_DATA_SOURCE } from "../DataActions";
 
 const checkChangeLang = (sql, selectedDriver) => {
   return (
-    !sql?.match(/(?:\$\$\s+)?language\s+plpgsql/i) && selectedDriver === 'citus'
+    !sql?.match(/(?:\$\$\s+)?language\s+plpgsql/i) && selectedDriver === "citus"
   );
 };
 
@@ -89,17 +89,17 @@ const RawSQL = ({
   const [sqlText, onChangeSQLText] = useState(sql);
 
   const [selectedDatabase, setSelectedDatabase] = useState(currentDataSource);
-  const [selectedDriver, setSelectedDriver] = useState('postgres');
+  const [selectedDriver, setSelectedDriver] = useState("postgres");
   const [suggestLangChange, setSuggestLangChange] = useState(false);
 
   useEffect(() => {
     const driver = getSourceDriver(sources, selectedDatabase);
     setSelectedDriver(driver);
-    if (!isFeatureSupported('rawSQL.statementTimeout'))
+    if (!isFeatureSupported("rawSQL.statementTimeout"))
       setStatementTimeout(null);
   }, [selectedDatabase, sources]);
 
-  const dropDownSelectorValueChange = value => {
+  const dropDownSelectorValueChange = (value) => {
     const driver = getSourceDriver(sources, value);
     dispatch({
       type: UPDATE_CURRENT_DATA_SOURCE,
@@ -134,7 +134,7 @@ const RawSQL = ({
 
   const submitSQL = () => {
     if (!sqlText) {
-      setLSItem(LS_KEYS.rawSQLKey, '');
+      setLSItem(LS_KEYS.rawSQLKey, "");
       return;
     }
     // set SQL to LS
@@ -142,12 +142,12 @@ const RawSQL = ({
 
     // check migration mode global
     if (migrationMode) {
-      const checkboxElem = document.getElementById('migration-checkbox');
+      const checkboxElem = document.getElementById("migration-checkbox");
       const isMigration = checkboxElem ? checkboxElem.checked : false;
-      const textboxElem = document.getElementById('migration-name');
-      let migrationName = textboxElem ? textboxElem.value : '';
+      const textboxElem = document.getElementById("migration-name");
+      let migrationName = textboxElem ? textboxElem.value : "";
       if (isMigration && migrationName.length === 0) {
-        migrationName = 'run_sql_migration';
+        migrationName = "run_sql_migration";
       }
       if (!isMigration && globals.consoleMode === CLI_CONSOLE_MODE) {
         // if migration is not checked, check if is schema modification
@@ -167,7 +167,7 @@ const RawSQL = ({
       );
       return;
     }
-    dispatch(executeSQL(false, '', statementTimeout, selectedDatabase));
+    dispatch(executeSQL(false, "", statementTimeout, selectedDatabase));
   };
 
   const getMigrationWarningModal = () => {
@@ -176,7 +176,7 @@ const RawSQL = ({
     };
 
     const onConfirmNoMigration = () => {
-      const isMigration = document.getElementById('migration-checkbox').checked;
+      const isMigration = document.getElementById("migration-checkbox").checked;
       dispatch(modalClose());
       dispatch(executeSQL(isMigration));
     };
@@ -184,11 +184,11 @@ const RawSQL = ({
     return (
       <Modal
         show={isModalOpen}
-        title={'Run SQL'}
+        title={"Run SQL"}
         onClose={onModalClose}
         onSubmit={onConfirmNoMigration}
-        submitText={'Yes, I confirm'}
-        submitTestId={'not-migration-confirm'}
+        submitText={"Yes, I confirm"}
+        submitTestId={"not-migration-confirm"}
       >
         <div className="content-fluid">
           <div className="row">
@@ -203,7 +203,7 @@ const RawSQL = ({
   };
 
   const getSQLSection = () => {
-    const handleSQLChange = val => {
+    const handleSQLChange = (val) => {
       const cleanSql = removeCommentsSQL(val);
       onChangeSQLText(val);
       dispatch({ type: SET_SQL, data: val });
@@ -220,16 +220,16 @@ const RawSQL = ({
       if (objects.length) {
         let allObjectsTrackable = true;
 
-        const trackedObjectNames = allSchemas.map(schema => {
-          return [schema.table_schema, schema.table_name].join('.');
+        const trackedObjectNames = allSchemas.map((schema) => {
+          return [schema.table_schema, schema.table_name].join(".");
         });
 
-        allObjectsTrackable = objects.every(object => {
-          if (object.type === 'function') {
+        allObjectsTrackable = objects.every((object) => {
+          if (object.type === "function") {
             return false;
           }
 
-          const objectName = [object.schema, object.name].join('.');
+          const objectName = [object.schema, object.name].join(".");
 
           if (trackedObjectNames.includes(objectName)) {
             return false;
@@ -263,8 +263,8 @@ const RawSQL = ({
           showPrintMargin={false}
           commands={[
             {
-              name: 'submit',
-              bindKey: { win: 'Ctrl-Enter', mac: 'Command-Enter' },
+              name: "submit",
+              bindKey: { win: "Ctrl-Enter", mac: "Command-Enter" },
               exec: () => {
                 if (sqlText) {
                   submitSQL();
@@ -300,7 +300,7 @@ const RawSQL = ({
         </label>
         <Tooltip
           message={
-            'Cascade actions on all dependent metadata references, like relationships and permissions'
+            "Cascade actions on all dependent metadata references, like relationships and permissions"
           }
         />
       </div>
@@ -317,7 +317,7 @@ const RawSQL = ({
 
     return (
       <div className={styles.add_mar_top}>
-        {isFeatureSupported('rawSQL.tracking') && (
+        {isFeatureSupported("rawSQL.tracking") && (
           <label>
             <input
               checked={isTableTrackChecked}
@@ -333,14 +333,14 @@ const RawSQL = ({
         )}
         <Tooltip
           message={
-            'If you are creating tables, views or functions, checking this will also expose them over the GraphQL API as top level fields'
+            "If you are creating tables, views or functions, checking this will also expose them over the GraphQL API as top level fields"
           }
         />
         &nbsp;
         <KnowMoreLink
-          text={'See supported functions requirements'}
+          text={"See supported functions requirements"}
           href={
-            'https://hasura.io/docs/latest/graphql/core/schema/custom-functions.html#supported-sql-functions'
+            "https://hasura.io/docs/latest/graphql/core/schema/custom-functions.html#supported-sql-functions"
           }
         />
       </div>
@@ -371,7 +371,7 @@ const RawSQL = ({
             />
             This is a migration
           </label>
-          <Tooltip message={'Create a migration file with the SQL statement'} />
+          <Tooltip message={"Create a migration file with the SQL statement"} />
         </div>
       );
     };
@@ -381,12 +381,12 @@ const RawSQL = ({
 
       if (isMigrationChecked) {
         migrationNameSection = (
-          <div className={styles.add_mar_top_small + ' ' + styles.add_mar_left}>
+          <div className={styles.add_mar_top_small + " " + styles.add_mar_left}>
             <div>
               <label className={styles.add_mar_right}>Migration name:</label>
               <input
                 className={`${styles.inline_block} ${styles.tableNameInput} ${styles.add_mar_right_small} form-control`}
-                placeholder={'run_sql_migration'}
+                placeholder={"run_sql_migration"}
                 id="migration-name"
                 type="text"
               />
@@ -396,7 +396,7 @@ const RawSQL = ({
                 }
               />
               <div
-                className={styles.add_mar_top_small + ' ' + styles.text_gray}
+                className={styles.add_mar_top_small + " " + styles.text_gray}
               >
                 <i>
                   Note: down migration will not be generated for statements run
@@ -423,7 +423,7 @@ const RawSQL = ({
     return migrationSection;
   };
 
-  const updateStatementTimeout = value => {
+  const updateStatementTimeout = (value) => {
     const timeoutInSeconds = Number(value.trim());
     const isValidTimeout = timeoutInSeconds > 0 && !isNaN(timeoutInSeconds);
     setLSItem(LS_KEYS.rawSqlStatementTimeout, timeoutInSeconds);
@@ -448,9 +448,9 @@ const RawSQL = ({
         <div className={`${styles.padd_left_remove} col-xs-8`}>
           <label>
             <b>Database</b>
-          </label>{' '}
+          </label>{" "}
           <DropDownSelector
-            options={sources.map(source => source.name)}
+            options={sources.map((source) => source.name)}
             defaultValue={currentDataSource}
             onChange={dropDownSelectorValueChange}
           />
@@ -466,7 +466,7 @@ const RawSQL = ({
           {getMetadataCascadeSection()}
           {getMigrationSection()}
 
-          {isFeatureSupported('rawSQL.statementTimeout') && (
+          {isFeatureSupported("rawSQL.statementTimeout") && (
             <StatementTimeout
               statementTimeout={statementTimeout}
               isMigrationChecked={
@@ -506,7 +506,7 @@ const RawSQL = ({
 
       <div className={styles.add_mar_bottom}>
         {resultType &&
-          resultType !== 'command' &&
+          resultType !== "command" &&
           result &&
           result?.length > 0 && (
             <ResultTable rows={result} headers={resultHeaders} />
@@ -534,16 +534,16 @@ RawSQL.propTypes = {
   statementTimeout: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ...state.rawSQL,
   migrationMode: state.main.migrationMode,
   currentSchema: state.tables.currentSchema,
   allSchemas: state.tables.allSchemas,
-  serverVersion: state.main.serverVersion ? state.main.serverVersion : '',
+  serverVersion: state.main.serverVersion ? state.main.serverVersion : "",
   sources: getDataSources(state),
   currentDataSource: state.tables.currentDataSource,
 });
 
-const rawSQLConnector = connect => connect(mapStateToProps)(RawSQL);
+const rawSQLConnector = (connect) => connect(mapStateToProps)(RawSQL);
 
 export default rawSQLConnector;

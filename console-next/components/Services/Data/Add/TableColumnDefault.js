@@ -1,10 +1,10 @@
-import React from 'react';
-import CustomInputAutoSuggest from '../../../Common/CustomInputAutoSuggest/CustomInputAutoSuggest';
+import React from "react";
+import CustomInputAutoSuggest from "../../../Common/CustomInputAutoSuggest/CustomInputAutoSuggest";
 import {
   getPlaceholder,
   getDefaultValue,
   getDefaultFunctionsOptions,
-} from '../Common/utils';
+} from "../Common/utils";
 
 const TableColumnDefault = ({
   column,
@@ -13,7 +13,7 @@ const TableColumnDefault = ({
   testId,
   colIndex: i,
 }) => {
-  // const styles = require('../../../Common/TableCommon/Table.scss');
+  // const styles = require('../../../Common/TableCommon/Table.module.scss');
   const handleColDefaultValueChange = (e, data) => {
     const { newValue } = data;
     onChange(i, column.nullable || false, newValue);

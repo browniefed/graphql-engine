@@ -1,12 +1,12 @@
-import React from 'react';
-import { Link } from 'react-router';
-import Helmet from 'react-helmet';
-import { changeTableName } from '../TableModify/ModifyActions';
-import { capitalize, exists } from '../../../Common/utils/jsUtils';
-import EditableHeading from '../../../Common/EditableHeading/EditableHeading';
-import BreadCrumb from '../../../Common/Layout/BreadCrumb/BreadCrumb';
-import { tabNameMap } from '../utils';
-import { dataSource, isFeatureSupported } from '../../../../dataSources';
+import React from "react";
+import { Link } from "react-router";
+import Helmet from "react-helmet";
+import { changeTableName } from "../TableModify/ModifyActions";
+import { capitalize, exists } from "../../../Common/utils/jsUtils";
+import EditableHeading from "../../../Common/EditableHeading/EditableHeading";
+import BreadCrumb from "../../../Common/Layout/BreadCrumb/BreadCrumb";
+import { tabNameMap } from "../utils";
+import { dataSource, isFeatureSupported } from "../../../../dataSources";
 import {
   getSchemaBaseRoute,
   getTableBrowseRoute,
@@ -16,8 +16,8 @@ import {
   getTablePermissionsRoute,
   getTableRelationshipsRoute,
   getDataSourceBaseRoute,
-} from '../../../Common/utils/routesUtils';
-import { getReadableNumber } from '../../../Common/utils/jsUtils';
+} from "../../../Common/utils/routesUtils";
+import { getReadableNumber } from "../../../Common/utils/jsUtils";
 
 const TableHeader = ({
   tabName,
@@ -29,19 +29,19 @@ const TableHeader = ({
   source,
   dispatch,
 }) => {
-  const styles = require('../../../Common/TableCommon/Table.scss');
+  const styles = require("../../../Common/TableCommon/Table.module.scss");
 
   const tableName = table.table_name;
   const tableSchema = table.table_schema;
   const isTableType = dataSource.isTable(table);
 
-  let countDisplay = '';
+  let countDisplay = "";
   if (exists(count) && !isCountEstimated) {
     countDisplay = `(${getReadableNumber(count)})`;
   }
   const activeTab = tabNameMap[tabName];
 
-  const saveTableNameChange = newName => {
+  const saveTableNameChange = (newName) => {
     dispatch(
       changeTableName(tableName, newName, isTableType, table.table_type)
     );
@@ -50,8 +50,8 @@ const TableHeader = ({
   const getBreadCrumbs = () => {
     return [
       {
-        title: 'Data',
-        url: '/data',
+        title: "Data",
+        url: "/data",
       },
       {
         title: source,
@@ -77,8 +77,8 @@ const TableHeader = ({
 
   const getTab = (tab, link, title, dataTestId) => {
     return (
-      <li role="presentation" className={tabName === tab ? styles.active : ''}>
-        <Link to={link} data-test={dataTestId || 'table-' + tab}>
+      <li role="presentation" className={tabName === tab ? styles.active : ""}>
+        <Link to={link} data-test={dataTestId || "table-" + tab}>
           {title}
         </Link>
       </li>
@@ -88,7 +88,7 @@ const TableHeader = ({
   return (
     <div>
       <Helmet
-        title={capitalize(tabName) + ' - ' + tableName + ' - Data | Hasura'}
+        title={capitalize(tabName) + " - " + tableName + " - Data | Hasura"}
       />
       <div className={styles.subHeader}>
         <BreadCrumb breadCrumbs={getBreadCrumbs()} />
@@ -97,80 +97,80 @@ const TableHeader = ({
           save={saveTableNameChange}
           loading={false}
           editable={
-            tabName === 'modify' &&
-            isFeatureSupported('tables.modify.editableTableName')
+            tabName === "modify" &&
+            isFeatureSupported("tables.modify.editableTableName")
           }
           dispatch={dispatch}
-          property={isTableType ? 'table' : 'view'}
+          property={isTableType ? "table" : "view"}
         />
         <div className={styles.nav}>
           <ul className="nav nav-pills">
             {getTab(
-              'browse',
+              "browse",
               getTableBrowseRoute(tableSchema, source, tableName, isTableType),
               `Browse Rods ${
-                isFeatureSupported('tables.browse.aggregation')
+                isFeatureSupported("tables.browse.aggregation")
                   ? countDisplay
-                  : ''
+                  : ""
               }`,
-              'table-browse-rows'
+              "table-browse-rows"
             )}
-            {isFeatureSupported('tables.insert.enabled') &&
+            {isFeatureSupported("tables.insert.enabled") &&
               !readOnlyMode &&
               isTableType &&
               getTab(
-                'insert',
+                "insert",
                 getTableInsertRowRoute(
                   tableSchema,
                   source,
                   tableName,
                   isTableType
                 ),
-                'Insert Row',
-                'table-insert-rows'
+                "Insert Row",
+                "table-insert-rows"
               )}
-            {isFeatureSupported('tables.modify.enabled') &&
+            {isFeatureSupported("tables.modify.enabled") &&
               migrationMode &&
               getTab(
-                'modify',
+                "modify",
                 getTableModifyRoute(
                   tableSchema,
                   source,
                   tableName,
                   isTableType
                 ),
-                'Modify'
+                "Modify"
               )}
             {getTab(
-              'relationships',
+              "relationships",
               getTableRelationshipsRoute(
                 tableSchema,
                 source,
                 tableName,
                 isTableType
               ),
-              'Relationships'
+              "Relationships"
             )}
             {getTab(
-              'permissions',
+              "permissions",
               getTablePermissionsRoute(
                 tableSchema,
                 source,
                 tableName,
                 isTableType
               ),
-              'Permissions'
+              "Permissions"
             )}
-            {tabName === 'edit' &&
+            {tabName === "edit" &&
               getTab(
-                'edit',
+                "edit",
                 getTableEditRowRoute(
                   tableSchema,
                   source,
                   tableName,
                   isTableType
                 ),
-                'Edit Row'
+                "Edit Row"
               )}
           </ul>
         </div>

@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router';
-import globals from '../../../Globals';
+import React, { useEffect } from "react";
+import { Link } from "react-router";
+import globals from "../../../Globals";
 
-import LeftContainer from '../../Common/Layout/LeftContainer/LeftContainer';
-import PageContainer from '../../Common/Layout/PageContainer/PageContainer';
-import DataSubSidebar from './DataSubSidebar';
-import { CLI_CONSOLE_MODE } from '../../../constants';
-import styles from '../../Common/TableCommon/Table.scss';
-import { isFeatureSupported } from '../../../dataSources';
-import { fetchPostgresVersion } from '../../Main/Actions';
+import LeftContainer from "../../Common/Layout/LeftContainer/LeftContainer";
+import PageContainer from "../../Common/Layout/PageContainer/PageContainer";
+import DataSubSidebar from "./DataSubSidebar";
+import { CLI_CONSOLE_MODE } from "../../../constants";
+import styles from "../../Common/TableCommon/Table.module.scss";
+import { isFeatureSupported } from "../../../dataSources";
+import { fetchPostgresVersion } from "../../Main/Actions";
 
 const DataPageContainer = ({
   children,
@@ -20,7 +20,7 @@ const DataPageContainer = ({
     // TODO: handle for different drivers
     if (
       currentDataSource &&
-      isFeatureSupported('driver.fetchVersion.enabled')
+      isFeatureSupported("driver.fetchVersion.enabled")
     ) {
       dispatch(fetchPostgresVersion);
     }
@@ -34,10 +34,10 @@ const DataPageContainer = ({
       <li
         role="presentation"
         className={
-          currentLocation.includes('data/migrations') ? styles.active : ''
+          currentLocation.includes("data/migrations") ? styles.active : ""
         }
       >
-        <Link className={styles.linkBorder} to={'/data/migrations'}>
+        <Link className={styles.linkBorder} to={"/data/migrations"}>
           Migrations
         </Link>
       </li>
@@ -53,7 +53,7 @@ const DataPageContainer = ({
             /(\/)?data((\/manage)|(\/(\w+)\/)|(\/(\w|%)+\/schema?(\w+)))/
           )
             ? styles.active
-            : ''
+            : ""
         }
       >
         <Link className={styles.linkBorder} to={`/data/manage`}>
@@ -65,7 +65,7 @@ const DataPageContainer = ({
       {currentDataSource && (
         <li
           role="presentation"
-          className={currentLocation.includes('/sql') ? styles.active : ''}
+          className={currentLocation.includes("/sql") ? styles.active : ""}
         >
           <Link
             className={styles.linkBorder}
@@ -80,7 +80,7 @@ const DataPageContainer = ({
     </ul>
   );
 
-  const helmet = 'Data | Hasura';
+  const helmet = "Data | Hasura";
 
   const leftContainer = <LeftContainer>{sidebarContent}</LeftContainer>;
 
@@ -91,13 +91,13 @@ const DataPageContainer = ({
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     currentDataSource: state.tables.currentDataSource,
   };
 };
 
-const dataPageConnector = connect =>
+const dataPageConnector = (connect) =>
   connect(mapStateToProps)(DataPageContainer);
 
 export default dataPageConnector;

@@ -1,16 +1,16 @@
-import React from 'react';
-import { Link, RouteComponentProps } from 'react-router';
-import { connect, ConnectedProps } from 'react-redux';
+import React from "react";
+import { Link, RouteComponentProps } from "react-router";
+import { connect, ConnectedProps } from "react-redux";
 
-import LeftContainer from '../../Common/Layout/LeftContainer/LeftContainer';
-import PageContainer from '../../Common/Layout/PageContainer/PageContainer';
-import LeftSidebar from './Sidebar';
-import styles from '../../Common/TableCommon/Table.scss';
+import LeftContainer from "../../Common/Layout/LeftContainer/LeftContainer";
+import PageContainer from "../../Common/Layout/PageContainer/PageContainer";
+import LeftSidebar from "./Sidebar";
+import styles from "../../Common/TableCommon/Table.module.scss";
 import {
   ADHOC_EVENTS_HEADING,
   DATA_EVENTS_HEADING,
   CRON_EVENTS_HEADING,
-} from './constants';
+} from "./constants";
 import {
   getScheduledEventsLandingRoute,
   getDataEventsLandingRoute,
@@ -18,17 +18,17 @@ import {
   isDataEventsRoute,
   isAdhocScheduledEventRoute,
   getAdhocEventsRoute,
-} from '../../Common/utils/routesUtils';
-import { findEventTrigger, findScheduledTrigger } from './utils';
+} from "../../Common/utils/routesUtils";
+import { findEventTrigger, findScheduledTrigger } from "./utils";
 
-import { ReduxState } from '../../../types';
+import { ReduxState } from "../../../types";
 
-import { mapDispatchToPropsEmpty } from '../../Common/utils/reactUtils';
-import { getEventTriggers, getCronTriggers } from '../../../metadata/selector';
+import { mapDispatchToPropsEmpty } from "../../Common/utils/reactUtils";
+import { getEventTriggers, getCronTriggers } from "../../../metadata/selector";
 
 interface Props extends InjectedProps {}
 
-const Container: React.FC<Props> = props => {
+const Container: React.FC<Props> = (props) => {
   const {
     children,
     pathname: currentLocation,
@@ -55,7 +55,7 @@ const Container: React.FC<Props> = props => {
     <ul>
       <li
         role="presentation"
-        className={isDataEventsRoute(currentLocation) ? styles.active : ''}
+        className={isDataEventsRoute(currentLocation) ? styles.active : ""}
       >
         {/* <li role="presentation" className={styles.active}>
           <Link
@@ -81,7 +81,7 @@ const Container: React.FC<Props> = props => {
       </li>
       <li
         role="presentation"
-        className={isScheduledEventsRoute(currentLocation) ? styles.active : ''}
+        className={isScheduledEventsRoute(currentLocation) ? styles.active : ""}
       >
         <Link
           className={styles.linkBorder}
@@ -100,13 +100,13 @@ const Container: React.FC<Props> = props => {
       <li
         role="presentation"
         className={
-          isAdhocScheduledEventRoute(currentLocation) ? styles.active : ''
+          isAdhocScheduledEventRoute(currentLocation) ? styles.active : ""
         }
       >
         <Link
           className={styles.linkBorder}
           data-test="one-off-trigger"
-          to={getAdhocEventsRoute('absolute', '')}
+          to={getAdhocEventsRoute("absolute", "")}
         >
           {ADHOC_EVENTS_HEADING}
         </Link>
@@ -114,7 +114,7 @@ const Container: React.FC<Props> = props => {
     </ul>
   );
 
-  const helmetTitle = 'Triggers | Hasura';
+  const helmetTitle = "Triggers | Hasura";
 
   const leftContainer = <LeftContainer>{sidebarContent}</LeftContainer>;
 

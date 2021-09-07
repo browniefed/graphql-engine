@@ -1,9 +1,9 @@
-import React from 'react';
-import styles from '../../../../Common/TableCommon/Table.scss';
-import { fkViolationOnUpdate, fkViolationOnDelete } from '../TooltipMessages';
-import { updateSchemaInfo } from '../../DataActions';
-import ToolTip from '../../../../Common/Tooltip/Tooltip';
-import { dataSource } from '../../../../../dataSources';
+import React from "react";
+import styles from "../../../../Common/TableCommon/Table.module.scss";
+import { fkViolationOnUpdate, fkViolationOnDelete } from "../TooltipMessages";
+import { updateSchemaInfo } from "../../DataActions";
+import ToolTip from "../../../../Common/Tooltip/Tooltip";
+import { dataSource } from "../../../../../dataSources";
 
 const ForeignKeySelector = ({
   foreignKey,
@@ -20,11 +20,11 @@ const ForeignKeySelector = ({
   const numOfFks = foreignKeys.length;
   const numColMappings = colMappings.length;
   const refSchemaSelect = () => {
-    const dispatchSetRefSchema = event => {
+    const dispatchSetRefSchema = (event) => {
       const newFks = JSON.parse(JSON.stringify(foreignKeys));
       if (newFks[index].refSchemaName !== event.target.value) {
-        newFks[index].refTableName = '';
-        newFks[index].colMappings = [{ column: '', refColumn: '' }];
+        newFks[index].refTableName = "";
+        newFks[index].colMappings = [{ column: "", refColumn: "" }];
       }
       newFks[index].refSchemaName = event.target.value;
       dispatch(setForeignKeys(newFks));
@@ -35,8 +35,8 @@ const ForeignKeySelector = ({
       const options = [];
 
       options.push(
-        <option key={-1} value={''} disabled>
-          {'-- reference schema --'}
+        <option key={-1} value={""} disabled>
+          {"-- reference schema --"}
         </option>
       );
 
@@ -57,7 +57,7 @@ const ForeignKeySelector = ({
           <b>Reference Schema:</b>
         </div>
         <select
-          value={refSchemaName || ''}
+          value={refSchemaName || ""}
           className={`${styles.select} form-control ${styles.add_pad_left}`}
           data-test={`foreign-key-ref-schema-${index}`}
           onChange={dispatchSetRefSchema}
@@ -71,20 +71,20 @@ const ForeignKeySelector = ({
   // html for ref table dropdown
   const refTableSelect = () => {
     // dispatch action for setting reference table
-    const dispatchSetRefTable = event => {
+    const dispatchSetRefTable = (event) => {
       const newFks = JSON.parse(JSON.stringify(foreignKeys));
       if (newFks[index].refTableName !== event.target.value) {
-        newFks[index].colMappings = [{ column: '', refColumn: '' }];
+        newFks[index].colMappings = [{ column: "", refColumn: "" }];
       }
       newFks[index].refTableName = event.target.value;
-      if (service === 'add-table' && index + 1 === numOfFks) {
+      if (service === "add-table" && index + 1 === numOfFks) {
         newFks.push({
-          refSchemaName: '',
-          refTableName: '',
+          refSchemaName: "",
+          refTableName: "",
           colMappings: [
             {
-              column: '',
-              refColumn: '',
+              column: "",
+              refColumn: "",
             },
           ],
           onUpdate: dataSource.violationActions[0],
@@ -98,8 +98,8 @@ const ForeignKeySelector = ({
       const options = [];
 
       options.push(
-        <option key={-1} value={''} disabled>
-          {'-- reference table --'}
+        <option key={-1} value={""} disabled>
+          {"-- reference table --"}
         </option>
       );
 
@@ -123,7 +123,7 @@ const ForeignKeySelector = ({
           <b>Reference Table:</b>
         </div>
         <select
-          value={refTableName || ''}
+          value={refTableName || ""}
           className={`${styles.select} form-control ${styles.add_pad_left}`}
           data-test={`foreign-key-ref-table-${index}`}
           onChange={dispatchSetRefTable}
@@ -139,7 +139,7 @@ const ForeignKeySelector = ({
   const columnSelect = () => {
     // Do not allow selecting columns if ref table hasn't been selected
     const selectTitle = !refTableName
-      ? 'Please select the reference table'
+      ? "Please select the reference table"
       : undefined;
     return (
       <div className={`${styles.add_mar_bottom}`}>
@@ -166,19 +166,19 @@ const ForeignKeySelector = ({
               newFks[index].colMappings[numColMappings - 1].column &&
               newFks[index].colMappings[numColMappings - 1].refColumn
             ) {
-              newFks[index].colMappings.push({ column: '', refColumn: '' });
+              newFks[index].colMappings.push({ column: "", refColumn: "" });
             }
             dispatch(setForeignKeys(newFks));
           };
 
           // dispatch action for setting the "from" column
-          const dispatchSetLcol = event => {
-            dispatchSetCols('column', event.target.value);
+          const dispatchSetLcol = (event) => {
+            dispatchSetCols("column", event.target.value);
           };
 
           // dispatch action for setting the "to" column
-          const dispatchSetRcol = event => {
-            dispatchSetCols('refColumn', event.target.value);
+          const dispatchSetRcol = (event) => {
+            dispatchSetCols("refColumn", event.target.value);
           };
 
           // dispatch action for removing a pair from column mapping
@@ -219,12 +219,12 @@ const ForeignKeySelector = ({
                   disabled={!refTableName}
                   title={selectTitle}
                 >
-                  {lc === '' && (
+                  {lc === "" && (
                     <option value="" disabled>
-                      {'-- column --'}
+                      {"-- column --"}
                     </option>
                   )}
-                  {orderedColumns.map(oc => {
+                  {orderedColumns.map((oc) => {
                     return (
                       <option key={oc.name} value={oc.index}>
                         {oc.name}
@@ -233,7 +233,7 @@ const ForeignKeySelector = ({
                   })}
                 </select>
               </div>
-              <div className={'col-sm-4'}>
+              <div className={"col-sm-4"}>
                 <select
                   className={`form-control ${styles.select} ${styles.wd100Percent}`}
                   value={rc}
@@ -242,13 +242,13 @@ const ForeignKeySelector = ({
                   title={selectTitle}
                   data-test={`foreign-key-${index}-rcol-${_i}`}
                 >
-                  {rc === '' && (
+                  {rc === "" && (
                     <option value="" disabled>
-                      {'-- ref_column --'}
+                      {"-- ref_column --"}
                     </option>
                   )}
                   {refTables[refTableName] &&
-                    refTables[refTableName].map(rcOpt => {
+                    refTables[refTableName].map((rcOpt) => {
                       return (
                         <option key={rcOpt} value={rcOpt}>
                           {rcOpt}
@@ -269,15 +269,15 @@ const ForeignKeySelector = ({
     // Do not allow selecting on violation conditions if no column mapping is selected
     const disabled = numColMappings <= 1;
     const inputTitle = disabled
-      ? 'Please select the reference table and the column configuration'
+      ? "Please select the reference table and the column configuration"
       : undefined;
     // Generate radios for violation actions
     const violiationActions = dataSource.violationActions;
-    const radios = action => {
+    const radios = (action) => {
       const selected = foreignKey[action];
       return (
-        <div className={'row'}>
-          {violiationActions.map(va => {
+        <div className={"row"}>
+          {violiationActions.map((va) => {
             const onCheck = () => {
               const newFks = JSON.parse(JSON.stringify(foreignKeys));
               newFks[index][action] = va;
@@ -312,14 +312,14 @@ const ForeignKeySelector = ({
             <b>On Update Violation:</b>&nbsp; &nbsp;
             <ToolTip message={fkViolationOnUpdate} />
           </div>
-          {radios('onUpdate')}
+          {radios("onUpdate")}
         </div>
         <div className={`${styles.add_mar_bottom}`}>
           <div className={`${styles.add_mar_bottom_mid}`}>
             <b>On Delete Violation:</b>&nbsp; &nbsp;
             <ToolTip message={fkViolationOnDelete} />
           </div>
-          {radios('onDelete')}
+          {radios("onDelete")}
         </div>
       </div>
     );

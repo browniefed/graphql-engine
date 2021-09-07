@@ -1,11 +1,11 @@
-import React from 'react';
-import { Link } from 'react-router';
-import PropTypes from 'prop-types';
+import React from "react";
+import { Link } from "react-router";
+import PropTypes from "prop-types";
 
-import LeftContainer from '../../Common/Layout/LeftContainer/LeftContainer';
-import PageContainer from '../../Common/Layout/PageContainer/PageContainer';
-import RemoteSchemaSubSidebar from './RemoteSchemaSubSidebar';
-import styles from '../../Common/TableCommon/Table.scss';
+import LeftContainer from "../../Common/Layout/LeftContainer/LeftContainer";
+import PageContainer from "../../Common/Layout/PageContainer/PageContainer";
+import RemoteSchemaSubSidebar from "./RemoteSchemaSubSidebar";
+import styles from "../../Common/TableCommon/Table.module.scss";
 
 class RemoteSchemaPageContainer extends React.Component {
   render() {
@@ -18,12 +18,12 @@ class RemoteSchemaPageContainer extends React.Component {
         <li
           role="presentation"
           className={
-            currentLocation.includes('remote-schemas/manage')
+            currentLocation.includes("remote-schemas/manage")
               ? styles.active
-              : ''
+              : ""
           }
         >
-          <Link className={styles.linkBorder} to={appPrefix + '/manage'}>
+          <Link className={styles.linkBorder} to={appPrefix + "/manage"}>
             Manage
           </Link>
           <RemoteSchemaSubSidebar {...this.props} />
@@ -31,7 +31,7 @@ class RemoteSchemaPageContainer extends React.Component {
       </ul>
     );
 
-    const helmet = 'Remote Schemas | Hasura';
+    const helmet = "Remote Schemas | Hasura";
 
     const leftContainer = <LeftContainer>{sidebarContent}</LeftContainer>;
 

@@ -1,5 +1,5 @@
-import React from 'react';
-import styles from '../../../../Common/TableCommon/Table.scss';
+import React from "react";
+import styles from "../../../../Common/TableCommon/Table.module.scss";
 
 const UniqueKeySelector = ({
   uniqueKeys,
@@ -18,7 +18,7 @@ const UniqueKeySelector = ({
     const newUniqueKeys = JSON.parse(JSON.stringify(uniqueKeys));
     newUniqueKeys[index] = newUniqueKeys[index] || [];
     newUniqueKeys[index][_i] = parseInt(e.target.value, 10);
-    if (newUniqueKeys[numUniqueKeys - 1].length && service === 'add-table') {
+    if (newUniqueKeys[numUniqueKeys - 1].length && service === "add-table") {
       newUniqueKeys.push([]);
     }
     dispatch(setUniqueKeys(newUniqueKeys));
@@ -36,7 +36,7 @@ const UniqueKeySelector = ({
 
   // select options
   const getColumnOptions = () => {
-    return columns.map(c => {
+    return columns.map((c) => {
       if (uniqueKey.includes(c.index) || !c.name || !c.type) {
         return null;
       }
@@ -50,8 +50,8 @@ const UniqueKeySelector = ({
 
   // selected columns
   const existingSelects = uniqueKey.map((uk, i) => {
-    const removeUniqueCol = e => dispatchRemoveUniqueCol(e, i);
-    const setUniqueCol = e => dispatchSelectUniqueCol(e, i);
+    const removeUniqueCol = (e) => dispatchRemoveUniqueCol(e, i);
+    const setUniqueCol = (e) => dispatchSelectUniqueCol(e, i);
 
     const removeIcon = (
       <i
@@ -81,16 +81,16 @@ const UniqueKeySelector = ({
 
   // placeholder dropdown to add more columns
   const newSelect = () => {
-    const selectUniqueCol = e => dispatchSelectUniqueCol(e, numCols);
+    const selectUniqueCol = (e) => dispatchSelectUniqueCol(e, numCols);
     return (
       <div key={numCols} className={`form-group ${styles.pkEditorWrapper}`}>
         <select
           className={`${styles.select} ${styles.sample} form-control ${styles.add_pad_left}`}
           data-test={`unique-key-${index}-column-${numCols}`}
           onChange={selectUniqueCol}
-          value={''}
+          value={""}
         >
-          <option key="uk-column-placeholder" value={''}>
+          <option key="uk-column-placeholder" value={""}>
             -- select --
           </option>
           {getColumnOptions()}

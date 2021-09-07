@@ -1,23 +1,23 @@
-import React, { useMemo, ReactElement, ReactText } from 'react';
-import ReactTable from 'react-table';
-import { getColWidth } from '../../../Common/TableCommon/DragFoldTable';
-import styles from '../../../Common/TableCommon/Table.scss';
+import React, { useMemo, ReactElement, ReactText } from "react";
+import ReactTable from "react-table";
+import { getColWidth } from "../../../Common/TableCommon/DragFoldTable";
+import styles from "../../../Common/TableCommon/Table.module.scss";
 
 interface ResultTableProps {
   headers: string[];
   rows: Array<string[]>;
 }
 const getColCellContent = (rowColumnValue: ReactText) => {
-  let cellValue: React.ReactText | ReactElement = '';
-  let cellTitle: React.ReactText | ReactElement = '';
+  let cellValue: React.ReactText | ReactElement = "";
+  let cellTitle: React.ReactText | ReactElement = "";
 
   if (rowColumnValue === null) {
     cellValue = <i>NULL</i>;
-    cellTitle = 'NULL';
+    cellTitle = "NULL";
   } else if (rowColumnValue === undefined) {
-    cellValue = 'NULL';
+    cellValue = "NULL";
     cellTitle = cellValue;
-  } else if (typeof rowColumnValue === 'object') {
+  } else if (typeof rowColumnValue === "object") {
     cellValue = JSON.stringify(rowColumnValue, null, 4);
     cellTitle = cellValue;
   } else {
@@ -34,7 +34,7 @@ const getColCellContent = (rowColumnValue: ReactText) => {
 
 const getTableConfig = (headers: string[], rows: Array<string[]>) => {
   const dataMap: Record<string, any>[] = [];
-  const data = rows.map(i => {
+  const data = rows.map((i) => {
     const result: Record<string, any> = {};
     const resultMap: Record<string, any> = {};
     headers.forEach((hdr, hIndex) => {
@@ -44,7 +44,7 @@ const getTableConfig = (headers: string[], rows: Array<string[]>) => {
     dataMap.push(resultMap);
     return result;
   });
-  const columns = headers.map(i => ({
+  const columns = headers.map((i) => ({
     Header: i,
     accessor: i,
     minWidth: Math.ceil(getColWidth(i, dataMap)),
@@ -54,10 +54,10 @@ const getTableConfig = (headers: string[], rows: Array<string[]>) => {
 };
 
 const ResultTable: React.FC<ResultTableProps> = ({ headers, rows }) => {
-  const tableConfig = useMemo(() => getTableConfig(headers, rows), [
-    headers,
-    rows,
-  ]);
+  const tableConfig = useMemo(
+    () => getTableConfig(headers, rows),
+    [headers, rows]
+  );
   return (
     <div className={`${styles.addCol} col-xs-12 ${styles.padd_left_remove}`}>
       <h4 className={styles.subheading_text}>SQL Result:</h4>

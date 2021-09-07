@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 
-import { getPlaceholder } from '../../utils';
-import JsonInput from '../../../../Common/CustomInputTypes/JsonInput';
-import TextInput from '../../../../Common/CustomInputTypes/TextInput';
-import styles from '../../../../Common/TableCommon/Table.scss';
-import { dataSource } from '../../../../../dataSources';
+import { getPlaceholder } from "../../utils";
+import JsonInput from "../../../../Common/CustomInputTypes/JsonInput";
+import TextInput from "../../../../Common/CustomInputTypes/TextInput";
+import styles from "../../../../Common/TableCommon/Table.module.scss";
+import { dataSource } from "../../../../../dataSources";
 
 export const TypedInput = ({
   enumOptions,
@@ -28,14 +28,14 @@ export const TypedInput = ({
   const getDefaultValue = () => {
     if (clone && colName in clone) return clone[colName];
     if (prevValue !== undefined) {
-      return prevValue === null ? '' : prevValue;
+      return prevValue === null ? "" : prevValue;
     }
-    return '';
+    return "";
   };
 
-  const onClick = e => {
+  const onClick = (e) => {
     e.target
-      .closest('.radio-inline')
+      .closest(".radio-inline")
       .querySelector('input[type="radio"]').checked = true;
     e.target.focus();
   };
@@ -46,11 +46,11 @@ export const TypedInput = ({
     onClick,
     disabled,
     ref: inputRef,
-    'data-test': `typed-input-${index}`,
+    "data-test": `typed-input-${index}`,
     className: `form-control ${styles.insertBox}`,
     defaultValue: getDefaultValue(),
-    type: 'text',
-    placeholder: 'text',
+    type: "text",
+    placeholder: "text",
   };
 
   if (disabled) {
@@ -62,12 +62,12 @@ export const TypedInput = ({
       <select
         {...standardInputProps}
         className={`form-control ${styles.insertBox}`}
-        defaultValue={prevValue || ''}
+        defaultValue={prevValue || ""}
       >
         <option disabled value="">
           -- enum value --
         </option>
-        {enumOptions[colName].map(option => (
+        {enumOptions[colName].map((option) => (
           <option key={option} value={option}>
             {option}
           </option>
@@ -76,7 +76,7 @@ export const TypedInput = ({
     );
   }
 
-  if (prevValue && typeof prevValue === 'object') {
+  if (prevValue && typeof prevValue === "object") {
     return (
       <JsonInput
         standardProps={{

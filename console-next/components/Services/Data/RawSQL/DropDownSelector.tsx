@@ -1,9 +1,9 @@
-import React from 'react';
-import styles from '../../../Common/TableCommon/Table.scss';
+import React from "react";
+import styles from "../../../Common/TableCommon/Table.module.scss";
 
 interface Props {
   options: string[];
-  defaultValue: string | '';
+  defaultValue: string | "";
   onChange: (option: string) => void;
   styles: React.CSSProperties;
 }

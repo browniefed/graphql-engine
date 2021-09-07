@@ -1,11 +1,11 @@
 /* eslint no-underscore-dangle: 0 */
-import { SERVER_CONSOLE_MODE } from './constants';
-import { getFeaturesCompatibility } from './helpers/versionUtils';
-import { stripTrailingSlash } from './components/Common/utils/urlUtils';
-import { isEmpty } from './components/Common/utils/jsUtils';
-import { Nullable } from './components/Common/utils/tsUtils';
+import { SERVER_CONSOLE_MODE } from "@/constants";
+import { getFeaturesCompatibility } from "@/helpers/versionUtils";
+import { stripTrailingSlash } from "@/components/Common/utils/urlUtils";
+import { isEmpty } from "@/components/Common/utils/jsUtils";
+import { Nullable } from "@/components/Common/utils/tsUtils";
 
-type ConsoleType = 'oss' | 'cloud' | 'pro' | 'pro-cloud';
+type ConsoleType = "oss" | "cloud" | "pro" | "pro-cloud";
 
 declare global {
   interface Window {
@@ -39,13 +39,13 @@ declare global {
 
 /* initialize globals */
 
-const isProduction = window.__env?.nodeEnv !== 'development';
+const isProduction = window.__env?.nodeEnv !== "development";
 
 const globals = {
   apiHost: window.__env?.apiHost,
   apiPort: window.__env?.apiPort,
   dataApiUrl: stripTrailingSlash(window.__env?.dataApiUrl), // overridden below if server mode
-  urlPrefix: stripTrailingSlash(window.__env?.urlPrefix || '/'), // overridden below if server mode in production
+  urlPrefix: stripTrailingSlash(window.__env?.urlPrefix || "/"), // overridden below if server mode in production
   adminSecret: window.__env?.adminSecret || null, // gets updated after login/logout in server mode
   isAdminSecretSet:
     window.__env?.isAdminSecretSet ||
@@ -53,7 +53,7 @@ const globals = {
     false,
   consoleMode: window.__env?.consoleMode || SERVER_CONSOLE_MODE,
   enableTelemetry: window.__env?.enableTelemetry,
-  telemetryTopic: isProduction ? 'console' : 'console_test',
+  telemetryTopic: isProduction ? "console" : "console_test",
   assetsPath: window.__env?.assetsPath,
   serverVersion: window.__env?.serverVersion,
   consoleAssetVersion: CONSOLE_ASSET_VERSION, // set during console build
@@ -61,7 +61,7 @@ const globals = {
     ? getFeaturesCompatibility(window.__env?.serverVersion)
     : null,
   cliUUID: window.__env?.cliUUID,
-  hasuraUUID: '',
+  hasuraUUID: "",
   telemetryNotificationShown: false,
   isProduction,
   herokuOAuthClientId: window.__env?.herokuOAuthClientId,
@@ -71,7 +71,7 @@ const globals = {
   luxDataHost: window.__env?.luxDataHost,
   userRole: undefined, // userRole is not applicable for the OSS console
   consoleType: window.__env?.consoleType,
-  eeMode: window.__env?.eeMode === 'true',
+  eeMode: window.__env?.eeMode === "true",
 };
 if (globals.consoleMode === SERVER_CONSOLE_MODE) {
   if (!window.__env?.dataApiUrl) {

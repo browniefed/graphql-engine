@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import 'react-table/react-table.css';
-import '../../../Common/TableCommon/ReactTableOverrides.css';
+import React, { useState, useEffect } from "react";
+import "react-table/react-table.css";
+import "../../../Common/TableCommon/ReactTableOverrides.css";
 import DragFoldTable, {
   getColWidth,
-} from '../../../Common/TableCommon/DragFoldTable';
+} from "../../../Common/TableCommon/DragFoldTable";
 
-import Dropdown from '../../../Common/Dropdown/Dropdown';
+import Dropdown from "../../../Common/Dropdown/Dropdown";
 
-import InvokeManualTrigger from '../../Events/EventTriggers/InvokeManualTrigger/InvokeManualTrigger';
+import InvokeManualTrigger from "../../Events/EventTriggers/InvokeManualTrigger/InvokeManualTrigger";
 
 import {
   vExpandRel,
@@ -17,7 +17,7 @@ import {
   deleteItem,
   vExpandRow,
   vCollapseRow,
-} from './ViewActions'; // eslint-disable-line no-unused-vars
+} from "./ViewActions"; // eslint-disable-line no-unused-vars
 
 import {
   setOrderCol,
@@ -27,37 +27,37 @@ import {
   setOffset,
   setLimit,
   addOrder,
-} from './FilterActions';
+} from "./FilterActions";
 
-import _push from '../push';
-import { ordinalColSort } from '../utils';
-import FilterQuery from './FilterQuery';
-import Spinner from '../../../Common/Spinner/Spinner';
-import Button from '../../../Common/Button/Button';
+import _push from "../push";
+import { ordinalColSort } from "../utils";
+import FilterQuery from "./FilterQuery";
+import Spinner from "../../../Common/Spinner/Spinner";
+import Button from "../../../Common/Button/Button";
 
-import { E_SET_EDITITEM } from './EditActions';
-import { I_SET_CLONE } from '../TableInsertItem/InsertActions';
+import { E_SET_EDITITEM } from "./EditActions";
+import { I_SET_CLONE } from "../TableInsertItem/InsertActions";
 import {
   getTableInsertRowRoute,
   getTableEditRowRoute,
-} from '../../../Common/utils/routesUtils';
+} from "../../../Common/utils/routesUtils";
 import {
   findTable,
   getRelationshipRefTable,
   dataSource,
-} from '../../../../dataSources';
-import { updateSchemaInfo } from '../DataActions';
+} from "../../../../dataSources";
+import { updateSchemaInfo } from "../DataActions";
 import {
   persistColumnCollapseChange,
   getPersistedCollapsedColumns,
   persistColumnOrderChange,
   getPersistedColumnsOrder,
   persistPageSizeChange,
-} from './tableUtils';
-import { compareRows, isTableWithPK } from './utils';
-import styles from '../../../Common/TableCommon/Table.scss';
+} from "./tableUtils";
+import { compareRows, isTableWithPK } from "./utils";
+import styles from "../../../Common/TableCommon/Table.module.scss";
 
-const ViewRows = props => {
+const ViewRows = (props) => {
   const {
     curTableName,
     currentSchema,
@@ -91,7 +91,7 @@ const ViewRows = props => {
     setSelectedRows([]);
   }, [curTableName, currentSchema]);
 
-  const NO_PRIMARY_KEY_MSG = 'No primary key to identify row';
+  const NO_PRIMARY_KEY_MSG = "No primary key to identify row";
 
   // Invoke manual trigger status
   const invokeTrigger = (trigger, row) => {
@@ -104,7 +104,7 @@ const ViewRows = props => {
     setInvokedRow(null);
   };
 
-  const handleAllCheckboxChange = e => {
+  const handleAllCheckboxChange = (e) => {
     if (e.target.checked) {
       setSelectedRows(curRows);
     } else {
@@ -112,21 +112,21 @@ const ViewRows = props => {
     }
   };
 
-  const checkIfSingleRow = _curRelName => {
+  const checkIfSingleRow = (_curRelName) => {
     let _isSingleRow = false;
 
     const parentTableSchema = parentTableName
-      ? schemas.find(t => t.table_name === parentTableName)
+      ? schemas.find((t) => t.table_name === parentTableName)
       : null;
 
-    if (curQuery.columns.find(c => typeof c === 'object')) {
+    if (curQuery.columns.find((c) => typeof c === "object")) {
       // Do I have any children
       _isSingleRow = true;
     } else if (
       _curRelName &&
       parentTableSchema &&
       parentTableSchema.relationships.find(
-        r => r.rel_name === _curRelName && r.rel_type === 'object'
+        (r) => r.rel_name === _curRelName && r.rel_type === "object"
       )
     ) {
       // Am I an obj_rel for my parent?
@@ -140,9 +140,9 @@ const ViewRows = props => {
     const _gridHeadings = [];
 
     _gridHeadings.push({
-      Header: '',
-      accessor: 'tableRowActionButtons',
-      id: 'tableRowActionButtons',
+      Header: "",
+      accessor: "tableRowActionButtons",
+      id: "tableRowActionButtons",
       width: 152,
     });
 
@@ -155,26 +155,26 @@ const ViewRows = props => {
               curRows.length > 0 && selectedRows.length === curRows.length
             }
             disabled={_disableBulkSelect}
-            title={_disableBulkSelect ? 'No primary key to identify row' : ''}
+            title={_disableBulkSelect ? "No primary key to identify row" : ""}
             type="checkbox"
             onChange={handleAllCheckboxChange}
             data-test="select-all-rows"
           />
         </div>
       ),
-      accessor: 'tableRowSelectAction',
-      id: 'tableRowSelectAction',
+      accessor: "tableRowSelectAction",
+      id: "tableRowSelectAction",
       width: 60,
     });
 
-    _columns.map(col => {
+    _columns.map((col) => {
       const columnName = col.column_name;
 
-      let sortIcon = 'fa-sort';
+      let sortIcon = "fa-sort";
       if (curQuery.order_by && curQuery.order_by.length) {
-        curQuery.order_by.forEach(orderBy => {
+        curQuery.order_by.forEach((orderBy) => {
           if (orderBy.column === columnName) {
-            sortIcon = orderBy.type === 'asc' ? 'fa-caret-up' : 'fa-caret-down';
+            sortIcon = orderBy.type === "asc" ? "fa-caret-up" : "fa-caret-down";
           }
         });
       }
@@ -183,7 +183,7 @@ const ViewRows = props => {
         Header: (
           <div className="ellipsis">
             <span className={styles.tableHeaderCell}>
-              {columnName} <i className={'fa ' + sortIcon} />
+              {columnName} <i className={"fa " + sortIcon} />
             </span>
           </div>
         ),
@@ -194,7 +194,7 @@ const ViewRows = props => {
       });
     });
 
-    _relationships.map(rel => {
+    _relationships.map((rel) => {
       const relName = rel.rel_name;
 
       _gridHeadings.push({
@@ -215,10 +215,12 @@ const ViewRows = props => {
 
   const handleCheckboxChange = (row, e, tableSchema) => {
     if (e.target.checked) {
-      setSelectedRows(prev => [...prev, row]);
+      setSelectedRows((prev) => [...prev, row]);
     } else {
-      setSelectedRows(prev =>
-        prev.filter(prevRow => !compareRows(prevRow, row, tableSchema, isView))
+      setSelectedRows((prev) =>
+        prev.filter(
+          (prevRow) => !compareRows(prevRow, row, tableSchema, isView)
+        )
       );
     }
   };
@@ -227,22 +229,22 @@ const ViewRows = props => {
     const pkClause = {};
 
     if (!isView && hasPrimaryKey) {
-      tableSchema.primary_key.columns.forEach(key => {
+      tableSchema.primary_key.columns.forEach((key) => {
         pkClause[key] = row[key];
       });
     } else if (tableSchema.unique_constraints?.length) {
-      tableSchema.unique_constraints[0].columns.forEach(key => {
+      tableSchema.unique_constraints[0].columns.forEach((key) => {
         pkClause[key] = row[key];
       });
     } else {
       tableSchema.columns
-        .filter(c => !dataSource.isJsonColumn(c))
-        .forEach(key => {
+        .filter((c) => !dataSource.isJsonColumn(c))
+        .forEach((key) => {
           pkClause[key.column_name] = row[key.column_name];
         });
     }
 
-    Object.keys(pkClause).forEach(key => {
+    Object.keys(pkClause).forEach((key) => {
       if (Array.isArray(pkClause[key])) {
         pkClause[key] = dataSource.arrayToPostgresArray(pkClause[key]);
       }
@@ -280,7 +282,7 @@ const ViewRows = props => {
         ) => {
           const disabled = requirePK && !_hasPrimaryKey;
 
-          const disabledOnClick = e => {
+          const disabledOnClick = (e) => {
             e.preventDefault();
             e.stopPropagation();
           };
@@ -291,7 +293,7 @@ const ViewRows = props => {
               color="white"
               size="xs"
               onClick={disabled ? disabledOnClick : handleClick}
-              title={disabled ? 'No primary key to identify row' : title}
+              title={disabled ? "No primary key to identify row" : title}
               data-test={`row-${type}-button-${rowIndex}`}
               disabled={disabled}
             >
@@ -313,21 +315,21 @@ const ViewRows = props => {
           };
 
           if (isExpanded) {
-            icon = 'fa-compress';
-            title = 'Collapse row';
+            icon = "fa-compress";
+            title = "Collapse row";
             handleClick = handleCollapse;
           } else {
-            icon = 'fa-expand';
-            title = 'Expand row';
+            icon = "fa-expand";
+            title = "Expand row";
             handleClick = handleExpand;
           }
 
           const expanderIcon = <i className={`fa ${icon}`} />;
 
-          return getActionButton('expand', expanderIcon, title, handleClick);
+          return getActionButton("expand", expanderIcon, title, handleClick);
         };
 
-        const getEditButton = pkClause => {
+        const getEditButton = (pkClause) => {
           const editIcon = <i className="fa fa-edit" />;
 
           const handleEditClick = () => {
@@ -344,10 +346,10 @@ const ViewRows = props => {
             );
           };
 
-          const editTitle = 'Edit row';
+          const editTitle = "Edit row";
 
           return getActionButton(
-            'edit',
+            "edit",
             editIcon,
             editTitle,
             handleEditClick,
@@ -355,20 +357,22 @@ const ViewRows = props => {
           );
         };
 
-        const getDeleteButton = pkClause => {
+        const getDeleteButton = (pkClause) => {
           const deleteIcon = <i className="fa fa-trash" />;
 
           const handleDeleteClick = () => {
-            setSelectedRows(prev =>
-              prev.filter(r => !compareRows(r, pkClause, _tableSchema, isView))
+            setSelectedRows((prev) =>
+              prev.filter(
+                (r) => !compareRows(r, pkClause, _tableSchema, isView)
+              )
             );
             dispatch(deleteItem(pkClause, curTableName, currentSchema));
           };
 
-          const deleteTitle = 'Delete row';
+          const deleteTitle = "Delete row";
 
           return getActionButton(
-            'delete',
+            "delete",
             deleteIcon,
             deleteTitle,
             handleDeleteClick,
@@ -393,10 +397,10 @@ const ViewRows = props => {
             );
           };
 
-          const cloneTitle = 'Clone row';
+          const cloneTitle = "Clone row";
 
           return getActionButton(
-            'clone',
+            "clone",
             cloneIcon,
             cloneTitle,
             handleCloneClick,
@@ -409,7 +413,7 @@ const ViewRows = props => {
             return;
           }
 
-          const triggerOptions = manualTriggers.map(m => {
+          const triggerOptions = manualTriggers.map((m) => {
             return {
               content: (
                 <div>
@@ -428,10 +432,10 @@ const ViewRows = props => {
           });
 
           const triggerIcon = <i className="fa fa-caret-square-o-right" />;
-          const triggerTitle = 'Invoke event trigger';
+          const triggerTitle = "Invoke event trigger";
 
           const triggerBtn = getActionButton(
-            'trigger',
+            "trigger",
             triggerIcon,
             triggerTitle,
             () => {}
@@ -497,18 +501,18 @@ const ViewRows = props => {
             className={`${styles.inputCheckbox} legacy-input-fix`}
             type="checkbox"
             disabled={_disableBulkSelect}
-            title={_disableBulkSelect ? NO_PRIMARY_KEY_MSG : ''}
-            checked={selectedRows.some(selectedRow =>
+            title={_disableBulkSelect ? NO_PRIMARY_KEY_MSG : ""}
+            checked={selectedRows.some((selectedRow) =>
               compareRows(selectedRow, row, _tableSchema, isView)
             )}
-            onChange={e => handleCheckboxChange(row, e, _tableSchema, isView)}
+            onChange={(e) => handleCheckboxChange(row, e, _tableSchema, isView)}
             data-test={`row-checkbox-${rowIndex}`}
           />
         </div>
       );
 
       // Insert column cells
-      _tableSchema.columns.forEach(col => {
+      _tableSchema.columns.forEach((col) => {
         const columnName = col.column_name;
 
         /* Row is a JSON object with `key` as the column name in the db
@@ -528,19 +532,19 @@ const ViewRows = props => {
         const getColCellContent = () => {
           const rowColumnValue = row[columnName];
 
-          let cellValue = '';
-          let cellTitle = '';
+          let cellValue = "";
+          let cellTitle = "";
 
           if (rowColumnValue === null) {
             cellValue = <i>NULL</i>;
-            cellTitle = 'NULL';
+            cellTitle = "NULL";
           } else if (rowColumnValue === undefined) {
-            cellValue = 'NULL';
+            cellValue = "NULL";
             cellTitle = cellValue;
           } else if (
-            col.data_type === 'json' ||
-            col.data_type === 'jsonb' ||
-            typeof rowColumnValue === 'object'
+            col.data_type === "json" ||
+            col.data_type === "jsonb" ||
+            typeof rowColumnValue === "object"
           ) {
             cellValue = JSON.stringify(rowColumnValue, null, 4);
             cellTitle = cellValue;
@@ -551,7 +555,7 @@ const ViewRows = props => {
 
           return (
             <div
-              className={isExpanded ? styles.tableCellExpanded : ''}
+              className={isExpanded ? styles.tableCellExpanded : ""}
               title={cellTitle}
             >
               {cellValue}
@@ -563,11 +567,11 @@ const ViewRows = props => {
       });
 
       // Insert relationship cells
-      _tableSchema.relationships.forEach(rel => {
+      _tableSchema.relationships.forEach((rel) => {
         const relName = rel.rel_name;
 
         const getRelCellContent = () => {
-          let cellValue = '';
+          let cellValue = "";
 
           const getRelExpander = (value, className, clickHandler) => {
             return (
@@ -578,16 +582,16 @@ const ViewRows = props => {
           };
 
           const isRelExpanded =
-            curQuery.columns.find(c => c.name === rel.rel_name) !== undefined;
+            curQuery.columns.find((c) => c.name === rel.rel_name) !== undefined;
 
           if (isRelExpanded) {
-            const handleCloseClick = e => {
+            const handleCloseClick = (e) => {
               e.preventDefault();
               dispatch(vCloseRel(curPath, rel.rel_name));
             };
 
             cellValue = getRelExpander(
-              'Close',
+              "Close",
               styles.expanded,
               handleCloseClick
             );
@@ -602,7 +606,7 @@ const ViewRows = props => {
               // can be expanded
               const pkClause = getPKClause(row, _hasPrimaryKey, _tableSchema);
 
-              const handleViewClick = e => {
+              const handleViewClick = (e) => {
                 e.preventDefault();
 
                 const childTableDef = getRelationshipRefTable(
@@ -620,7 +624,7 @@ const ViewRows = props => {
                 }
               };
 
-              cellValue = getRelExpander('View', '', handleViewClick);
+              cellValue = getRelExpander("View", "", handleViewClick);
             }
           }
 
@@ -638,7 +642,7 @@ const ViewRows = props => {
 
   const curRelName = curPath.length > 0 ? curPath.slice(-1)[0] : null;
   const tableSchema = schemas.find(
-    x => x.table_name === curTableName && x.table_schema === currentSchema
+    (x) => x.table_name === curTableName && x.table_schema === currentSchema
   );
 
   const tableColumnsSorted = tableSchema.columns.sort(ordinalColSort);
@@ -670,17 +674,17 @@ const ViewRows = props => {
       if (curRelName === activePath[curDepth] || curDepth === 0) {
         // Rendering only if this is the activePath or this is the root
 
-        let wheres = [{ '': { '': '' } }];
-        if ('where' in curFilter && '$and' in curFilter.where) {
+        let wheres = [{ "": { "": "" } }];
+        if ("where" in curFilter && "$and" in curFilter.where) {
           wheres = [...curFilter.where.$and];
         }
 
-        let orderBy = [{ column: '', type: 'asc', nulls: 'last' }];
-        if ('order_by' in curFilter) {
+        let orderBy = [{ column: "", type: "asc", nulls: "last" }];
+        if ("order_by" in curFilter) {
           orderBy = [...curFilter.order_by];
         }
 
-        const offset = 'offset' in curFilter ? curFilter.offset : 0;
+        const offset = "offset" in curFilter ? curFilter.offset : 0;
 
         _filterQuery = (
           <FilterQuery
@@ -703,7 +707,7 @@ const ViewRows = props => {
 
   const getSelectedRowsSection = () => {
     const handleDeleteItems = () => {
-      const pkClauses = selectedRows.map(row =>
+      const pkClauses = selectedRows.map((row) =>
         getPKClause(row, hasPrimaryKey, tableSchema)
       );
       dispatch(deleteItems(pkClauses, curTableName, currentSchema));
@@ -737,24 +741,24 @@ const ViewRows = props => {
     let _childComponent = null;
 
     const childQueries = [];
-    curQuery.columns.map(c => {
-      if (typeof c === 'object') {
+    curQuery.columns.map((c) => {
+      if (typeof c === "object") {
         childQueries.push(c);
       }
     });
 
     const childTabs = childQueries.map((q, i) => {
-      const isActive = q.name === activePath[curDepth + 1] ? 'active' : null;
+      const isActive = q.name === activePath[curDepth + 1] ? "active" : null;
       return (
         <li key={i} className={isActive} role="presentation">
           <a
             href="#"
-            onClick={e => {
+            onClick={(e) => {
               e.preventDefault();
               dispatch({ type: V_SET_ACTIVE, path: curPath, relname: q.name });
             }}
           >
-            {[...activePath.slice(0, 1), ...curPath, q.name].join('.')}
+            {[...activePath.slice(0, 1), ...curPath, q.name].join(".")}
           </a>
         </li>
       );
@@ -763,10 +767,12 @@ const ViewRows = props => {
     const childViewRows = childQueries.map((cq, i) => {
       // Render child only if data is available
       if (curRows[0] && curRows[0][cq.name]) {
-        const rel = tableSchema.relationships.find(r => r.rel_name === cq.name);
+        const rel = tableSchema.relationships.find(
+          (r) => r.rel_name === cq.name
+        );
 
         if (rel) {
-          const isObjectRel = rel.rel_type === 'object';
+          const isObjectRel = rel.rel_type === "object";
 
           let childRows = curRows[0][cq.name];
           if (isObjectRel) {
@@ -820,8 +826,8 @@ const ViewRows = props => {
     if (isProgressing) {
       return (
         <div>
-          {' '}
-          <Spinner />{' '}
+          {" "}
+          <Spinner />{" "}
         </div>
       );
     }
@@ -835,7 +841,9 @@ const ViewRows = props => {
     let disableSortColumn = false;
 
     const sortByColumn = (col, clearExisting = true) => {
-      const columnNames = tableColumnsSorted.map(column => column.column_name);
+      const columnNames = tableColumnsSorted.map(
+        (column) => column.column_name
+      );
       if (!columnNames.includes(col)) {
         return;
       }
@@ -844,7 +852,7 @@ const ViewRows = props => {
 
       let orderByCol = col;
       let orderByPos = numOfOrderBys - 1;
-      let orderType = 'asc';
+      let orderType = "asc";
 
       let isExistingColumn = false;
       for (let i = 0; i < numOfOrderBys; i++) {
@@ -853,9 +861,9 @@ const ViewRows = props => {
         if (orderBy.column === col) {
           isExistingColumn = true;
 
-          if (orderBy.type === 'asc') {
+          if (orderBy.type === "asc") {
             orderByPos = i;
-            orderType = 'desc';
+            orderType = "desc";
           } else {
             orderByPos = i;
             orderByCol = null;
@@ -901,7 +909,7 @@ const ViewRows = props => {
     };
 
     const getTheadThProps = (finalState, some, column) => ({
-      onClick: e => {
+      onClick: (e) => {
         if (!disableSortColumn && column.id) {
           sortByColumn(column.id, !e.shiftKey);
         }
@@ -911,13 +919,13 @@ const ViewRows = props => {
     });
 
     const getResizerProps = (finalState, none, column, ctx) => ({
-      onMouseDown: e => {
+      onMouseDown: (e) => {
         disableSortColumn = true;
         ctx.resizeColumnStart(e, column, false);
       },
     });
 
-    const handlePageChange = page => {
+    const handlePageChange = (page) => {
       if (curFilter.offset !== page * curFilter.limit) {
         dispatch(setOffset(page * curFilter.limit));
         dispatch(runQuery(tableSchema));
@@ -925,7 +933,7 @@ const ViewRows = props => {
       }
     };
 
-    const handlePageSizeChange = size => {
+    const handlePageSizeChange = (size) => {
       if (curFilter.size !== size) {
         dispatch(setLimit(size));
         dispatch(setOffset(0));
@@ -938,7 +946,7 @@ const ViewRows = props => {
     const PaginationWithOnlyNav = () => {
       const newPage = curFilter.offset / curFilter.limit;
       return (
-        <div className={`row`} style={{ maxWidth: '500px' }}>
+        <div className={`row`} style={{ maxWidth: "500px" }}>
           <div className="col-xs-2">
             <button
               className="btn"
@@ -951,7 +959,7 @@ const ViewRows = props => {
           <div className="col-xs-4">
             <select
               value={curFilter.limit}
-              onChange={e => {
+              onChange={(e) => {
                 e.persist();
                 handlePageSizeChange(parseInt(e.target.value, 10) || 10);
               }}
@@ -991,7 +999,7 @@ const ViewRows = props => {
         className="dataTable -highlight -fit-content"
         data={_gridRows}
         columns={_gridHeadings}
-        headerTitle={'Click to sort / Drag to rearrange'}
+        headerTitle={"Click to sort / Drag to rearrange"}
         resizable
         manual
         sortable={false}
@@ -1004,7 +1012,7 @@ const ViewRows = props => {
         onPageChange={handlePageChange}
         onPageSizeChange={handlePageSizeChange}
         page={Math.floor(curFilter.offset / curFilter.limit)}
-        onCollapseChange={collapsedData =>
+        onCollapseChange={(collapsedData) =>
           persistColumnCollapseChange(
             curTableName,
             currentSchema,
@@ -1012,7 +1020,7 @@ const ViewRows = props => {
           )
         }
         defaultCollapsed={collapsedColumns}
-        onOrderChange={reorderData =>
+        onOrderChange={(reorderData) =>
           persistColumnOrderChange(curTableName, currentSchema, reorderData)
         }
         defaultReorders={columnsOrder}
@@ -1029,7 +1037,7 @@ const ViewRows = props => {
   }
 
   return (
-    <div className={isVisible ? '' : 'hide '}>
+    <div className={isVisible ? "" : "hide "}>
       {getFilterQuery()}
       <div className={`row ${styles.add_mar_top}`}>
         {getSelectedRowsSection()}

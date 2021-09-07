@@ -1,20 +1,20 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import TableHeader from '../TableCommon/TableHeader';
-import Button from '../../../Common/Button/Button';
-import ReloadEnumValuesButton from '../Common/Components/ReloadEnumValuesButton';
-import { ordinalColSort } from '../utils';
+import PropTypes from "prop-types";
+import React, { Component } from "react";
+import TableHeader from "../TableCommon/TableHeader";
+import Button from "../../../Common/Button/Button";
+import ReloadEnumValuesButton from "../Common/Components/ReloadEnumValuesButton";
+import { ordinalColSort } from "../utils";
 
 // import RichTextEditor from 'react-rte';
-import { replace } from 'react-router-redux';
-import globals from '../../../../Globals';
-import { E_ONGOING_REQ, editItem } from './EditActions';
-import { findTable, generateTableDef } from '../../../../dataSources';
-import { getTableBrowseRoute } from '../../../Common/utils/routesUtils';
-import { fetchEnumOptions } from './EditActions';
-import { TableRow } from '../Common/Components/TableRow';
-import { RightContainer } from '../../../Common/Layout/RightContainer';
-import styles from '../../../Common/TableCommon/Table.scss';
+import { replace } from "react-router-redux";
+import globals from "../../../../Globals";
+import { E_ONGOING_REQ, editItem } from "./EditActions";
+import { findTable, generateTableDef } from "../../../../dataSources";
+import { getTableBrowseRoute } from "../../../Common/utils/routesUtils";
+import { fetchEnumOptions } from "./EditActions";
+import { TableRow } from "../Common/Components/TableRow";
+import { RightContainer } from "../../../Common/Layout/RightContainer";
+import styles from "../../../Common/TableCommon/Table.module.scss";
 
 class EditItem extends Component {
   constructor() {
@@ -47,7 +47,7 @@ class EditItem extends Component {
     if (!oldItem) {
       dispatch(
         replace(
-          `${globals.urlPrefix || ''}${getTableBrowseRoute(
+          `${globals.urlPrefix || ""}${getTableBrowseRoute(
             currentSchema,
             currentSource,
             tableName,
@@ -92,14 +92,14 @@ class EditItem extends Component {
     });
 
     let alert = null;
-    let buttonText = 'Save';
+    let buttonText = "Save";
     if (ongoingRequest) {
       alert = (
         <div className="hidden alert alert-warning" role="alert">
           Updating...
         </div>
       );
-      buttonText = 'Saving...';
+      buttonText = "Saving...";
     } else if (lastError) {
       alert = (
         <div className="hidden alert alert-danger" role="alert">
@@ -114,11 +114,11 @@ class EditItem extends Component {
       );
     }
 
-    const handleSaveClick = e => {
+    const handleSaveClick = (e) => {
       e.preventDefault();
 
       const inputValues = {};
-      Object.keys(refs).map(colName => {
+      Object.keys(refs).map((colName) => {
         if (refs[colName].nullNode.checked) {
           // null
           inputValues[colName] = null;
@@ -140,7 +140,7 @@ class EditItem extends Component {
 
     return (
       <RightContainer>
-        <div className={styles.container + ' container-fluid'}>
+        <div className={styles.container + " container-fluid"}>
           <TableHeader
             count={count}
             dispatch={dispatch}
@@ -151,7 +151,7 @@ class EditItem extends Component {
             readOnlyMode={readOnlyMode}
           />
           <br />
-          <div className={styles.insertContainer + ' container-fluid'}>
+          <div className={styles.insertContainer + " container-fluid"}>
             <div className="col-xs-9">
               <form id="updateForm" className="form-horizontal">
                 {elements}
@@ -206,6 +206,6 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const editItemConnector = connect => connect(mapStateToProps)(EditItem);
+const editItemConnector = (connect) => connect(mapStateToProps)(EditItem);
 
 export default editItemConnector;

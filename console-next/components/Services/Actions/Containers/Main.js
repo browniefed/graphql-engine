@@ -1,13 +1,13 @@
-import React from 'react';
-import { Link } from 'react-router';
-import PropTypes from 'prop-types';
+import React from "react";
+import { Link } from "react-router";
+import PropTypes from "prop-types";
 
-import LeftContainer from '../../../Common/Layout/LeftContainer/LeftContainer';
-import PageContainer from '../../../Common/Layout/PageContainer/PageContainer';
-import LeftSidebar from '../Sidebar/LeftSidebar';
-import styles from '../../../Common/TableCommon/Table.scss';
-import { appPrefix } from '../constants';
-import { actionsSelector } from '../../../../metadata/selector';
+import LeftContainer from "../../../Common/Layout/LeftContainer/LeftContainer";
+import PageContainer from "../../../Common/Layout/PageContainer/PageContainer";
+import LeftSidebar from "../Sidebar/LeftSidebar";
+import styles from "../../../Common/TableCommon/Table.module.scss";
+import { appPrefix } from "../constants";
+import { actionsSelector } from "../../../../metadata/selector";
 
 class Container extends React.Component {
   render() {
@@ -20,10 +20,10 @@ class Container extends React.Component {
         <li
           role="presentation"
           className={
-            currentLocation.includes('actions/manage') ? styles.active : ''
+            currentLocation.includes("actions/manage") ? styles.active : ""
           }
         >
-          <Link className={styles.linkBorder} to={appPrefix + '/manage'}>
+          <Link className={styles.linkBorder} to={appPrefix + "/manage"}>
             Manage
           </Link>
           <LeftSidebar appPrefix={appPrefix} {...this.props} />
@@ -31,17 +31,17 @@ class Container extends React.Component {
         <li
           role="presentation"
           className={
-            currentLocation.includes('actions/types') ? styles.active : ''
+            currentLocation.includes("actions/types") ? styles.active : ""
           }
         >
-          <Link className={styles.linkBorder} to={appPrefix + '/types'}>
+          <Link className={styles.linkBorder} to={appPrefix + "/types"}>
             Custom types
           </Link>
         </li>
       </ul>
     );
 
-    const helmet = 'Actions | Hasura';
+    const helmet = "Actions | Hasura";
 
     const leftContainer = <LeftContainer>{sidebarContent}</LeftContainer>;
 
@@ -57,7 +57,7 @@ Container.propTypes = {
   appPrefix: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     ...state.actions,
     actions: actionsSelector(state),
@@ -65,4 +65,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect => connect(mapStateToProps)(Container);
+export default (connect) => connect(mapStateToProps)(Container);

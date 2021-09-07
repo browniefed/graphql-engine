@@ -1,22 +1,22 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import TableHeader from '../TableCommon/TableHeader';
-import Button from '../../../Common/Button/Button';
-import ReloadEnumValuesButton from '../Common/Components/ReloadEnumValuesButton';
-import { ordinalColSort } from '../utils';
+import PropTypes from "prop-types";
+import React, { Component } from "react";
+import TableHeader from "../TableCommon/TableHeader";
+import Button from "../../../Common/Button/Button";
+import ReloadEnumValuesButton from "../Common/Components/ReloadEnumValuesButton";
+import { ordinalColSort } from "../utils";
 
-import { insertItem, I_RESET, fetchEnumOptions } from './InsertActions';
-import { setTable } from '../DataActions';
-import { NotFoundError } from '../../../Error/PageNotFound';
-import { findTable, isFeatureSupported } from '../../../../dataSources';
-import styles from '../../../Common/TableCommon/Table.scss';
-import { TableRow } from '../Common/Components/TableRow';
-import { generateTableDef } from '../../../../dataSources';
-import { RightContainer } from '../../../Common/Layout/RightContainer';
-import MigrationCheckbox from './MigrationCheckbox';
-import globals from '../../../../Globals';
-import { CLI_CONSOLE_MODE } from '../../../../constants';
-import FeatureDisabled from '../FeatureDisabled';
+import { insertItem, I_RESET, fetchEnumOptions } from "./InsertActions";
+import { setTable } from "../DataActions";
+import { NotFoundError } from "../../../Error/PageNotFound";
+import { findTable, isFeatureSupported } from "../../../../dataSources";
+import styles from "../../../Common/TableCommon/Table.module.scss";
+import { TableRow } from "../Common/Components/TableRow";
+import { generateTableDef } from "../../../../dataSources";
+import { RightContainer } from "../../../Common/Layout/RightContainer";
+import MigrationCheckbox from "./MigrationCheckbox";
+import globals from "../../../../Globals";
+import { CLI_CONSOLE_MODE } from "../../../../constants";
+import FeatureDisabled from "../FeatureDisabled";
 
 class InsertItem extends Component {
   constructor() {
@@ -38,13 +38,13 @@ class InsertItem extends Component {
     // when use state object remember to do it inside a class method.
     // Since the state variable lifecycle is tied to the instance of the class
     // and making this change using an anonymous function will cause errors.
-    this.setState(prev => ({
+    this.setState((prev) => ({
       insertedRows: prev.insertedRows + 1,
     }));
   }
 
   toggleMigrationCheckBox = () => {
-    this.setState(prev => ({ isMigration: !prev.isMigration }));
+    this.setState((prev) => ({ isMigration: !prev.isMigration }));
   };
 
   render() {
@@ -69,7 +69,7 @@ class InsertItem extends Component {
       generateTableDef(tableName, currentSchema)
     );
 
-    if (!isFeatureSupported('tables.insert.enabled')) {
+    if (!isFeatureSupported("tables.insert.enabled")) {
       return (
         <FeatureDisabled
           tab="insert"
@@ -80,7 +80,7 @@ class InsertItem extends Component {
     }
 
     // check if table exists
-    if (!currentTable && isFeatureSupported('tables.insert.enabled')) {
+    if (!currentTable && isFeatureSupported("tables.insert.enabled")) {
       // throw a 404 exception
       throw new NotFoundError();
     }
@@ -97,7 +97,7 @@ class InsertItem extends Component {
         is_identity: isIdentity,
         column_default,
       } = col;
-      const hasDefault = column_default && column_default.trim() !== '';
+      const hasDefault = column_default && column_default.trim() !== "";
 
       refs[colName] = {
         valueNode: null,
@@ -107,7 +107,7 @@ class InsertItem extends Component {
       };
 
       const onChange = (e, val) => {
-        const textValue = typeof val === 'string' ? val : e.target.value;
+        const textValue = typeof val === "string" ? val : e.target.value;
 
         const radioToSelectWhenEmpty =
           hasDefault || isIdentity
@@ -117,7 +117,7 @@ class InsertItem extends Component {
         refs[colName].insertRadioNode.checked = !!textValue.length;
         radioToSelectWhenEmpty.checked = !textValue.length;
       };
-      const onFocus = e => {
+      const onFocus = (e) => {
         const textValue = e.target.value;
         if (
           textValue === undefined ||
@@ -148,14 +148,14 @@ class InsertItem extends Component {
     });
 
     let alert = null;
-    let buttonText = this.state.insertedRows > 0 ? 'Insert Again' : 'Save';
+    let buttonText = this.state.insertedRows > 0 ? "Insert Again" : "Save";
     if (ongoingRequest) {
       alert = (
         <div className="hidden alert alert-warning" role="alert">
           Inserting...
         </div>
       );
-      buttonText = 'Saving...';
+      buttonText = "Saving...";
     } else if (lastError) {
       alert = (
         <div className="hidden alert alert-danger" role="alert">
@@ -171,25 +171,25 @@ class InsertItem extends Component {
     }
 
     const onClickClear = () => {
-      const form = document.getElementById('insertForm');
-      const inputs = form.getElementsByTagName('input');
-      Array.from(inputs).forEach(input => {
+      const form = document.getElementById("insertForm");
+      const inputs = form.getElementsByTagName("input");
+      Array.from(inputs).forEach((input) => {
         switch (input.type) {
-          case 'text':
-            input.value = '';
+          case "text":
+            input.value = "";
             break;
-          case 'radio':
-          case 'checkbox':
+          case "radio":
+          case "checkbox":
             break;
           default:
         }
       });
     };
 
-    const onClickSave = e => {
+    const onClickSave = (e) => {
       e.preventDefault();
       const inputValues = {};
-      Object.keys(refs).map(colName => {
+      Object.keys(refs).map((colName) => {
         if (refs[colName].nullNode.checked) {
           // null
           inputValues[colName] = null;
@@ -212,7 +212,7 @@ class InsertItem extends Component {
 
     return (
       <RightContainer>
-        <div className={styles.container + ' container-fluid'}>
+        <div className={styles.container + " container-fluid"}>
           <TableHeader
             count={count}
             dispatch={dispatch}
@@ -223,7 +223,7 @@ class InsertItem extends Component {
             readOnlyMode={readOnlyMode}
           />
           <br />
-          <div className={styles.insertContainer + ' container-fluid'}>
+          <div className={styles.insertContainer + " container-fluid"}>
             <div className="col-xs-9">
               <form id="insertForm" className="form-horizontal">
                 <div className={styles.form_flex}>
@@ -296,6 +296,6 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const insertItemConnector = connect => connect(mapStateToProps)(InsertItem);
+const insertItemConnector = (connect) => connect(mapStateToProps)(InsertItem);
 
 export default insertItemConnector;

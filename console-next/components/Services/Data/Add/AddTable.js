@@ -1,20 +1,20 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import Helmet from 'react-helmet';
+import PropTypes from "prop-types";
+import React, { Component } from "react";
+import Helmet from "react-helmet";
 
-import Button from '../../../Common/Button/Button';
-import PrimaryKeySelector from '../Common/Components/PrimaryKeySelector';
-import ForeignKeyWrapper from './ForeignKeyWrapper';
-import UniqueKeyWrapper from './UniqueKeyWrapper';
-import FrequentlyUsedColumnSelector from '../Common/Components/FrequentlyUsedColumnSelector';
+import Button from "../../../Common/Button/Button";
+import PrimaryKeySelector from "../Common/Components/PrimaryKeySelector";
+import ForeignKeyWrapper from "./ForeignKeyWrapper";
+import UniqueKeyWrapper from "./UniqueKeyWrapper";
+import FrequentlyUsedColumnSelector from "../Common/Components/FrequentlyUsedColumnSelector";
 
-import { showErrorNotification } from '../../Common/Notification';
+import { showErrorNotification } from "../../Common/Notification";
 
-import TableName from './TableName';
-import TableColumns from './TableColumns';
-import TableComment from './TableComment';
+import TableName from "./TableName";
+import TableColumns from "./TableColumns";
+import TableComment from "./TableComment";
 
-import CheckConstraints from './CheckConstraints';
+import CheckConstraints from "./CheckConstraints";
 
 import {
   setTableName,
@@ -27,16 +27,16 @@ import {
   setForeignKeys,
   setUniqueKeys,
   setFreqUsedColumn,
-} from './AddActions';
+} from "./AddActions";
 
-import { fetchColumnTypeInfo, RESET_COLUMN_TYPE_INFO } from '../DataActions';
-import { setDefaults, setPk, createTableSql } from './AddActions';
-import { resetValidation } from './AddActions';
+import { fetchColumnTypeInfo, RESET_COLUMN_TYPE_INFO } from "../DataActions";
+import { setDefaults, setPk, createTableSql } from "./AddActions";
+import { resetValidation } from "./AddActions";
 
 import gqlPattern, {
   gqlTableErrorNotif,
   gqlColumnErrorNotif,
-} from '../Common/GraphQLValidation';
+} from "../Common/GraphQLValidation";
 
 import {
   tableNameNullNotif,
@@ -47,18 +47,18 @@ import {
   tableMinPrimaryKeyNotif,
   tableNameMaxLengthNotif,
   tableColumnMaxLengthNotif,
-} from './AddWarning';
+} from "./AddWarning";
 
-import styles from '../../../Common/TableCommon/Table.scss';
-import ToolTip from '../../../Common/Tooltip/Tooltip';
+import styles from "../../../Common/TableCommon/Table.module.scss";
+import ToolTip from "../../../Common/Tooltip/Tooltip";
 import {
   foreignKeyDescription,
   primaryKeyDescription,
   uniqueKeyDescription,
   checkConstraintsDescription,
-} from '../Common/TooltipMessages';
-import { dataSource, isFeatureSupported } from '../../../../dataSources';
-import { maxAllowedColumnLength } from '../constants';
+} from "../Common/TooltipMessages";
+import { dataSource, isFeatureSupported } from "../../../../dataSources";
+import { maxAllowedColumnLength } from "../constants";
 
 /* AddTable is a wrapper which wraps
  *  1) Table Name input
@@ -104,12 +104,12 @@ class AddTable extends Component {
     this.props.dispatch(
       setForeignKeys([
         {
-          refSchemaName: '',
-          refTableName: '',
+          refSchemaName: "",
+          refTableName: "",
           colMappings: [
             {
-              column: '',
-              refColumn: '',
+              column: "",
+              refColumn: "",
             },
           ],
           onUpdate: dataSource.violationActions[0],
@@ -126,12 +126,12 @@ class AddTable extends Component {
     });
   }
 
-  onTableNameChange = e => {
+  onTableNameChange = (e) => {
     const { dispatch } = this.props;
     dispatch(setTableName(e.target.value));
   };
 
-  trimTableName = tableName => {
+  trimTableName = (tableName) => {
     const trimmedName = tableName ? tableName.trim() : tableName;
     const { dispatch } = this.props;
     if (tableName !== trimmedName) {
@@ -140,12 +140,12 @@ class AddTable extends Component {
     return trimmedName;
   };
 
-  onTableCommentChange = e => {
+  onTableCommentChange = (e) => {
     const { dispatch } = this.props;
     dispatch(setTableComment(e.target.value));
   };
 
-  onRemoveColumn = i => {
+  onRemoveColumn = (i) => {
     const { dispatch } = this.props;
     dispatch(removeColumn(i));
   };
@@ -186,7 +186,7 @@ class AddTable extends Component {
   };
 
   minPrimaryKeyCheck() {
-    return this.props.primaryKeys.filter(key => key !== '').length > 0;
+    return this.props.primaryKeys.filter((key) => key !== "").length > 0;
   }
 
   // check the validity and if invalid, notify
@@ -195,7 +195,7 @@ class AddTable extends Component {
   // and objects are assumed to be an array like notificationArray
   // and the second arg is ignored
   checkAndNotify(validated, notificationArray) {
-    if (validated === true || validated === '') return true;
+    if (validated === true || validated === "") return true;
     else if (validated === false) {
       this.props.dispatch(
         showErrorNotification(
@@ -205,14 +205,14 @@ class AddTable extends Component {
         )
       );
       return false;
-    } else if (typeof validated === 'string') {
+    } else if (typeof validated === "string") {
       this.props.dispatch(
         showErrorNotification(notificationArray[0], validated, {
           custom: validated,
         })
       );
       return false;
-    } else if (typeof validated === 'object') {
+    } else if (typeof validated === "object") {
       this.props.dispatch(
         showErrorNotification(
           notificationArray[0],
@@ -242,7 +242,7 @@ class AddTable extends Component {
 
   isModified(x) {
     if (x === undefined) return false;
-    else if (typeof x === 'string' && /^..*$/.test(x)) return true;
+    else if (typeof x === "string" && /^..*$/.test(x)) return true;
 
     return false;
   }
@@ -289,20 +289,20 @@ class AddTable extends Component {
     for (let i = 0; i < l; i++) {
       if (!gqlPattern.test(cols[i].name)) {
         return (
-          'Invalid name for column ' +
+          "Invalid name for column " +
           i.toString() +
-          ', ' +
+          ", " +
           cols[i].name.toString() +
-          ' is Invalid. ' +
-          'Column names must be letters, numbers, and _ and start with a letter'
+          " is Invalid. " +
+          "Column names must be letters, numbers, and _ and start with a letter"
         );
       }
     }
-    return '';
+    return "";
   }
 
   isValidType(s) {
-    return typeof s === 'string' && s.trim().length > 0;
+    return typeof s === "string" && s.trim().length > 0;
   }
 
   validateColumnTypes(cols) {
@@ -310,17 +310,17 @@ class AddTable extends Component {
     for (let i = 0; i < l; i++) {
       if (!this.isValidType(cols[i].type)) {
         return (
-          'Invalid type (' +
+          "Invalid type (" +
           cols[i].type.toString() +
-          ') for column ' +
+          ") for column " +
           i.toString() +
-          ' (' +
+          " (" +
           cols[i].name.toString() +
-          ')'
+          ")"
         );
       }
     }
-    return '';
+    return "";
   }
 
   validateColumnNameLengths(cols) {
@@ -330,7 +330,7 @@ class AddTable extends Component {
         return false;
       }
     }
-    return '';
+    return "";
   }
 
   validateNoDupNames(cols) {
@@ -346,16 +346,16 @@ class AddTable extends Component {
       if (li !== -1 && li !== i) {
         // slightly tricky code, we just have to find a dup, not all
         return (
-          'Column ' +
+          "Column " +
           i.toString() +
-          ', ' +
+          ", " +
           cols[i].name.toString() +
-          ' is duplicated by column ' +
+          " is duplicated by column " +
           li.toString()
         );
       }
     }
-    return '';
+    return "";
   }
 
   /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -401,17 +401,17 @@ class AddTable extends Component {
     for (let i = 0; i < l; i++) {
       if (!this.isValidDefault(cols[i].type, cols[i].default)) {
         return (
-          'Invalid default (' +
+          "Invalid default (" +
           cols[i].default.toString() +
-          ') for column ' +
+          ") for column " +
           i.toString() +
-          ' (' +
+          " (" +
           cols[i].name.toString() +
-          ')'
+          ")"
         );
       }
     }
-    return '';
+    return "";
   }
 
   // UI has decided we're ready to submit. Validate that the
@@ -492,15 +492,15 @@ class AddTable extends Component {
       postgresVersion,
     } = this.props;
     const getCreateBtnText = () => {
-      let createBtnText = 'Add Table';
+      let createBtnText = "Add Table";
       if (ongoingRequest) {
-        createBtnText = 'Creating...';
+        createBtnText = "Creating...";
       } else if (lastError) {
-        createBtnText = 'Creating Failed. Try again';
+        createBtnText = "Creating Failed. Try again";
       } else if (internalError) {
-        createBtnText = 'Creating Failed. Try again';
+        createBtnText = "Creating Failed. Try again";
       } else if (lastSuccess) {
-        createBtnText = 'Created! Redirecting...';
+        createBtnText = "Created! Redirecting...";
       }
       return createBtnText;
     };
@@ -534,10 +534,10 @@ class AddTable extends Component {
               onColUniqueChange={this.onColUniqueChange}
               setColDefaultValue={this.setColDefaultValue}
             />
-            {isFeatureSupported('tables.create.frequentlyUsedColumns') ? (
+            {isFeatureSupported("tables.create.frequentlyUsedColumns") ? (
               <FrequentlyUsedColumnSelector
                 onSelect={setFreqUsedColumn}
-                action={'add'}
+                action={"add"}
                 dispatch={dispatch}
                 postgresVersion={postgresVersion}
               />
@@ -625,7 +625,7 @@ AddTable.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ...state.addTable.table,
   allSchemas: state.tables.allSchemas,
   currentSchema: state.tables.currentSchema,
@@ -637,6 +637,6 @@ const mapStateToProps = state => ({
   postgresVersion: state.main.postgresVersion,
 });
 
-const addTableConnector = connect => connect(mapStateToProps)(AddTable);
+const addTableConnector = (connect) => connect(mapStateToProps)(AddTable);
 
 export default addTableConnector;

@@ -1,8 +1,8 @@
-import React, { FC } from 'react';
-import ToolTip from '../../../Common/Tooltip/Tooltip';
-import styles from '../../../Common/TableCommon/Table.scss';
-import globals from '../../../../Globals';
-import { CLI_CONSOLE_MODE } from '../../../../constants';
+import React, { FC } from "react";
+import ToolTip from "../../../Common/Tooltip/Tooltip";
+import styles from "../../../Common/TableCommon/Table.module.scss";
+import globals from "../../../../Globals";
+import { CLI_CONSOLE_MODE } from "../../../../constants";
 
 const StatementTimeout: FC<StatementTimeoutProps> = ({
   isMigrationChecked,
@@ -20,15 +20,15 @@ const StatementTimeout: FC<StatementTimeoutProps> = ({
           }
           title={
             isMigrationChecked
-              ? 'Setting statement timeout is not supported for migrations'
-              : ''
+              ? "Setting statement timeout is not supported for migrations"
+              : ""
           }
           min={0}
-          value={statementTimeout || ''}
+          value={statementTimeout || ""}
           type="number"
           className={`${styles.inline_block} ${styles.tableNameInput} ${styles.add_mar_left} form-control`}
           data-test="raw-sql-statement-timeout"
-          onChange={event => updateStatementTimeout(event.target.value)}
+          onChange={(event) => updateStatementTimeout(event.target.value)}
         />
       </label>
     </div>

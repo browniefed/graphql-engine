@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import TextInput from '../../../Common/TextInput/TextInput';
+import TextInput from "../../../Common/TextInput/TextInput";
 
 const TableComment = ({ onChange }) => {
-  const styles = require('../../../Common/TableCommon/Table.scss');
+  const styles = require("../../../Common/TableCommon/Table.module.scss");
   return [
     <h4 key="add_table_comment_header" className={styles.subheading_text}>
       Comment &nbsp; &nbsp;
