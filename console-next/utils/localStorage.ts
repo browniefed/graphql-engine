@@ -1,7 +1,9 @@
-import globals from '../Globals';
+import globals from "../Globals";
+
+const getWindow = () => (typeof window !== "undefined" ? window : undefined);
 
 export const setLSItem = (key: string, data: string) => {
-  window.localStorage.setItem(key, data);
+  getWindow()?.localStorage.setItem(key, data);
 };
 
 export const getLSItem = (key: string) => {
@@ -9,7 +11,7 @@ export const getLSItem = (key: string) => {
     return null;
   }
 
-  return window.localStorage.getItem(key);
+  return getWindow()?.localStorage.getItem(key);
 };
 
 export const getParsedLSItem = (key: string, defaultVal: any = null) => {
@@ -35,7 +37,7 @@ export const removeLSItem = (key: string) => {
     return null;
   }
 
-  window.localStorage.removeItem(key);
+  getWindow()?.localStorage.removeItem(key);
 };
 
 type expiryValue = {
@@ -63,7 +65,7 @@ export const getItemWithExpiry = (key: string) => {
   const now = new Date();
 
   if (now.getTime() > item.expiry) {
-    window.localStorage.removeItem(key);
+    getWindow()?.localStorage.removeItem(key);
     return null;
   }
 
@@ -71,37 +73,37 @@ export const getItemWithExpiry = (key: string) => {
 };
 
 export const listLSKeys = () => {
-  return Object.keys(window.localStorage);
+  return Object.keys(getWindow()?.localStorage);
 };
 
 export const LS_KEYS = {
-  apiExplorerAdminSecretWasAdded: 'apiExplorer:adminSecretHeaderWasAdded',
-  apiExplorerConsoleGraphQLHeaders: 'apiExplorer:graphiqlHeaders',
-  apiExplorerEndpointSectionIsOpen: 'apiExplorer:endpointSectionIsOpen',
-  apiExplorerGraphiqlMode: 'apiExplorer:graphiQLMode',
-  apiExplorerHeaderSectionIsOpen: 'apiExplorer:headersSectionIsOpen',
-  consoleAdminSecret: 'console:adminSecret',
+  apiExplorerAdminSecretWasAdded: "apiExplorer:adminSecretHeaderWasAdded",
+  apiExplorerConsoleGraphQLHeaders: "apiExplorer:graphiqlHeaders",
+  apiExplorerEndpointSectionIsOpen: "apiExplorer:endpointSectionIsOpen",
+  apiExplorerGraphiqlMode: "apiExplorer:graphiQLMode",
+  apiExplorerHeaderSectionIsOpen: "apiExplorer:headersSectionIsOpen",
+  consoleAdminSecret: "console:adminSecret",
   consoleLocalInfo: `console:localInfo:${globals.dataApiUrl}`,
-  dataColumnsCollapsedKey: 'data:collapsed',
-  dataColumnsOrderKey: 'data:order',
-  dataPageSizeKey: 'data:pageSize',
-  derivedActions: 'actions:derivedActions',
-  graphiqlQuery: 'graphiql:query',
-  loveConsent: 'console:loveIcon',
-  oneGraphExplorerCodeExporterOpen: 'graphiql:codeExporterOpen',
-  oneGraphExplorerOpen: 'graphiql:explorerOpen',
-  oneGraphExplorerWidth: 'graphiql:explorerWidth',
-  proClick: 'console:pro',
-  rawSQLKey: 'rawSql:sql',
-  rawSqlStatementTimeout: 'rawSql:rawSqlStatementTimeout',
-  showConsoleOnboarding: 'console:showConsoleOnboarding',
-  versionUpdateCheckLastClosed: 'console:versionUpdateCheckLastClosed',
+  dataColumnsCollapsedKey: "data:collapsed",
+  dataColumnsOrderKey: "data:order",
+  dataPageSizeKey: "data:pageSize",
+  derivedActions: "actions:derivedActions",
+  graphiqlQuery: "graphiql:query",
+  loveConsent: "console:loveIcon",
+  oneGraphExplorerCodeExporterOpen: "graphiql:codeExporterOpen",
+  oneGraphExplorerOpen: "graphiql:explorerOpen",
+  oneGraphExplorerWidth: "graphiql:explorerWidth",
+  proClick: "console:pro",
+  rawSQLKey: "rawSql:sql",
+  rawSqlStatementTimeout: "rawSql:rawSqlStatementTimeout",
+  showConsoleOnboarding: "console:showConsoleOnboarding",
+  versionUpdateCheckLastClosed: "console:versionUpdateCheckLastClosed",
 };
 
 export const clearGraphiqlLS = () => {
-  Object.values(LS_KEYS).forEach(lsKey => {
-    if (lsKey.startsWith('graphiql:')) {
-      window.localStorage.removeItem(lsKey);
+  Object.values(LS_KEYS).forEach((lsKey) => {
+    if (lsKey.startsWith("graphiql:")) {
+      getWindow()?.localStorage.removeItem(lsKey);
     }
   });
 };

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Helmet from "react-helmet";
-import AceEditor from "react-ace";
+import dynamic from "next/dynamic";
+
+const AceEditor = dynamic(() => import("react-ace"), { ssr: false });
 import "brace/mode/sql";
 
 import Modal from "../../../Common/Modal/Modal";

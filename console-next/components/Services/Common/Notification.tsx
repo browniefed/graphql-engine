@@ -1,5 +1,4 @@
 import React from "react";
-import AceEditor from "react-ace";
 import {
   removeAll as removeNotifications,
   show as displayNotification,
@@ -13,6 +12,9 @@ import "./Notification/NotificationOverrides.module.css";
 import { isObject, isString } from "../../Common/utils/jsUtils";
 
 import styles from "@/css/Common.module.scss";
+import dynamic from "next/dynamic";
+
+const AceEditor = dynamic(() => import("react-ace"), { ssr: false });
 
 export interface Notification {
   title?: string | JSX.Element;
