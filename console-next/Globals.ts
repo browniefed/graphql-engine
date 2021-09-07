@@ -4,6 +4,7 @@ import { getFeaturesCompatibility } from "./helpers/versionUtils";
 import { stripTrailingSlash } from "./components/Common/utils/urlUtils";
 import { isEmpty } from "./components/Common/utils/jsUtils";
 import { Nullable } from "./components/Common/utils/tsUtils";
+import envVars from "@/injectWindowEnv";
 
 type ConsoleType = "oss" | "cloud" | "pro" | "pro-cloud";
 
@@ -41,54 +42,52 @@ const getWindow = () => (typeof window !== "undefined" ? window : undefined);
 
 /* initialize globals */
 
-const env = getWindow()?.__env;
-
-const isProduction = env?.nodeEnv !== "development";
+const isProduction = envVars.nodeEnv !== "development";
 const CONSOLE_ASSET_VERSION = process.env.CONSOLE_ASSET_VERSION;
 
 const globals = {
-  apiHost: env?.apiHost,
-  apiPort: env?.apiPort,
-  dataApiUrl: stripTrailingSlash(env?.dataApiUrl), // overridden below if server mode
-  urlPrefix: stripTrailingSlash(env?.urlPrefix || "/"), // overridden below if server mode in production
-  adminSecret: env?.adminSecret || null, // gets updated after login/logout in server mode
+  apiHost: envVars.apiHost,
+  apiPort: envVars.apiPort,
+  dataApiUrl: stripTrailingSlash(envVars.dataApiUrl), // overridden below if server mode
+  urlPrefix: stripTrailingSlash(envVars.urlPrefix || "/"), // overridden below if server mode in production
+  adminSecret: envVars.adminSecret || null, // gets updated after login/logout in server mode
   isAdminSecretSet:
-    env?.isAdminSecretSet || !isEmpty(env?.adminSecret) || false,
-  consoleMode: env?.consoleMode || SERVER_CONSOLE_MODE,
-  enableTelemetry: env?.enableTelemetry,
+    envVars.isAdminSecretSet || !isEmpty(envVars.adminSecret) || false,
+  consoleMode: envVars.consoleMode || SERVER_CONSOLE_MODE,
+  enableTelemetry: envVars.enableTelemetry,
   telemetryTopic: isProduction ? "console" : "console_test",
-  assetsPath: env?.assetsPath,
-  serverVersion: env?.serverVersion,
+  assetsPath: envVars.assetsPath,
+  serverVersion: envVars.serverVersion,
   consoleAssetVersion: CONSOLE_ASSET_VERSION, // set during console build
-  featuresCompatibility: env?.serverVersion
-    ? getFeaturesCompatibility(env?.serverVersion)
+  featuresCompatibility: envVars.serverVersion
+    ? getFeaturesCompatibility(envVars.serverVersion)
     : null,
-  cliUUID: env?.cliUUID,
+  cliUUID: envVars.cliUUID,
   hasuraUUID: "",
   telemetryNotificationShown: false,
   isProduction,
-  herokuOAuthClientId: env?.herokuOAuthClientId,
-  hasuraCloudTenantId: env?.tenantID,
-  hasuraCloudProjectId: env?.projectID,
+  herokuOAuthClientId: envVars.herokuOAuthClientId,
+  hasuraCloudTenantId: envVars.tenantID,
+  hasuraCloudProjectId: envVars.projectID,
   cloudDataApiUrl: `${getWindow()?.location?.protocol}//data.${
-    env?.cloudRootDomain
+    envVars.cloudRootDomain
   }`,
-  luxDataHost: env?.luxDataHost,
+  luxDataHost: envVars.luxDataHost,
   userRole: undefined, // userRole is not applicable for the OSS console
-  consoleType: env?.consoleType,
-  eeMode: env?.eeMode === "true",
+  consoleType: envVars.consoleType,
+  eeMode: envVars.eeMode === "true",
 };
 if (globals.consoleMode === SERVER_CONSOLE_MODE) {
-  if (!env?.dataApiUrl) {
+  if (!envVars.dataApiUrl) {
     globals.dataApiUrl = stripTrailingSlash(getWindow()?.location?.href);
   }
   if (isProduction) {
-    const consolePath = env?.consolePath;
+    const consolePath = envVars.consolePath;
     if (consolePath) {
       let currentUrl = stripTrailingSlash(getWindow()?.location?.href);
       let slicePath = true;
-      if (env?.dataApiUrl) {
-        currentUrl = stripTrailingSlash(env?.dataApiUrl);
+      if (envVars.dataApiUrl) {
+        currentUrl = stripTrailingSlash(envVars.dataApiUrl);
         slicePath = false;
       }
       const currentPath = stripTrailingSlash(getWindow()?.location?.pathname);
@@ -115,7 +114,5 @@ if (globals.consoleMode === SERVER_CONSOLE_MODE) {
     }
   }
 }
-
-console.log(globals);
 
 export default globals;

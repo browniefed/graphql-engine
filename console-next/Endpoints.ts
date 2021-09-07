@@ -30,7 +30,5 @@ const Endpoints = {
 
 const globalCookiePolicy = "same-origin";
 
-console.log(Endpoints);
-
 export default Endpoints;
 export { globalCookiePolicy, baseUrl, hasuractlUrl };
