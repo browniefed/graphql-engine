@@ -402,7 +402,7 @@ class Main extends React.Component {
                     ? schemaList.length
                       ? getSchemaBaseRoute(currentSchema, currentSource)
                       : getDataSourceBaseRoute(currentSource)
-                    : "/data"
+                    : "/data/default"
                 )}
                 {getSidebarItem(
                   "Actions",

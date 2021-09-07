@@ -3,20 +3,11 @@ import { connect } from "react-redux";
 import { ConnectInjectedProps } from "@/types";
 import Main from "@/components/Main/Main";
 
-import { PageContainer } from "@/components/Services/Data/index";
-import DataSourceContainer from "@/components/Services/Data/DataSourceContainer";
-
 const Data: NextPage<ConnectInjectedProps> = (props) => {
   if (typeof window === "undefined") {
     return null;
   }
-  return (
-    <Main {...props}>
-      <PageContainer>
-        <DataSourceContainer></DataSourceContainer>
-      </PageContainer>
-    </Main>
-  );
+  return <Main {...props}></Main>;
 };
 
 const mapStateToProps = (state, ownProps) => {
