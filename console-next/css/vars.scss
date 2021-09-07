@@ -1,0 +1,7 @@
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/variables";
+
+/* container height subtracting top header and bottom scroll bar */
+$mainContainerHeight: calc(100vh - 54px);
+
+/* Min container width below which horizontal scroll will appear */
+$minContainerWidth: 1200px;
