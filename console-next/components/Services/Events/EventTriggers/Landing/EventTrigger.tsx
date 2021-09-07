@@ -16,16 +16,18 @@ import {
 import TryItOut from "../../../Common/Landing/TryItOut";
 import styles from "../../../../Common/Layout/LeftSubSidebar/LeftSubSidebar.module.scss";
 import { EVENTS_SERVICE_HEADING, EVENT_TRIGGER } from "../../constants";
-import _push from "../../../Data/push";
+import { useRouter } from "next/router";
 
 interface Props extends InjectedProps {}
 
-const EventTrigger: React.FC<Props> = (props) => {
+const EventTrigger: React.FC<Props> = () => {
   const queryDefinition = `mutation {
 insert_user(objects: [{name: "testuser"}] ){
   affected_rows
 }
 }`;
+
+  const router = useRouter();
   const getIntroSection = () => {
     return (
       <div>
@@ -44,7 +46,7 @@ insert_user(objects: [{name: "testuser"}] ){
   const getAddBtn = () => {
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
-      // dispatch(_push(getAddETRoute()));
+      router.push(getAddETRoute());
     };
 
     return (
