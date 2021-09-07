@@ -4,14 +4,16 @@ import { ConnectInjectedProps } from "@/types";
 import Main from "@/components/Main/Main";
 
 import Container from "@/components/Services/Events/Container";
-
+import LandingEventTriggers from "@/components/Services/Events/EventTriggers/Landing/EventTrigger";
 const ManageEvents: NextPage<ConnectInjectedProps> = (props) => {
   if (typeof window === "undefined") {
     return null;
   }
   return (
     <Main {...props}>
-      <Container>Hello</Container>
+      <Container>
+        <LandingEventTriggers />
+      </Container>
     </Main>
   );
 };

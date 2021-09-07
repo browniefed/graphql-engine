@@ -2,7 +2,7 @@
 /* eslint-disable no-loop-func  */
 
 import React from "react";
-import Helmet from "react-helmet";
+// import Helmet from "react-helmet";
 import { connect, ConnectedProps } from "react-redux";
 import globals from "../../../../../Globals";
 import Button from "../../../../Common/Button/Button";
@@ -21,8 +21,6 @@ import _push from "../../../Data/push";
 interface Props extends InjectedProps {}
 
 const EventTrigger: React.FC<Props> = (props) => {
-  const { dispatch } = props;
-
   const queryDefinition = `mutation {
 insert_user(objects: [{name: "testuser"}] ){
   affected_rows
@@ -46,7 +44,7 @@ insert_user(objects: [{name: "testuser"}] ){
   const getAddBtn = () => {
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
-      dispatch(_push(getAddETRoute()));
+      // dispatch(_push(getAddETRoute()));
     };
 
     return (
@@ -75,9 +73,9 @@ insert_user(objects: [{name: "testuser"}] ){
       className={`${styles.padd_left_remove} container-fluid ${styles.padd_top}`}
     >
       <div className={styles.padd_left}>
-        <Helmet
+        {/* <Helmet
           title={getReactHelmetTitle(EVENT_TRIGGER, EVENTS_SERVICE_HEADING)}
-        />
+        /> */}
         <div className={styles.display_flex}>
           <h2 className={`${styles.headerText} ${styles.inline_block}`}>
             {EVENT_TRIGGER}s

@@ -26,13 +26,13 @@ import { ReduxState } from "../../../types";
 
 import { mapDispatchToPropsEmpty } from "../../Common/utils/reactUtils";
 import { getEventTriggers, getCronTriggers } from "../../../metadata/selector";
+import { useRouter } from "next/router";
 
 interface Props extends InjectedProps {}
 
 const Container: React.FC<Props> = (props) => {
   const {
     children,
-    pathname: currentLocation,
     triggerName: currentTriggerName,
     eventTriggers,
     cronTriggers,
@@ -40,6 +40,9 @@ const Container: React.FC<Props> = (props) => {
 
   let currentEventTrigger;
   let currentScheduledTrigger;
+
+  const router = useRouter();
+  const currentLocation = router.pathname;
 
   if (currentTriggerName) {
     if (isDataEventsRoute(currentLocation)) {
@@ -58,18 +61,8 @@ const Container: React.FC<Props> = (props) => {
         role="presentation"
         className={isDataEventsRoute(currentLocation) ? styles.active : ""}
       >
-        {/* <li role="presentation" className={styles.active}>
-          <Link
-            className={styles.linkBorder}
-            style={{
-              paddingRight: '20px',
-            }}
-          >
-
-          </Link>
-        </li> */}
-        <Link className={styles.linkBorder} href={getDataEventsLandingRoute()}>
-          {DATA_EVENTS_HEADING}
+        <Link href={getDataEventsLandingRoute()}>
+          <a className={styles.linkBorder}>{DATA_EVENTS_HEADING}</a>
         </Link>
 
         {isDataEventsRoute(currentLocation) ? (
@@ -84,11 +77,8 @@ const Container: React.FC<Props> = (props) => {
         role="presentation"
         className={isScheduledEventsRoute(currentLocation) ? styles.active : ""}
       >
-        <Link
-          className={styles.linkBorder}
-          href={getScheduledEventsLandingRoute()}
-        >
-          {CRON_EVENTS_HEADING}
+        <Link href={getScheduledEventsLandingRoute()}>
+          <a className={styles.linkBorder}>{CRON_EVENTS_HEADING}</a>
         </Link>
         {isScheduledEventsRoute(currentLocation) ? (
           <LeftSidebar
@@ -104,12 +94,10 @@ const Container: React.FC<Props> = (props) => {
           isAdhocScheduledEventRoute(currentLocation) ? styles.active : ""
         }
       >
-        <Link
-          className={styles.linkBorder}
-          data-test="one-off-trigger"
-          href={getAdhocEventsRoute("absolute", "")}
-        >
-          {ADHOC_EVENTS_HEADING}
+        <Link href={getAdhocEventsRoute("absolute", "")}>
+          <a className={styles.linkBorder} data-test="one-off-trigger">
+            {ADHOC_EVENTS_HEADING}
+          </a>
         </Link>
       </li>
     </ul>
@@ -138,7 +126,6 @@ const mapStateToProps = (state: ReduxState, ownProps: ExternalProps) => {
     ...state.events,
     eventTriggers: getEventTriggers(state),
     cronTriggers: getCronTriggers(state),
-    pathname: "", // ownProps.location.pathname,
     triggerName: "", //ownProps.params.triggerName,
   };
 };

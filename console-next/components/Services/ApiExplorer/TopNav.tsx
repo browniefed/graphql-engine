@@ -13,7 +13,7 @@ const TopNav: React.FC<TopNavProps> = () => {
   const sectionsData = [
     {
       key: "graphiql",
-      link: "/api/api-explorer",
+      link: "/",
       dataTestVal: "graphiql-explorer-link",
       title: "GraphiQL",
     },
@@ -38,7 +38,7 @@ const TopNav: React.FC<TopNavProps> = () => {
 
   const isActive = (link: string) => {
     if (router.pathname === "" || router.pathname === "/") {
-      return link.includes("api-explorer");
+      return true;
     }
     return router.pathname.includes(link);
   };
@@ -57,8 +57,11 @@ const TopNav: React.FC<TopNavProps> = () => {
         }`}
             key={section.key}
           >
-            <Link href={section.link} data-test={section.dataTestVal} passHref>
-              <a className="text-gray-600 font-semibold no-underline hover:text-gray-600 hover:no-underline focus:text-gray-600 focus:no-underline">
+            <Link href={section.link} passHref>
+              <a
+                data-test={section.dataTestVal}
+                className="text-gray-600 font-semibold no-underline hover:text-gray-600 hover:no-underline focus:text-gray-600 focus:no-underline"
+              >
                 {section.title}
               </a>
             </Link>
