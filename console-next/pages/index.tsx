@@ -2,12 +2,17 @@ import type { NextPage } from "next";
 import { connect } from "react-redux";
 import { ConnectInjectedProps } from "@/types";
 import Main from "@/components/Main/Main";
+import APIExporer from "@/components/Services/ApiExplorer/Container";
 
 const Index: NextPage<ConnectInjectedProps> = (props) => {
   if (typeof window === "undefined") {
     return null;
   }
-  return <Main {...props} />;
+  return (
+    <Main {...props}>
+      <APIExporer {...props} />
+    </Main>
+  );
 };
 
 const mapStateToProps = (state, ownProps) => {

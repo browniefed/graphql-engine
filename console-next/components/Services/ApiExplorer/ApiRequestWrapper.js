@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import ApiRequest from './ApiRequest/ApiRequest';
-import ApiResponse from './ApiResponse/ApiResponse';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import ApiRequest from "./ApiRequest/ApiRequest";
+import ApiResponse from "./ApiResponse/ApiResponse";
+import styles from "./ApiExplorer.module.scss";
 
 class ApiRequestWrapper extends Component {
   render() {
-    const styles = require('./ApiExplorer.scss');
-
     const getAPIRequestDetailsSection = () => {
       return null;
     };
@@ -14,7 +13,7 @@ class ApiRequestWrapper extends Component {
     const getAPIResponseSection = () => {
       let apiResponseSection = null;
 
-      if (this.props.request.bodyType !== 'graphql') {
+      if (this.props.request.bodyType !== "graphql") {
         apiResponseSection = (
           <ApiResponse
             {...this.props.explorerData}
@@ -37,9 +36,9 @@ class ApiRequestWrapper extends Component {
         id="apiRequestBlock"
         className={
           styles.padd_left +
-          ' ' +
+          " " +
           styles.padd_right +
-          ' ' +
+          " " +
           styles.ApiRequestWrapperVH
         }
       >
@@ -47,7 +46,7 @@ class ApiRequestWrapper extends Component {
 
         <ApiRequest
           bodyType={
-            this.props.request.bodyType ? this.props.request.bodyType : ''
+            this.props.request.bodyType ? this.props.request.bodyType : ""
           }
           credentials={this.props.credentials}
           mode={this.props.mode}

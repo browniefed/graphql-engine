@@ -1,9 +1,10 @@
 /* eslint-disable */
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import Globals from 'Globals';
-import { getConfirmation } from '../../../Common/utils/jsUtils';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import Globals from "Globals";
+import { getConfirmation } from "../../../Common/utils/jsUtils";
+import styles from "../ApiExplorer.module.scss";
 
 class ApiCollectionPanel extends Component {
   onClearHistoryClicked = () => {
@@ -13,7 +14,7 @@ class ApiCollectionPanel extends Component {
     }
   };
 
-  onTabSelectionChanged = e => {
+  onTabSelectionChanged = (e) => {
     this.props.tabSelectionCallback(e);
   };
 
@@ -21,7 +22,7 @@ class ApiCollectionPanel extends Component {
     return tabs.map((tab, i) => {
       const style =
         styles.apiCollectionTabList +
-        (currentTab === i ? ' ' + styles.activeApiCollectionTab : '');
+        (currentTab === i ? " " + styles.activeApiCollectionTab : "");
       return (
         <Tab key={tab.title + i} className={style}>
           {tab.title}
@@ -38,45 +39,45 @@ class ApiCollectionPanel extends Component {
     authApiExpanded
   ) {
     return apiList.map((apiDetails, outerIndex) => {
-      const rightArrowImage = require('./chevron.svg');
+      const rightArrowImage = require("./chevron.svg");
       if (isCategorised) {
         // form accordion
         const finalCategorisedArray = [];
         const currentContentLength = apiDetails.content.length;
         let categorisedArray = [];
-        let prevTitle = '';
+        let prevTitle = "";
         // form accordion items
         const categories = apiDetails.content.map(
           (categorisedApiDetails, index) => {
             const key = categorisedApiDetails.id;
             const method = categorisedApiDetails.request.method;
             const methodStyle =
-              method === 'GET'
+              method === "GET"
                 ? styles.apiCollectionGet
                 : styles.apiCollectionPost;
             const apiDetailsStyle =
-              method === 'GET'
+              method === "GET"
                 ? styles.apiCollectionGetDetails
                 : styles.apiCollectionPostDetails;
             const wrapperStyle =
-              method === 'GET'
+              method === "GET"
                 ? styles.apiCollectionGetWrapper
                 : styles.apiCollectionPostWrapper;
             const style =
               wrapperStyle +
               (selectedApiKey === key
-                ? ' ' + styles.activeApiCollectionGetWrapper
-                : '') +
-              ' ' +
+                ? " " + styles.activeApiCollectionGetWrapper
+                : "") +
+              " " +
               styles.wd100;
             const rightArrow =
               selectedApiKey === key ? (
                 <img
                   className={
-                    'img-responsive ' + styles.activeApiCollectionGetWrapperIcon
+                    "img-responsive " + styles.activeApiCollectionGetWrapperIcon
                   }
                   src={rightArrowImage}
-                  alt={'Right arrow'}
+                  alt={"Right arrow"}
                 />
               ) : null;
             categorisedArray.push(
@@ -91,14 +92,14 @@ class ApiCollectionPanel extends Component {
                 key={key}
                 className={style}
               >
-                <div className={'col-xs-3 ' + styles.padd_remove}>
+                <div className={"col-xs-3 " + styles.padd_remove}>
                   <div className={methodStyle}>{method}</div>
                 </div>
-                <div className={'col-xs-9  ' + styles.padd_remove}>
+                <div className={"col-xs-9  " + styles.padd_remove}>
                   <div className={styles.apiCollectionGetDetailsWrapper}>
                     <div
                       className={
-                        apiDetailsStyle + ' col-xs-11 ' + styles.padd_remove
+                        apiDetailsStyle + " col-xs-11 " + styles.padd_remove
                       }
                     >
                       {categorisedApiDetails.details.title}
@@ -106,7 +107,7 @@ class ApiCollectionPanel extends Component {
                     <div
                       className={
                         styles.apiRightArrowWrapper +
-                        ' col-xs-1 ' +
+                        " col-xs-1 " +
                         styles.padd_remove
                       }
                     >
@@ -117,21 +118,21 @@ class ApiCollectionPanel extends Component {
               </div>
             );
             if (index + 1 === currentContentLength) {
-              let circleClass = 'fa fa-chevron-down';
+              let circleClass = "fa fa-chevron-down";
               if (apiDetails.title !== authApiExpanded) {
                 finalCategorisedArray.push(
                   <div
                     key={index + 1 + apiDetails.title}
                     className={
                       styles.collectionButtonWrapper +
-                      ' ' +
+                      " " +
                       styles.border_bottom +
-                      ' ' +
+                      " " +
                       styles.wd100
                     }
                   >
                     <button
-                      className={'btn ' + styles.collectionButtonLess}
+                      className={"btn " + styles.collectionButtonLess}
                       onClick={() => {
                         this.props.authApiExpandCallback(apiDetails.title);
                       }}
@@ -142,22 +143,22 @@ class ApiCollectionPanel extends Component {
                   </div>
                 );
               } else {
-                circleClass = 'fa fa-chevron-up';
+                circleClass = "fa fa-chevron-up";
                 finalCategorisedArray.push(
                   <div
                     key={index + 1 + apiDetails.title}
                     className={
                       styles.collectionButtonWrapper +
-                      ' ' +
+                      " " +
                       styles.border_bottom +
-                      ' ' +
+                      " " +
                       styles.wd100
                     }
                   >
                     <button
-                      className={'btn ' + styles.collectionButtonLess}
+                      className={"btn " + styles.collectionButtonLess}
                       onClick={() => {
-                        this.props.authApiExpandCallback('None');
+                        this.props.authApiExpandCallback("None");
                       }}
                     >
                       <span className={styles.padd_bottom}>
@@ -178,30 +179,30 @@ class ApiCollectionPanel extends Component {
         const key = apiDetails.id;
         const method = apiDetails.request.method;
         const methodStyle =
-          method === 'GET' ? styles.apiCollectionGet : styles.apiCollectionPost;
+          method === "GET" ? styles.apiCollectionGet : styles.apiCollectionPost;
         const apiDetailsStyle =
-          method === 'GET'
+          method === "GET"
             ? styles.apiCollectionGetDetails
             : styles.apiCollectionPostDetails;
         const wrapperStyle =
-          method === 'GET'
+          method === "GET"
             ? styles.apiCollectionGetWrapper
             : styles.apiCollectionPostWrapper;
         const style =
           wrapperStyle +
           (selectedApiKey === key
-            ? ' ' + styles.activeApiCollectionGetWrapper
-            : '') +
-          ' ' +
+            ? " " + styles.activeApiCollectionGetWrapper
+            : "") +
+          " " +
           styles.wd100;
         const rightArrow =
           selectedApiKey === key ? (
             <img
               className={
-                'img-responsive ' + styles.activeApiCollectionGetWrapperIcon
+                "img-responsive " + styles.activeApiCollectionGetWrapperIcon
               }
               src={rightArrowImage}
-              alt={'Right arrow'}
+              alt={"Right arrow"}
             />
           ) : null;
         return (
@@ -212,14 +213,14 @@ class ApiCollectionPanel extends Component {
             key={key}
             className={style}
           >
-            <div className={'col-xs-3 ' + styles.padd_remove}>
+            <div className={"col-xs-3 " + styles.padd_remove}>
               <div className={methodStyle}>{method}</div>
             </div>
-            <div className={'col-xs-9  ' + styles.padd_remove}>
+            <div className={"col-xs-9  " + styles.padd_remove}>
               <div className={styles.apiCollectionGetDetailsWrapper}>
                 <div
                   className={
-                    apiDetailsStyle + ' col-xs-11 ' + styles.padd_remove
+                    apiDetailsStyle + " col-xs-11 " + styles.padd_remove
                   }
                 >
                   {apiDetails.details.title}
@@ -227,7 +228,7 @@ class ApiCollectionPanel extends Component {
                 <div
                   className={
                     styles.apiRightArrowWrapper +
-                    ' col-xs-1 ' +
+                    " col-xs-1 " +
                     styles.padd_remove
                   }
                 >
@@ -252,12 +253,12 @@ class ApiCollectionPanel extends Component {
     if (tabContentList.length === 0) {
       return (
         <div
-          key={'noTabContentList' + index}
+          key={"noTabContentList" + index}
           className={
             styles.apiCollectionTabListDetails +
-            ' ' +
+            " " +
             styles.wd100 +
-            ' ' +
+            " " +
             styles.apiPaddTop
           }
         >
@@ -268,17 +269,17 @@ class ApiCollectionPanel extends Component {
       );
     }
     return tabContentList.map((tabContent, index) => {
-      let paddingClassname = '';
+      let paddingClassname = "";
       if (index === 0) {
-        paddingClassname = ' ' + styles.apiPaddTop;
+        paddingClassname = " " + styles.apiPaddTop;
       }
-      if (tabContent.title === 'Clear History') {
+      if (tabContent.title === "Clear History") {
         return (
           <div
             key={tabContent.title + index}
             className={
               styles.apiCollectionClearHistory +
-              ' ' +
+              " " +
               styles.wd100 +
               paddingClassname
             }
@@ -306,7 +307,7 @@ class ApiCollectionPanel extends Component {
           key={tabContent.title + index}
           className={
             styles.apiCollectionTabListDetails +
-            ' ' +
+            " " +
             styles.wd100 +
             paddingClassname
           }
@@ -314,16 +315,16 @@ class ApiCollectionPanel extends Component {
           {tabContent.title ? (
             <div
               className={
-                styles.apiCollectionTabListHead + ' ' + styles.add_ellipsis
+                styles.apiCollectionTabListHead + " " + styles.add_ellipsis
               }
             >
               {tabContent.title}
-              <span className={styles.serviceBaseDomain + ' hide'}>
+              <span className={styles.serviceBaseDomain + " hide"}>
                 {Globals.projectDomain}
               </span>
             </div>
           ) : null}
-          <div className={styles.apiCollectionGetPost + ' ' + styles.wd100}>
+          <div className={styles.apiCollectionGetPost + " " + styles.wd100}>
             {html}
           </div>
         </div>
@@ -350,28 +351,22 @@ class ApiCollectionPanel extends Component {
   }
 
   render() {
-    const styles = require('../ApiExplorer.scss');
-    const {
-      selectedApi,
-      currentTab,
-      tabs,
-      panelStyles,
-      authApiExpanded,
-    } = this.props;
+    const { selectedApi, currentTab, tabs, panelStyles, authApiExpanded } =
+      this.props;
     return (
       <div
         className={
           styles.padd_remove +
-          ' ' +
+          " " +
           styles.apiCollectionWrapper +
-          ' ' +
+          " " +
           styles.wd20 +
-          ' ' +
+          " " +
           panelStyles
         }
       >
         <Tabs
-          className={styles.apiCollectionTabWrapper + ' ' + styles.wd100}
+          className={styles.apiCollectionTabWrapper + " " + styles.wd100}
           selectedIndex={currentTab}
           onSelect={this.onTabSelectionChanged}
         >

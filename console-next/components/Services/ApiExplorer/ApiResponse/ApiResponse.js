@@ -1,13 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import AceEditor from 'react-ace';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import React from "react";
+import PropTypes from "prop-types";
+import AceEditor from "react-ace";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 
-import CopyToClipboard from 'react-copy-to-clipboard';
+import CopyToClipboard from "react-copy-to-clipboard";
 
-import generateSuggestionBox from './generateSuggestionBox';
+import generateSuggestionBox from "./generateSuggestionBox";
 
-import suggestionFunctions from './suggestionFunctions';
+import suggestionFunctions from "./suggestionFunctions";
+import styles from "../ApiExplorer.module.scss";
 
 class ApiResponse extends React.Component {
   constructor() {
@@ -19,40 +20,33 @@ class ApiResponse extends React.Component {
   }
 
   render() {
-    const {
-      categoryType,
-      showHelpBulb,
-      enableResponseSection,
-      response,
-      url,
-    } = this.props;
-
-    const styles = require('../ApiExplorer.scss');
+    const { categoryType, showHelpBulb, enableResponseSection, response, url } =
+      this.props;
 
     const suggestionFunction = suggestionFunctions[categoryType];
     const isResponseError =
-      'statusCode' in response ? response.statusCode !== 200 : false;
+      "statusCode" in response ? response.statusCode !== 200 : false;
 
     const responseHtml =
       isResponseError && suggestionFunction
         ? generateSuggestionBox(response, suggestionFunction)
-        : '';
+        : "";
 
     const imgHTMLTag = `<img src='${url}' />`;
 
     let formattedResponse = JSON.stringify(response.response, null, 4);
-    let responseMode = 'json';
+    let responseMode = "json";
     let showGutter = true;
     if (response.statusCode === 500) {
-      responseMode = 'text';
-      formattedResponse = 'Could not get any response';
-      formattedResponse += '\n\nThere was an error connecting to ' + url;
+      responseMode = "text";
+      formattedResponse = "Could not get any response";
+      formattedResponse += "\n\nThere was an error connecting to " + url;
       formattedResponse +=
-        '\n\nCheck if the URL is valid or the server is timing out';
+        "\n\nCheck if the URL is valid or the server is timing out";
       showGutter = false;
     }
 
-    const getHeaders = responseHeader => {
+    const getHeaders = (responseHeader) => {
       const currHeaders = [];
 
       if (responseHeader.responseHeaders) {
@@ -62,21 +56,21 @@ class ApiResponse extends React.Component {
               <td
                 className={
                   styles.headerPadd +
-                  ' ' +
+                  " " +
                   styles.wd48 +
-                  ' ' +
+                  " " +
                   styles.border_right
                 }
               >
-                {name}{' '}
+                {name}{" "}
               </td>
-              <td className={styles.headerPadd + ' ' + styles.wd48}>{value}</td>
+              <td className={styles.headerPadd + " " + styles.wd48}>{value}</td>
             </tr>
           );
         });
       }
 
-      return currHeaders.length > 0 ? currHeaders : '';
+      return currHeaders.length > 0 ? currHeaders : "";
     };
 
     return (
@@ -85,29 +79,29 @@ class ApiResponse extends React.Component {
           id="apiResponseBlock"
           className={styles.fixed_header_internal_link}
         />
-        <div className={styles.apiResponseheaderWrapper + ' ' + styles.wd100}>
+        <div className={styles.apiResponseheaderWrapper + " " + styles.wd100}>
           <div
             className={
-              styles.apiResponseheader + ' col-xs-6 ' + styles.padd_remove
+              styles.apiResponseheader + " col-xs-6 " + styles.padd_remove
             }
           >
             Response
           </div>
           {enableResponseSection ? (
-            <div className={'col-xs-6 ' + styles.padd_remove}>
+            <div className={"col-xs-6 " + styles.padd_remove}>
               <div className={styles.statusDetails}>
-                Time:{' '}
+                Time:{" "}
                 <span className={styles.statusView}>
                   {response.timeElapsed} ms
                 </span>
               </div>
               <div className={styles.statusDetails}>
-                Status:{' '}
+                Status:{" "}
                 <span className={styles.statusView}>{response.statusCode}</span>
               </div>
             </div>
           ) : (
-            ''
+            ""
           )}
         </div>
 
@@ -130,29 +124,29 @@ class ApiResponse extends React.Component {
                     }, 3000);
                   }}
                 >
-                  <button className={styles.copyBtn + ' btn'} type="button">
-                    {this.state.helpCopied ? 'Copied' : 'Copy'}
+                  <button className={styles.copyBtn + " btn"} type="button">
+                    {this.state.helpCopied ? "Copied" : "Copy"}
                   </button>
                 </CopyToClipboard>
               </span>
             </div>
           </div>
         ) : (
-          ''
+          ""
         )}
         {enableResponseSection ? (
           <Tabs
             className={styles.apiResponseTab}
             selectedIndex={this.state.tabIndex}
-            onSelect={tabIndex => this.setState({ tabIndex })}
+            onSelect={(tabIndex) => this.setState({ tabIndex })}
           >
             <TabList className={styles.apiResponseTabUl}>
               <Tab
                 className={
                   this.state.tabIndex === 0
-                    ? ' ' +
+                    ? " " +
                       styles.activeApiResponseTab +
-                      ' ' +
+                      " " +
                       styles.apiResponseTabList
                     : styles.apiResponseTabList
                 }
@@ -162,9 +156,9 @@ class ApiResponse extends React.Component {
               <Tab
                 className={
                   this.state.tabIndex === 1
-                    ? ' ' +
+                    ? " " +
                       styles.activeApiResponseTab +
-                      ' ' +
+                      " " +
                       styles.apiResponseTabList
                     : styles.apiResponseTabList
                 }
@@ -177,7 +171,7 @@ class ApiResponse extends React.Component {
                 {response.isImage ? (
                   <img
                     src={response.response}
-                    style={{ width: '100%', height: '100%' }}
+                    style={{ width: "100%", height: "100%" }}
                   />
                 ) : (
                   <AceEditor
@@ -196,14 +190,14 @@ class ApiResponse extends React.Component {
               </div>
             </TabPanel>
             <TabPanel className={styles.apiResponseTabPanel}>
-              <div className={styles.responseHeader + ' hide'}>
+              <div className={styles.responseHeader + " hide"}>
                 Header
-                <span className={styles.viewDetails + ' hide'}>
+                <span className={styles.viewDetails + " hide"}>
                   View Details
                 </span>
               </div>
               <div className={styles.responseTable}>
-                <table className={'table ' + styles.tableBorder}>
+                <table className={"table " + styles.tableBorder}>
                   <tbody>{getHeaders(response)}</tbody>
                 </table>
               </div>

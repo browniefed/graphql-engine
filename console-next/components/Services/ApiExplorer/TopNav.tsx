@@ -1,8 +1,9 @@
 import React from "react";
-import { Link, RouteComponentProps } from "react-router";
+import envVars from "@/injectWindowEnv";
+import Link from "next/link";
 
 type TopNavProps = {
-  location: RouteComponentProps<unknown, unknown>["location"];
+  location: any;
 };
 
 const TopNav: React.FC<TopNavProps> = ({ location }) => {
@@ -22,7 +23,7 @@ const TopNav: React.FC<TopNavProps> = ({ location }) => {
   ];
 
   // eslint-disable-next-line no-underscore-dangle
-  if (window.__env.consoleId || window.__env.projectID) {
+  if (envVars.consoleId || envVars.projectID) {
     sectionsData.push({
       key: "security",
       link: "/api/security/api_limits",

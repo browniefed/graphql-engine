@@ -1,5 +1,3 @@
-@import '../../Common/Common.scss';
-
 .display_inl {
   display: inline-block;
 }
@@ -82,13 +80,13 @@
 
 .apiRequestBody {
   min-height: calc(100vh - 54px);
-  padding-bottom:32px;
+  padding-bottom: 32px;
 }
 
 .apiExplorerWrapper {
   margin-top: 20px;
   display: flex;
-  height: $mainContainerHeight;
+  // height: $mainContainerHeight;
 
   .ApiRequestWrapperVH {
     height: 100%;
@@ -335,7 +333,7 @@
       background-color: #fff;
       margin-bottom: 15px;
 
-      input[type='file'] {
+      input[type="file"] {
         display: inline-block;
         width: 162px;
       }
@@ -753,7 +751,7 @@
 }
 
 .common_checkbox + .common_checkbox_label:before {
-  content: '';
+  content: "";
   background: #fff;
   border: 1px solid #ddd;
   display: inline-block;
@@ -767,12 +765,12 @@
   cursor: pointer;
 }
 
-label {
-  font-weight: normal;
-}
+// label {
+//   font-weight: normal;
+// }
 
 .common_checkbox:checked + .common_checkbox_label:before {
-  content: url('./tick.png');
+  content: url("./tick.png");
   background: #ffca27;
   color: #fff;
   padding-top: 0px;
@@ -854,7 +852,7 @@ label {
   margin-right: 8px;
   text-decoration: none;
   &.sectionLinkActive {
-    padding-top: 14px; 
+    padding-top: 14px;
     padding-right: 12px;
     padding-bottom: 6px;
     padding-left: 12px;

@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import Helmet from 'react-helmet';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import Helmet from "react-helmet";
 
-import ApiRequestWrapper from './ApiRequestWrapper';
+import ApiRequestWrapper from "./ApiRequestWrapper";
 
-import globals from '../../../Globals';
-import { getTables } from '../../../metadata/selector';
+import globals from "../../../Globals";
+import { getTables } from "../../../metadata/selector";
+import styles from "./ApiExplorer.module.scss";
 
 class ApiExplorer extends Component {
   render() {
@@ -24,15 +25,14 @@ class ApiExplorer extends Component {
       loading,
     } = this.props;
 
-    const styles = require('./ApiExplorer.scss');
     const consoleUrl =
       window.location.protocol +
-      '//' +
+      "//" +
       window.location.host +
       globals.urlPrefix;
 
     return (
-      <div className={'container-fluid ' + styles.padd_remove}>
+      <div className={"container-fluid " + styles.padd_remove}>
         <Helmet title="API Explorer | Hasura" />
         <div className={styles.apiExplorerWrapper}>
           <ApiRequestWrapper
@@ -69,11 +69,11 @@ ApiExplorer.propTypes = {
   mode: PropTypes.string.isRequired,
 };
 
-const generatedApiExplorer = connect => {
-  const mapStateToProps = state => {
+const generatedApiExplorer = (connect) => {
+  const mapStateToProps = (state) => {
     return {
       ...state.apiexplorer,
-      serverVersion: state.main.serverVersion ? state.main.serverVersion : '',
+      serverVersion: state.main.serverVersion ? state.main.serverVersion : "",
       credentials: {},
       dataApiExplorerData: { ...state.dataApiExplorer },
       dataHeaders: state.tables.dataHeaders,

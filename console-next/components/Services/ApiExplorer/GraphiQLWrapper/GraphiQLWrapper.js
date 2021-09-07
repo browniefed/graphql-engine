@@ -1,44 +1,49 @@
-import React, { Component } from 'react';
-import GraphiQL from 'graphiql';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import GraphiQLErrorBoundary from './GraphiQLErrorBoundary';
-import OneGraphExplorer from '../OneGraphExplorer/OneGraphExplorer';
-import AnalyzeButton from '../Analyzer/AnalyzeButton';
-import CodeExporter from 'graphiql-code-exporter';
+import React, { Component } from "react";
+import GraphiQL from "graphiql";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import GraphiQLErrorBoundary from "./GraphiQLErrorBoundary";
+import OneGraphExplorer from "../OneGraphExplorer/OneGraphExplorer";
+import AnalyzeButton from "../Analyzer/AnalyzeButton";
 import {
   getPersistedCodeExporterOpen,
   persistCodeExporterOpen,
-} from '../OneGraphExplorer/utils';
+} from "../OneGraphExplorer/utils";
 
 import {
   clearCodeMirrorHints,
   setQueryVariableSectionHeight,
   copyToClipboard,
-} from './utils';
-import { analyzeFetcher, graphQLFetcherFinal } from '../Actions';
-import { parse as sdlParse, print } from 'graphql';
-import deriveAction from '../../../../shared/utils/deriveAction';
+} from "./utils";
+import { analyzeFetcher, graphQLFetcherFinal } from "../Actions";
+import { parse as sdlParse, print } from "graphql";
+import deriveAction from "../../../../shared/utils/deriveAction";
 import {
   getActionDefinitionSdl,
   getTypesSdl,
-} from '../../../../shared/utils/sdlUtils';
-import { showErrorNotification } from '../../Common/Notification';
-import { getActionsCreateRoute } from '../../../Common/utils/routesUtils';
-import { getConfirmation } from '../../../Common/utils/jsUtils';
+} from "../../../../shared/utils/sdlUtils";
+import { showErrorNotification } from "../../Common/Notification";
+import { getActionsCreateRoute } from "../../../Common/utils/routesUtils";
+import { getConfirmation } from "../../../Common/utils/jsUtils";
 import {
   setActionDefinition,
   setTypeDefinition,
   setDerivedActionParentOperation,
-} from '../../Actions/Add/reducer';
-import { getGraphQLEndpoint } from '../utils';
-import snippets from './snippets';
+} from "../../Actions/Add/reducer";
+import { getGraphQLEndpoint } from "../utils";
+import snippets from "./snippets";
 
-import 'graphiql/graphiql.css';
-import './GraphiQL.css';
-import 'graphiql-code-exporter/CodeExporter.css';
-import _push from '../../Data/push';
-import { isQueryValid } from '../Rest/utils';
+import "graphiql/graphiql.css";
+import "./GraphiQL.module.css";
+// import "graphiql-code-exporter/CodeExporter.css";
+import _push from "../../Data/push";
+import { isQueryValid } from "../Rest/utils";
+
+import dynamic from "next/dynamic";
+
+const CodeExporter = dynamic(() => import("graphiql-code-exporter"), {
+  ssr: false,
+});
 
 class GraphiQLWrapper extends Component {
   constructor(props) {
@@ -47,7 +52,7 @@ class GraphiQLWrapper extends Component {
       error: false,
       noSchema: false,
       onBoardingEnabled: false,
-      copyButtonText: 'Copy',
+      copyButtonText: "Copy",
       codeExporterOpen: false,
     };
   }
@@ -74,17 +79,11 @@ class GraphiQLWrapper extends Component {
   };
 
   render() {
-    const {
-      numberOfTables,
-      urlParams,
-      headerFocus,
-      dispatch,
-      mode,
-      loading,
-    } = this.props;
+    const { numberOfTables, urlParams, headerFocus, dispatch, mode, loading } =
+      this.props;
     const { codeExporterOpen } = this.state;
     const graphqlNetworkData = this.props.data;
-    const graphQLFetcher = graphQLParams => {
+    const graphQLFetcher = (graphQLParams) => {
       if (headerFocus) {
         return null;
       }
@@ -119,14 +118,14 @@ class GraphiQLWrapper extends Component {
         return;
       }
       copyToClipboard(query);
-      this.setState({ copyButtonText: 'Copied' });
+      this.setState({ copyButtonText: "Copied" });
       setTimeout(() => {
-        this.setState({ copyButtonText: 'Copy' });
+        this.setState({ copyButtonText: "Copy" });
       }, 1500);
     };
 
     const handleToggleHistory = () => {
-      graphiqlContext.setState(prevState => ({
+      graphiqlContext.setState((prevState) => ({
         historyPaneOpen: !prevState.historyPaneOpen,
       }));
     };
@@ -139,7 +138,7 @@ class GraphiQLWrapper extends Component {
       try {
         derivedOperationMetadata = deriveAction(query.trim(), schema);
       } catch (e) {
-        dispatch(showErrorNotification('Unable to derive mutation', e.message));
+        dispatch(showErrorNotification("Unable to derive mutation", e.message));
         console.error(e);
         return;
       }
@@ -165,22 +164,22 @@ class GraphiQLWrapper extends Component {
       dispatch(_push(getActionsCreateRoute()));
     };
 
-    const routeToREST = gqlProps => () => {
+    const routeToREST = (gqlProps) => () => {
       const { query, schema } = graphiqlContext.state;
       if (!query || !schema || !gqlProps.query || !isQueryValid(query)) {
         dispatch(
           showErrorNotification(
-            'Unable to create a REST endpoint',
-            'Please enter a valid named GraphQL query or mutation'
+            "Unable to create a REST endpoint",
+            "Please enter a valid named GraphQL query or mutation"
           )
         );
         return;
       }
-      dispatch(_push('/api/rest/create'));
+      dispatch(_push("/api/rest/create"));
     };
 
-    const renderGraphiql = graphiqlProps => {
-      const voyagerUrl = graphqlNetworkData.consoleUrl + '/voyager-view';
+    const renderGraphiql = (graphiqlProps) => {
+      const voyagerUrl = graphqlNetworkData.consoleUrl + "/voyager-view";
       let analyzerProps = {};
       if (graphiqlContext) {
         analyzerProps = graphiqlContext.state;
@@ -190,50 +189,50 @@ class GraphiQLWrapper extends Component {
       const getGraphiqlButtons = () => {
         const buttons = [
           {
-            label: 'Prettify',
-            title: 'Prettify Query (Shift-Ctrl-P)',
+            label: "Prettify",
+            title: "Prettify Query (Shift-Ctrl-P)",
             onClick: handleClickPrettifyButton,
           },
           {
-            label: 'History',
-            title: 'Show History',
+            label: "History",
+            title: "Show History",
             onClick: handleToggleHistory,
           },
           {
             label: this.state.copyButtonText,
-            title: 'Copy Query',
+            title: "Copy Query",
             onClick: handleCopyQuery,
           },
           {
-            label: 'Explorer',
-            title: 'Toggle Explorer',
+            label: "Explorer",
+            title: "Toggle Explorer",
             onClick: graphiqlProps.toggleExplorer,
           },
           {
-            label: 'Code Exporter',
-            title: 'Toggle Code Exporter',
+            label: "Code Exporter",
+            title: "Toggle Code Exporter",
             onClick: this._handleToggleCodeExporter,
           },
           {
-            label: 'Voyager',
-            title: 'GraphQL Voyager',
-            onClick: () => window.open(voyagerUrl, '_blank'),
+            label: "Voyager",
+            title: "GraphQL Voyager",
+            onClick: () => window.open(voyagerUrl, "_blank"),
             icon: <i className="fa fa-external-link" aria-hidden="true" />,
           },
           {
-            label: 'REST',
-            title: 'REST Endpoints',
+            label: "REST",
+            title: "REST Endpoints",
             onClick: routeToREST(graphiqlProps),
           },
         ];
-        if (mode === 'graphql') {
+        if (mode === "graphql") {
           buttons.push({
-            label: 'Derive action',
-            title: 'Derive action for the given mutation',
+            label: "Derive action",
+            title: "Derive action for the given mutation",
             onClick: deriveActionFromOperation,
           });
         }
-        return buttons.map(b => {
+        return buttons.map((b) => {
           return <GraphiQL.Button key={b.label} {...b} />;
         });
       };
@@ -242,7 +241,7 @@ class GraphiQLWrapper extends Component {
         <>
           <GraphiQL
             {...graphiqlProps}
-            ref={c => {
+            ref={(c) => {
               graphiqlContext = c;
             }}
             fetcher={graphQLFetcher}
@@ -303,7 +302,7 @@ GraphiQLWrapper.propTypes = {
   urlParams: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   mode: state.apiexplorer.mode,
   loading: state.apiexplorer.loading,
 });

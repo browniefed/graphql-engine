@@ -1,6 +1,6 @@
-import 'react-toggle/style.css';
-import Toggle from 'react-toggle';
+import "react-toggle/style.css";
+import Toggle from "react-toggle";
 
-import './Toggle.css';
+import "./Toggle.module.css";
 
 export default Toggle;

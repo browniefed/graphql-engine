@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import styles from "../ApiExplorer.module.scss";
 
 class ApiRequestDetails extends Component {
   render() {
-    const styles = require('../ApiExplorer.scss');
     return (
-      <div className={styles.apiRequestWrapper + ' ' + styles.apiContentPadd}>
+      <div className={styles.apiRequestWrapper + " " + styles.apiContentPadd}>
         <div className={styles.apiRequestheader}>{this.props.title}</div>
         <div className={styles.apiRequestContent}>{this.props.description}</div>
       </div>
@@ -13,9 +12,9 @@ class ApiRequestDetails extends Component {
   }
 }
 
-ApiRequestDetails.propTypes = {
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-};
+// ApiRequestDetails.propTypes = {
+//   title: PropTypes.string.isRequired,
+//   description: PropTypes.string.isRequired,
+// };
 
 export default ApiRequestDetails;

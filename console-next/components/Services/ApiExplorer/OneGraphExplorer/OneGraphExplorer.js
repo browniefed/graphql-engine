@@ -1,7 +1,6 @@
-import React from 'react';
-import { getIntrospectionQuery, buildClientSchema } from 'graphql';
-import GraphiQLExplorer from 'graphiql-explorer';
-import { setLoading } from '../Actions';
+import React from "react";
+import { getIntrospectionQuery, buildClientSchema } from "graphql";
+import { setLoading } from "../Actions";
 
 import {
   makeDefaultArg,
@@ -10,20 +9,25 @@ import {
   setExplorerWidth,
   getExplorerIsOpen,
   setExplorerIsOpen,
-} from './utils';
-import { getGraphiQLQueryFromLocalStorage } from '../GraphiQLWrapper/utils';
-import { getRemoteQueries } from '../Actions';
-import { getHeadersAsJSON } from '../utils';
+} from "./utils";
+import { getGraphiQLQueryFromLocalStorage } from "../GraphiQLWrapper/utils";
+import { getRemoteQueries } from "../Actions";
+import { getHeadersAsJSON } from "../utils";
 
-import '../GraphiQLWrapper/GraphiQL.css';
-import './OneGraphExplorer.css';
-import styles from '../ApiExplorer.scss';
-import Spinner from '../../../Common/Spinner/Spinner';
+import "../GraphiQLWrapper/GraphiQL.module.css";
+import "./OneGraphExplorer.module.css";
+import styles from "../ApiExplorer.module.scss";
+import Spinner from "../../../Common/Spinner/Spinner";
 import {
   showErrorNotification,
   showWarningNotification,
-} from '../../Common/Notification';
-import requestAction from '../../../../utils/requestAction';
+} from "../../Common/Notification";
+import requestAction from "../../../../utils/requestAction";
+import dynamic from "next/dynamic";
+
+const GraphiQLExplorer = dynamic(() => import("graphiql-explorer"), {
+  ssr: false,
+});
 
 class OneGraphExplorer extends React.Component {
   state = {
@@ -66,7 +70,7 @@ class OneGraphExplorer extends React.Component {
     if (queryFile) {
       getRemoteQueries(
         queryFile,
-        remoteQuery => this.setState({ query: remoteQuery }),
+        (remoteQuery) => this.setState({ query: remoteQuery }),
         dispatch
       );
     } else if (numberOfTables === 0) {
@@ -80,8 +84,8 @@ class OneGraphExplorer extends React.Component {
       const localStorageQuery = getGraphiQLQueryFromLocalStorage();
 
       if (localStorageQuery) {
-        if (localStorageQuery.includes('do not have')) {
-          const FRESH_GRAPHQL_MSG = '# Try out GraphQL queries here\n';
+        if (localStorageQuery.includes("do not have")) {
+          const FRESH_GRAPHQL_MSG = "# Try out GraphQL queries here\n";
 
           this.setState({ query: FRESH_GRAPHQL_MSG });
         } else {
@@ -106,19 +110,19 @@ class OneGraphExplorer extends React.Component {
     this.setState({ schema: null });
     dispatch(
       requestAction(endpoint, {
-        method: 'POST',
+        method: "POST",
         headers: getHeadersAsJSON(headers || []),
         body: JSON.stringify({
           query: getIntrospectionQuery(),
         }),
       })
     )
-      .then(result => {
+      .then((result) => {
         if (result.errors && result.errors.length > 0) {
           const errorMessage = result.errors[0].message;
           dispatch(
             showErrorNotification(
-              'Schema introspection query failed',
+              "Schema introspection query failed",
               errorMessage
             )
           );
@@ -139,8 +143,8 @@ class OneGraphExplorer extends React.Component {
               `We are not able to render GraphiQL Explorer and Docs.
               You should still be able to try out your API from the GraphiQL Editor.`,
               null,
-              <p style={{ paddingTop: '10px', margin: '0' }}>
-                Please report an issue on our{' '}
+              <p style={{ paddingTop: "10px", margin: "0" }}>
+                Please report an issue on our{" "}
                 <a
                   target="_blank"
                   href="https://github.com/hasura/graphql-engine/issues/new"
@@ -158,10 +162,10 @@ class OneGraphExplorer extends React.Component {
           previousIntrospectionHeaders: headers,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         dispatch(
           showErrorNotification(
-            'Schema introspection query failed',
+            "Schema introspection query failed",
             err.message,
             err
           )
@@ -176,7 +180,7 @@ class OneGraphExplorer extends React.Component {
       });
   }
 
-  onExplorerResize = e => {
+  onExplorerResize = (e) => {
     const { explorerClientX, explorerWidth } = this.state;
 
     if (explorerClientX === null) {
@@ -193,7 +197,7 @@ class OneGraphExplorer extends React.Component {
     }
   };
 
-  editQuery = query => {
+  editQuery = (query) => {
     this.setState({ query });
   };
 
@@ -205,30 +209,25 @@ class OneGraphExplorer extends React.Component {
     this.setState({ explorerOpen: newIsOpen });
   };
 
-  handleExplorerResize = e => {
+  handleExplorerResize = (e) => {
     e.preventDefault();
-    document.addEventListener('mousemove', this.onExplorerResize);
+    document.addEventListener("mousemove", this.onExplorerResize);
     this.setState({
       isResizing: true,
     });
   };
 
-  handleExplorerResizeStop = e => {
+  handleExplorerResizeStop = (e) => {
     e.preventDefault();
-    document.removeEventListener('mousemove', this.onExplorerResize);
+    document.removeEventListener("mousemove", this.onExplorerResize);
     this.setState({
       isResizing: false,
     });
   };
 
   render() {
-    const {
-      schema,
-      explorerOpen,
-      query,
-      explorerWidth,
-      isResizing,
-    } = this.state;
+    const { schema, explorerOpen, query, explorerWidth, isResizing } =
+      this.state;
 
     const { renderGraphiql } = this.props;
 
@@ -253,7 +252,7 @@ class OneGraphExplorer extends React.Component {
     return (
       <div
         className={
-          'graphiql-container' + (isResizing ? ' explorerCursorResize' : '')
+          "graphiql-container" + (isResizing ? " explorerCursorResize" : "")
         }
         onMouseUp={this.handleExplorerResizeStop}
       >

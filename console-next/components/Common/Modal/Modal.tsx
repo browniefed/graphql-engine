@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 import {
   Modal as BootstrapModal,
   Button as BootstrapModalButton,
-} from 'react-bootstrap';
-import styles from './Modal.scss';
+} from "react-bootstrap";
+import styles from "./Modal.module.scss";
 
 export interface ModalProps {
   show?: boolean;
@@ -21,12 +21,12 @@ const Modal = ({
   show = true,
   title,
   onClose,
-  customClass = '',
+  customClass = "",
   onSubmit,
   onCancel,
-  submitText = '',
+  submitText = "",
   leftActions,
-  submitTestId = '',
+  submitTestId = "",
   children,
 }: ModalProps) => {
   const getHeader = () => {
@@ -68,7 +68,7 @@ const Modal = ({
               bsStyle="primary"
               data-test={submitTestId}
             >
-              {submitText || 'Submit'}
+              {submitText || "Submit"}
             </BootstrapModalButton>
           </div>
         </div>
