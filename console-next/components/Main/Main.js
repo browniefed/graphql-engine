@@ -364,11 +364,11 @@ class Main extends React.Component {
 
     return (
       <div className={styles.container}>
-        <Onboarding
+        {/* <Onboarding
           dispatch={dispatch}
           console_opts={console_opts}
           metadata={metadata.metadataObject}
-        />
+        /> */}
         <div className={styles.flexRow}>
           <div className={styles.sidebar}>
             <div className={styles.header_logo_wrapper}>
@@ -449,12 +449,12 @@ class Main extends React.Component {
                 </div>
               </Link>
               <Help isSelected={currentActiveBlock === "support"} />
-              <NotificationSection
+              {/* <NotificationSection
                 isDropDownOpen={this.state.isDropdownOpen}
                 closeDropDown={this.closeDropDown}
                 toggleDropDown={this.toggleDropDown}
-              />
-              {!this.state.loveConsentState.isDismissed ? (
+              /> */}
+              {/* {!this.state.loveConsentState.isDismissed ? (
                 <div
                   id="dropdown_wrapper"
                   className={`${this.state.isLoveSectionOpen ? "open" : ""}`}
@@ -464,7 +464,7 @@ class Main extends React.Component {
                     toggleLoveSection={this.toggleLoveSection}
                   />
                 </div>
-              ) : null}
+              ) : null} */}
             </div>
           </div>
           <div className={styles.main + " container-fluid"}>

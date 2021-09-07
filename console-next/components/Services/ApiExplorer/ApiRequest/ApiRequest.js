@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import jwt from "jsonwebtoken";
 
 import TextAreaWithCopy from "../../../Common/TextAreaWithCopy/TextAreaWithCopy";
@@ -800,21 +799,21 @@ class ApiRequest extends Component {
   }
 }
 
-ApiRequest.propTypes = {
-  method: PropTypes.string.isRequired,
-  url: PropTypes.string.isRequired,
-  headers: PropTypes.array,
-  dataHeaders: PropTypes.array,
-  params: PropTypes.string,
-  dispatch: PropTypes.func.isRequired,
-  explorerData: PropTypes.object.isRequired,
-  credentials: PropTypes.object.isRequired,
-  bodyType: PropTypes.string.isRequired,
-  route: PropTypes.object,
-  numberOfTables: PropTypes.number.isRequired,
-  headerFocus: PropTypes.bool.isRequired,
-  urlParams: PropTypes.object.isRequired,
-  consoleUrl: PropTypes.string.isRequired,
-};
+// ApiRequest.propTypes = {
+//   method: PropTypes.string.isRequired,
+//   url: PropTypes.string.isRequired,
+//   headers: PropTypes.array,
+//   dataHeaders: PropTypes.array,
+//   params: PropTypes.string,
+//   dispatch: PropTypes.func.isRequired,
+//   explorerData: PropTypes.object.isRequired,
+//   credentials: PropTypes.object.isRequired,
+//   bodyType: PropTypes.string.isRequired,
+//   route: PropTypes.object,
+//   numberOfTables: PropTypes.number.isRequired,
+//   headerFocus: PropTypes.bool.isRequired,
+//   urlParams: PropTypes.object.isRequired,
+//   consoleUrl: PropTypes.string.isRequired,
+// };
 
 export default ApiRequest;

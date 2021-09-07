@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import ApiRequest from "./ApiRequest/ApiRequest";
 import ApiResponse from "./ApiResponse/ApiResponse";
 import styles from "./ApiExplorer.module.scss";
@@ -73,18 +72,18 @@ class ApiRequestWrapper extends Component {
   }
 }
 
-ApiRequestWrapper.propTypes = {
-  details: PropTypes.object.isRequired,
-  request: PropTypes.object.isRequired,
-  explorerData: PropTypes.object.isRequired,
-  credentials: PropTypes.object.isRequired,
-  bodyType: PropTypes.string,
-  showHelpBulb: PropTypes.bool,
-  dispatch: PropTypes.func,
-  numberOfTables: PropTypes.number,
-  headerFocus: PropTypes.bool.isRequired,
-  urlParams: PropTypes.bool.isRequired,
-  consoleUrl: PropTypes.string.isRequired,
-};
+// ApiRequestWrapper.propTypes = {
+//   details: PropTypes.object.isRequired,
+//   request: PropTypes.object.isRequired,
+//   explorerData: PropTypes.object.isRequired,
+//   credentials: PropTypes.object.isRequired,
+//   bodyType: PropTypes.string,
+//   showHelpBulb: PropTypes.bool,
+//   dispatch: PropTypes.func,
+//   numberOfTables: PropTypes.number,
+//   headerFocus: PropTypes.bool.isRequired,
+//   urlParams: PropTypes.bool.isRequired,
+//   consoleUrl: PropTypes.string.isRequired,
+// };
 
 export default ApiRequestWrapper;

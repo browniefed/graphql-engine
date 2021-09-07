@@ -1,7 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import Helmet from "react-helmet";
-
 import ApiRequestWrapper from "./ApiRequestWrapper";
 
 import globals from "../../../Globals";
@@ -33,7 +30,7 @@ class ApiExplorer extends Component {
 
     return (
       <div className={"container-fluid " + styles.padd_remove}>
-        <Helmet title="API Explorer | Hasura" />
+        {/* <Helmet title="API Explorer | Hasura" /> */}
         <div className={styles.apiExplorerWrapper}>
           <ApiRequestWrapper
             dispatch={this.props.dispatch}
@@ -58,16 +55,16 @@ class ApiExplorer extends Component {
   }
 }
 
-ApiExplorer.propTypes = {
-  modalState: PropTypes.object.isRequired,
-  displayedApi: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired,
-  route: PropTypes.object.isRequired,
-  tables: PropTypes.array.isRequired,
-  headerFocus: PropTypes.bool.isRequired,
-  location: PropTypes.object.isRequired,
-  mode: PropTypes.string.isRequired,
-};
+// ApiExplorer.propTypes = {
+//   modalState: PropTypes.object.isRequired,
+//   displayedApi: PropTypes.object.isRequired,
+//   dispatch: PropTypes.func.isRequired,
+//   route: PropTypes.object.isRequired,
+//   tables: PropTypes.array.isRequired,
+//   headerFocus: PropTypes.bool.isRequired,
+//   location: PropTypes.object.isRequired,
+//   mode: PropTypes.string.isRequired,
+// };
 
 const generatedApiExplorer = (connect) => {
   const mapStateToProps = (state) => {
