@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import styles from "./LeftSubSidebar.scss";
+import styles from "./LeftSubSidebar.module.scss";
 
 interface LeftSidebarItem {
   name: string;

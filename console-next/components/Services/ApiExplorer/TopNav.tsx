@@ -1,12 +1,15 @@
 import React from "react";
 import envVars from "@/injectWindowEnv";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 type TopNavProps = {
   location: any;
 };
 
-const TopNav: React.FC<TopNavProps> = ({ location }) => {
+const TopNav: React.FC<TopNavProps> = () => {
+  const router = useRouter();
+
   const sectionsData = [
     {
       key: "graphiql",
@@ -23,7 +26,8 @@ const TopNav: React.FC<TopNavProps> = ({ location }) => {
   ];
 
   // eslint-disable-next-line no-underscore-dangle
-  if (envVars.consoleId || envVars.projectID) {
+  // envVars.consoleId || ?
+  if (envVars.projectID) {
     sectionsData.push({
       key: "security",
       link: "/api/security/api_limits",
@@ -33,11 +37,10 @@ const TopNav: React.FC<TopNavProps> = ({ location }) => {
   }
 
   const isActive = (link: string) => {
-    return false;
-    if (location.pathname === "" || location.pathname === "/") {
+    if (router.pathname === "" || router.pathname === "/") {
       return link.includes("api-explorer");
     }
-    return location.pathname.includes(link);
+    return router.pathname.includes(link);
   };
 
   return (
@@ -54,12 +57,10 @@ const TopNav: React.FC<TopNavProps> = ({ location }) => {
         }`}
             key={section.key}
           >
-            <Link
-              href={section.link}
-              data-test={section.dataTestVal}
-              className="text-gray-600 font-semibold no-underline hover:text-gray-600 hover:no-underline focus:text-gray-600 focus:no-underline"
-            >
-              {section.title}
+            <Link href={section.link} data-test={section.dataTestVal} passHref>
+              <a className="text-gray-600 font-semibold no-underline hover:text-gray-600 hover:no-underline focus:text-gray-600 focus:no-underline">
+                {section.title}
+              </a>
             </Link>
           </div>
         ))}

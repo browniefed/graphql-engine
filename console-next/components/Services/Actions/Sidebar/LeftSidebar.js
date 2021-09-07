@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 
 import LeftSubSidebar from "../../../Common/Layout/LeftSubSidebar/LeftSubSidebar";
-import styles from "../../../Common/Layout/LeftSubSidebar/LeftSubSidebar.scss";
+import styles from "../../../Common/Layout/LeftSubSidebar/LeftSubSidebar.module.scss";
 
 const LeftSidebar = ({
   appPrefix,

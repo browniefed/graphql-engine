@@ -138,8 +138,8 @@ const mapStateToProps = (state: ReduxState, ownProps: ExternalProps) => {
     ...state.events,
     eventTriggers: getEventTriggers(state),
     cronTriggers: getCronTriggers(state),
-    pathname: ownProps.location.pathname,
-    triggerName: ownProps.params.triggerName,
+    pathname: "", // ownProps.location.pathname,
+    triggerName: "", //ownProps.params.triggerName,
   };
 };
 

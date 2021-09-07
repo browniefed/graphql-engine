@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 
 import Link from "next/link";
 
-import styles from "./LeftSubSidebar.scss";
+import styles from "./LeftSubSidebar.module.scss";
 
 type CollapsibleItemsProps = {
   source: string;

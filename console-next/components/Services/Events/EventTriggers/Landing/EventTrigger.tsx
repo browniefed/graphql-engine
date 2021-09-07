@@ -1,26 +1,26 @@
 /* eslint-disable space-infix-ops */
 /* eslint-disable no-loop-func  */
 
-import React from 'react';
-import Helmet from 'react-helmet';
-import { connect, ConnectedProps } from 'react-redux';
-import globals from '../../../../../Globals';
-import Button from '../../../../Common/Button/Button';
-import TopicDescription from '../../../Common/Landing/TopicDescription';
-import { getAddETRoute } from '../../../../Common/utils/routesUtils';
+import React from "react";
+import Helmet from "react-helmet";
+import { connect, ConnectedProps } from "react-redux";
+import globals from "../../../../../Globals";
+import Button from "../../../../Common/Button/Button";
+import TopicDescription from "../../../Common/Landing/TopicDescription";
+import { getAddETRoute } from "../../../../Common/utils/routesUtils";
 import {
   getReactHelmetTitle,
   mapDispatchToPropsEmpty,
-} from '../../../../Common/utils/reactUtils';
+} from "../../../../Common/utils/reactUtils";
 
-import TryItOut from '../../../Common/Landing/TryItOut';
-import styles from '../../../../Common/Layout/LeftSubSidebar/LeftSubSidebar.scss';
-import { EVENTS_SERVICE_HEADING, EVENT_TRIGGER } from '../../constants';
-import _push from '../../../Data/push';
+import TryItOut from "../../../Common/Landing/TryItOut";
+import styles from "../../../../Common/Layout/LeftSubSidebar/LeftSubSidebar.module.scss";
+import { EVENTS_SERVICE_HEADING, EVENT_TRIGGER } from "../../constants";
+import _push from "../../../Data/push";
 
 interface Props extends InjectedProps {}
 
-const EventTrigger: React.FC<Props> = props => {
+const EventTrigger: React.FC<Props> = (props) => {
   const { dispatch } = props;
 
   const queryDefinition = `mutation {
@@ -65,7 +65,7 @@ insert_user(objects: [{name: "testuser"}] ){
 
   const footerEvent = (
     <span>
-      Head to the Events tab and see an event invoked under{' '}
+      Head to the Events tab and see an event invoked under{" "}
       <span className={styles.fontWeightBold}> test-trigger</span>.
     </span>
   );
