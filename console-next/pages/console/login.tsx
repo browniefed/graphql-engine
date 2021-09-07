@@ -6,8 +6,8 @@ import styles from "@/css/Login.module.scss";
 import { verifyLogin } from "@/components/Login/Actions";
 import { ConnectInjectedProps } from "@/types";
 import { useRouter } from "next/router";
-import globals from "@/Globals";
-import { Connect, connect } from "react-redux";
+import { connect } from "react-redux";
+import { getAdminSecret } from "@/components/Services/ApiExplorer/ApiRequest/utils";
 
 const ConsoleLogin: NextPage<ConnectInjectedProps> = ({ dispatch }) => {
   const [loading, setLoading] = useState(false);
@@ -51,7 +51,7 @@ const ConsoleLogin: NextPage<ConnectInjectedProps> = ({ dispatch }) => {
         setLoading(false);
         setError(null);
 
-        router.push(globals.urlPrefix);
+        router.push("/");
       };
 
       const errorCallback = (err: Error) => {
@@ -110,7 +110,7 @@ const ConsoleLogin: NextPage<ConnectInjectedProps> = ({ dispatch }) => {
   };
 
   const getCLIAdminSecretErrorMessage = () => {
-    const adminSecret = ""; //getAdminSecret();
+    const adminSecret = getAdminSecret();
 
     const missingAdminSecretMessage = (
       <span>
