@@ -1,4 +1,4 @@
-import globals from './Globals';
+import globals from "./Globals";
 
 const baseUrl = globals.dataApiUrl;
 const hasuractlApiHost = globals.apiHost;
@@ -15,20 +15,22 @@ const Endpoints = {
   // metadata: `${baseUrl}/v1/query`,
   queryV2: `${baseUrl}/v2/query`,
   version: `${baseUrl}/v1/version`,
-  updateCheck: 'https://releases.hasura.io/graphql-engine',
+  updateCheck: "https://releases.hasura.io/graphql-engine",
   hasuractlMigrate: `${hasuractlUrl}/apis/migrate`,
   hasuractlMetadata: `${hasuractlUrl}/apis/metadata`,
   hasuractlMigrateSettings: `${hasuractlUrl}/apis/migrate/settings`,
-  telemetryServer: 'wss://telemetry.hasura.io/v1/ws',
+  telemetryServer: "wss://telemetry.hasura.io/v1/ws",
   consoleNotificationsStg:
-    'https://notifications.hasura-stg.hasura-app.io/v1/graphql',
-  consoleNotificationsProd: 'https://notifications.hasura.io/v1/graphql',
+    "https://notifications.hasura-stg.hasura-app.io/v1/graphql",
+  consoleNotificationsProd: "https://notifications.hasura.io/v1/graphql",
   luxDataGraphql: globals.luxDataHost
     ? `${window.location.protocol}//${globals.luxDataHost}/v1/graphql`
     : `${globals.cloudDataApiUrl}/v1/graphql`,
 };
 
-const globalCookiePolicy = 'same-origin';
+const globalCookiePolicy = "same-origin";
+
+console.log(Endpoints);
 
 export default Endpoints;
 export { globalCookiePolicy, baseUrl, hasuractlUrl };

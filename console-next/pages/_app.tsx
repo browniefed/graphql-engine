@@ -1,3 +1,4 @@
+import "../injectWindowEnv";
 import type { AppProps } from "next/app";
 import "../css/global.css";
 import "../css/reset.css";

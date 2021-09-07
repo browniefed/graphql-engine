@@ -3,11 +3,17 @@ import Head from "next/head";
 import { ChangeEvent, FormEvent, Fragment, useState } from "react";
 import hasuraLogo from "@/assets/black-logo.svg";
 import styles from "@/css/Login.module.scss";
+import { verifyLogin } from "@/components/Login/Actions";
+import { ConnectInjectedProps } from "@/types";
+import { useRouter } from "next/router";
+import globals from "@/Globals";
+import { Connect, connect } from "react-redux";
 
-const ConsoleLogin: NextPage = () => {
+const ConsoleLogin: NextPage<ConnectInjectedProps> = ({ dispatch }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
+  const router = useRouter();
   // should persist admin secret
   const [shouldPersist, setShouldPersist] = useState(true);
 
@@ -41,6 +47,13 @@ const ConsoleLogin: NextPage = () => {
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
+      const successCallback = () => {
+        setLoading(false);
+        setError(null);
+
+        router.push(globals.urlPrefix);
+      };
+
       const errorCallback = (err: Error) => {
         setAdminSecretInput("");
         setLoading(false);
@@ -48,6 +61,14 @@ const ConsoleLogin: NextPage = () => {
       };
 
       setLoading(true);
+
+      verifyLogin({
+        adminSecret: adminSecretInput,
+        shouldPersist,
+        successCallback,
+        errorCallback,
+        dispatch,
+      });
     };
 
     return (
@@ -87,6 +108,7 @@ const ConsoleLogin: NextPage = () => {
       </form>
     );
   };
+
   const getCLIAdminSecretErrorMessage = () => {
     const adminSecret = ""; //getAdminSecret();
 
@@ -134,4 +156,4 @@ const ConsoleLogin: NextPage = () => {
   );
 };
 
-export default ConsoleLogin;
+export default connect()(ConsoleLogin);

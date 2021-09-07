@@ -1,11 +1,11 @@
-import Endpoints, { globalCookiePolicy } from '../../Endpoints';
-import { UPDATE_DATA_HEADERS } from '../Services/Data/DataActions';
-import { saveAdminSecretState } from '../AppState';
-import { ADMIN_SECRET_HEADER_KEY, CLI_CONSOLE_MODE } from '../../constants';
-import requestAction from '../../utils/requestAction';
-import { Dispatch } from '../../types';
-import globals from '../../Globals';
-import { inconsistentObjectsQuery } from '../../metadata/queryUtils';
+import Endpoints, { globalCookiePolicy } from "../../Endpoints";
+import { UPDATE_DATA_HEADERS } from "../Services/Data/DataActions";
+import { saveAdminSecretState } from "../AppState";
+import { ADMIN_SECRET_HEADER_KEY, CLI_CONSOLE_MODE } from "../../constants";
+import requestAction from "../../utils/requestAction";
+import { Dispatch } from "../../types";
+import globals from "../../Globals";
+import { inconsistentObjectsQuery } from "../../metadata/queryUtils";
 
 type VerifyLoginOptions = {
   adminSecret: string;
@@ -23,11 +23,11 @@ export const verifyLogin = ({
   dispatch,
 }: VerifyLoginOptions) => {
   const options: RequestInit = {
-    method: 'POST',
+    method: "POST",
     credentials: globalCookiePolicy,
     headers: {
       [ADMIN_SECRET_HEADER_KEY]: adminSecret,
-      'content-type': 'application/json',
+      "content-type": "application/json",
     },
     body: JSON.stringify(inconsistentObjectsQuery),
   };
@@ -48,7 +48,7 @@ export const verifyLogin = ({
         dispatch({
           type: UPDATE_DATA_HEADERS,
           data: {
-            'content-type': 'application/json',
+            "content-type": "application/json",
             [ADMIN_SECRET_HEADER_KEY]: adminSecret,
           },
         });
@@ -57,7 +57,7 @@ export const verifyLogin = ({
         successCallback();
       }
     },
-    error => {
+    (error) => {
       errorCallback(error);
     }
   );

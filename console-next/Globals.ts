@@ -116,4 +116,6 @@ if (globals.consoleMode === SERVER_CONSOLE_MODE) {
   }
 }
 
+console.log(globals);
+
 export default globals;
